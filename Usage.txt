@@ -1,0 +1,20 @@
+Visual Code Grepper (VCG) 2.0 (C) Nick Dunn and John Murray, 2012-2014.
+Usage: VisualCodeGrepper [Options]
+
+STARTUP:
+Set desired starting point for GUI. If using console mode 
+ -t, --target <Filename>:	Set target file or directory. Use this option either to load target immediately into GUI or to provide the target for console mode.
+ -l, --language <CPP|PLSQL|JAVA|CS|VB|VB|COBOL>:	Set target language (Default is C/C++).
+ -x, --extensions <ext|ext|ext>:	Set file extensions to be analysed (See ReadMe or Options screen for language-specific defaults).
+ -i, --import <Filename>:	Import XML results to GUI.
+
+OUTPUT:
+Automagically export results to a file in the specified format. Use XML output if you wish to reload results into the GUI later on.
+ -e, --export <Filename>:	Automatically export results to XML file.
+ -c, --csv-export <Filename>:		Automatically export results to CSV file.
+ -r, --results <Filename>:	Automatically export results to flat text file.
+
+CONSOLE OPTIONS:
+ -c, --console:		Run application in console only (hide GUI).
+ -v, --verbose:		Set console output to verbose mode.
+ -h, --help:		Show help.

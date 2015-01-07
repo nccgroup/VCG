@@ -1,0 +1,70 @@
+Potentially Unsafe Code: strtok(
+Line: 25 - C:\Users\nick.dunn\Documents\Training\C\pipeshell.c
+Function appears in Microsoft's banned function list. Function is not always thread-safe and can facilitate buffer overflows.
+
+
+Potentially Unsafe Code: strtok(
+Line: 26 - C:\Users\nick.dunn\Documents\Training\C\pipeshell.c
+Function appears in Microsoft's banned function list. Function is not always thread-safe and can facilitate buffer overflows.
+
+
+Potentially Unsafe Code: strtok(
+Line: 29 - C:\Users\nick.dunn\Documents\Training\C\pipeshell.c
+Function appears in Microsoft's banned function list. Function is not always thread-safe and can facilitate buffer overflows.
+
+
+Potentially Unsafe Code:  gets
+Line: 20 - C:\Users\nick.dunn\Documents\Training\C\smallshell.c
+Function appears in Microsoft's banned function list. Since the function reads characters from STDIN and writes to buffer until EOL it can facilitate buffer overflows.
+
+
+Potentially Unsafe Code:  gets
+Line: 24 - C:\Users\nick.dunn\Documents\Training\C\smallshell.c
+Function appears in Microsoft's banned function list. Since the function reads characters from STDIN and writes to buffer until EOL it can facilitate buffer overflows.
+
+
+Potentially Unsafe Code: strtok(
+Line: 31 - C:\Users\nick.dunn\Documents\Training\C\smallshell.c
+Function appears in Microsoft's banned function list. Function is not always thread-safe and can facilitate buffer overflows.
+
+
+Potentially Unsafe Code: strtok(
+Line: 36 - C:\Users\nick.dunn\Documents\Training\C\smallshell.c
+Function appears in Microsoft's banned function list. Function is not always thread-safe and can facilitate buffer overflows.
+
+
+Potentially Unsafe Code: strtok(
+Line: 37 - C:\Users\nick.dunn\Documents\Training\C\smallshell.c
+Function appears in Microsoft's banned function list. Function is not always thread-safe and can facilitate buffer overflows.
+
+
+Potentially Unsafe Code:  gets
+Line: 12 - C:\Users\nick.dunn\Documents\Training\C\tinyshell.c
+Function appears in Microsoft's banned function list. Since the function reads characters from STDIN and writes to buffer until EOL it can facilitate buffer overflows.
+
+
+Potentially Unsafe Code: strcpy(
+Line: 10 - C:\Users\nick.dunn\Documents\Training\C\vulninput.c
+Function appears in Microsoft's banned function list. Can facilitate buffer overflow conditions.
+
+
+Potentially Unsafe Code: Unsafe use of strcpy allows buffer overflow.
+Line: 10 - C:\Users\nick.dunn\Documents\Training\C\vulninput.c
+A user-supplied string from the commandline is being copied to a fixed length destination buffer and could allow a buffer overflow to take place.
+  strcpy(cInput, argv[1]);
+
+Potentially Unsafe Code: strcpy(
+Line: 8 - C:\Users\nick.dunn\Documents\Training\C\vulnpass.c
+Function appears in Microsoft's banned function list. Can facilitate buffer overflow conditions.
+
+
+Potentially Unsafe Code: Unsafe use of strcpy allows buffer overflow.
+Line: 8 - C:\Users\nick.dunn\Documents\Training\C\vulnpass.c
+A user-supplied string from the commandline is being copied to a fixed length destination buffer and could allow a buffer overflow to take place.
+  strcpy(cUsername, argv[1]);
+
+Potentially Unsafe Code: strcpy(
+Line: 9 - C:\Users\nick.dunn\Documents\Training\C\vulnpass.c
+Function appears in Microsoft's banned function list. Can facilitate buffer overflow conditions.
+
+
