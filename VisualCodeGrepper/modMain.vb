@@ -494,15 +494,16 @@ Module modMain
 
                 '== Important - comparison MUST be case-sensitive for everything except PL/SQL, where it MUST be case-insenstive ==
                 If asAppSettings.TestType = AppSettings.SQL Then
-                    If Regex.IsMatch(CodeLine.ToUpper, strCleanName) Then
-                        frmMain.ListCodeIssue(asAppSettings.BadFunctions(intIndex).FunctionName, asAppSettings.BadFunctions(intIndex).Description, FileName, asAppSettings.BadFunctions(intIndex).Severity)
+                    If (strCleanName <> "" And Regex.IsMatch(CodeLine.ToUpper, strCleanName)) Or (strCleanName = "" And CodeLine.ToUpper.Contains(asAppSettings.BadFunctions(intIndex).FunctionName.toupper)) Then
+                        frmMain.ListCodeIssue(asAppSettings.BadFunctions(intIndex).FunctionName, asAppSettings.BadFunctions(intIndex).Description, FileName, asAppSettings.BadFunctions(intIndex).Severity, CodeLine)
                     End If
                 Else
                     'If CodeLine.Contains(asAppSettings.BadFunctions(intIndex).FunctionName) Then
-                    If Regex.IsMatch(CodeLine, strCleanName) Then
-                        frmMain.ListCodeIssue(strTidyFuncName, asAppSettings.BadFunctions(intIndex).Description, FileName, asAppSettings.BadFunctions(intIndex).Severity)
+                    If (strCleanName <> "" And Regex.IsMatch(CodeLine, strCleanName)) Or (strCleanName = "" And CodeLine.Contains(asAppSettings.BadFunctions(intIndex).FunctionName)) Then
+                        frmMain.ListCodeIssue(strTidyFuncName, asAppSettings.BadFunctions(intIndex).Description, FileName, asAppSettings.BadFunctions(intIndex).Severity, CodeLine)
                     End If
                 End If
+                strCleanName = ""
             Next intIndex
         End If
 
