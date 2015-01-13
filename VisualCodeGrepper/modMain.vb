@@ -250,97 +250,106 @@ Module modMain
         ' Set language and characteristics 
         '=================================
 
+
+        ' Set language type
+        asAppSettings.TestType = Language
+
         '== Set the file types/suffixes for the chosen language ==
         SetSuffixes(Language)
+
 
         ' This covers most languages - the different ones will be set individually, below
         asAppSettings.SingleLineComment = "//"
         asAppSettings.AltSingleLineComment = ""
 
+        ' Load list of unsafe functions
+        Select Case Language
+            Case AppSettings.C
+                asAppSettings.BadFuncFile = asAppSettings.CConfFile
+                LoadUnsafeFunctionList(AppSettings.C)
+            Case AppSettings.JAVA
+                asAppSettings.BadFuncFile = asAppSettings.JavaConfFile
+                LoadUnsafeFunctionList(AppSettings.JAVA)
+            Case AppSettings.SQL
+                asAppSettings.BadFuncFile = asAppSettings.PLSQLConfFile
+                LoadUnsafeFunctionList(AppSettings.SQL)
+                asAppSettings.SingleLineComment = "--"
+            Case AppSettings.CSHARP
+                asAppSettings.BadFuncFile = asAppSettings.CSharpConfFile
+                LoadUnsafeFunctionList(AppSettings.CSHARP)
+            Case AppSettings.VB
+                asAppSettings.BadFuncFile = asAppSettings.VBConfFile
+                LoadUnsafeFunctionList(AppSettings.VB)
+                asAppSettings.SingleLineComment = "'"
+                asAppSettings.AltSingleLineComment = "REM"
+            Case AppSettings.PHP
+                asAppSettings.BadFuncFile = asAppSettings.PHPConfFile
+                LoadUnsafeFunctionList(AppSettings.PHP)
+                asAppSettings.SingleLineComment = "//"
+                asAppSettings.AltSingleLineComment = "\#"   ' This will be used in a regex so it must be escaped
+            Case AppSettings.COBOL
+                asAppSettings.BadFuncFile = asAppSettings.COBOLConfFile
+                LoadUnsafeFunctionList(AppSettings.COBOL)
+                asAppSettings.SingleLineComment = "*"
+        End Select
+
+
+        ' Set the GUI to display correct options for the language
         If asAppSettings.IsConsole = True Then Exit Sub
 
         With frmMain
-
-            ' Set the GUI to display correct options for the language
             Select Case Language
                 Case AppSettings.C
-                    asAppSettings.TestType = AppSettings.C
                     .JavaToolStripMenuItem.Checked = False
                     .PLSQLToolStripMenuItem.Checked = False
                     .CSToolStripMenuItem.Checked = False
                     .VBToolStripMenuItem.Checked = False
                     .PHPToolStripMenuItem.Checked = False
-                    asAppSettings.BadFuncFile = asAppSettings.CConfFile
-                    LoadUnsafeFunctionList(AppSettings.C)
                     .sslLabel.Text = "Language: C/C++   File Suffixes: " & asAppSettings.CSuffixes
                 Case AppSettings.JAVA
-                    asAppSettings.TestType = AppSettings.JAVA
                     .CCToolStripMenuItem.Checked = False
                     .PLSQLToolStripMenuItem.Checked = False
                     .CSToolStripMenuItem.Checked = False
                     .VBToolStripMenuItem.Checked = False
                     .PHPToolStripMenuItem.Checked = False
-                    asAppSettings.BadFuncFile = asAppSettings.JavaConfFile
-                    LoadUnsafeFunctionList(AppSettings.JAVA)
                     .sslLabel.Text = "Language: Java   File Suffixes: " & asAppSettings.JavaSuffixes
                 Case AppSettings.SQL
-                    asAppSettings.TestType = AppSettings.SQL
                     .CCToolStripMenuItem.Checked = False
                     .JavaToolStripMenuItem.Checked = False
                     .CSToolStripMenuItem.Checked = False
                     .VBToolStripMenuItem.Checked = False
                     .PHPToolStripMenuItem.Checked = False
-                    asAppSettings.BadFuncFile = asAppSettings.PLSQLConfFile
-                    LoadUnsafeFunctionList(AppSettings.SQL)
                     asAppSettings.SingleLineComment = "--"
                     .sslLabel.Text = "Language: PL/SQL   File Suffixes: " & asAppSettings.PLSQLSuffixes
                 Case AppSettings.CSHARP
-                    asAppSettings.TestType = AppSettings.CSHARP
                     .CCToolStripMenuItem.Checked = False
                     .JavaToolStripMenuItem.Checked = False
                     .PLSQLToolStripMenuItem.Checked = False
                     .VBToolStripMenuItem.Checked = False
                     .PHPToolStripMenuItem.Checked = False
-                    asAppSettings.BadFuncFile = asAppSettings.CSharpConfFile
-                    LoadUnsafeFunctionList(AppSettings.CSHARP)
                     .sslLabel.Text = "Language: C#   File Suffixes: " & asAppSettings.CSharpSuffixes
                 Case AppSettings.VB
-                    asAppSettings.TestType = AppSettings.VB
                     .CCToolStripMenuItem.Checked = False
                     .JavaToolStripMenuItem.Checked = False
                     .PLSQLToolStripMenuItem.Checked = False
                     .CSToolStripMenuItem.Checked = False
                     .PHPToolStripMenuItem.Checked = False
-                    asAppSettings.BadFuncFile = asAppSettings.VBConfFile
-                    LoadUnsafeFunctionList(AppSettings.VB)
-                    asAppSettings.SingleLineComment = "'"
-                    asAppSettings.AltSingleLineComment = "REM"
                     .sslLabel.Text = "Language: VB   File Suffixes: " & asAppSettings.VBSuffixes
                 Case AppSettings.PHP
-                    asAppSettings.TestType = AppSettings.PHP
                     .CCToolStripMenuItem.Checked = False
                     .JavaToolStripMenuItem.Checked = False
                     .PLSQLToolStripMenuItem.Checked = False
                     .CSToolStripMenuItem.Checked = False
                     .VBToolStripMenuItem.Checked = False
-                    asAppSettings.BadFuncFile = asAppSettings.PHPConfFile
-                    LoadUnsafeFunctionList(AppSettings.PHP)
-                    asAppSettings.SingleLineComment = "//"
-                    asAppSettings.AltSingleLineComment = "\#"   ' This will be used in a regex so it must be escaped
                     .sslLabel.Text = "Language: PHP   File Suffixes: " & asAppSettings.PHPSuffixes
                 Case AppSettings.COBOL
-                    asAppSettings.TestType = AppSettings.COBOL
                     .CCToolStripMenuItem.Checked = False
                     .JavaToolStripMenuItem.Checked = False
                     .PLSQLToolStripMenuItem.Checked = False
                     .CSToolStripMenuItem.Checked = False
                     .VBToolStripMenuItem.Checked = False
-                    asAppSettings.BadFuncFile = asAppSettings.COBOLConfFile
-                    LoadUnsafeFunctionList(AppSettings.COBOL)
-                    asAppSettings.SingleLineComment = "*"
                     .sslLabel.Text = "Language: COBOL   File Suffixes: " & asAppSettings.COBOLSuffixes
             End Select
-
         End With
 
     End Sub

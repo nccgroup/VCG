@@ -1,7 +1,7 @@
 ====================================================================================
 VCG (VisualCodeGrepper)
 
-Current version: 2.0.0
+Current version: 2.0.2
 
 Send comments and bug reports to: vcgapplication@gmail.com
 
@@ -10,7 +10,7 @@ Send comments and bug reports to: vcgapplication@gmail.com
 Contents:
 
 1. Overview
-2. Latest additions to VCG V2.0.0
+2. Latest additions to VCG V2.0.2 
 3. Using VCG
 	Input files/codebase
 	Options & settings
@@ -32,7 +32,7 @@ I’ve tried to produce something which doesn’t return the large number of false p
 
 
 ====================================================================================
-Latest additions to VCG V2.0.0
+Latest additions to VCG V2.0.2
 ------------------------------------------------------------------------------------
 
 New features:
@@ -52,6 +52,7 @@ New features:
 8. Improved detection of SQL injection in Java
 9. Improved detection of banned functions from config files (added word boundaries to prevent inaccurate grepping such as a search for ‘gets’ returning ‘getstring’)
 
+10. Bugfixes to prevent failure to correctly match bad functions in config file and to prevent failure to import bad functions from config files when used in command line mode.
 
 
 ====================================================================================

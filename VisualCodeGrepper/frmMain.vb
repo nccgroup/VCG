@@ -2014,7 +2014,11 @@ Public Class frmMain
 
 
         '== Exit if no results ==
-        If rtResultsTracker.ScanResults.Count = 0 Then Exit Sub
+        If rtResultsTracker.ScanResults.Count = 0 Then
+            If asAppSettings.IsConsole Then Console.WriteLine("No results to write. Exiting application.")
+            Exit Sub
+        End If
+
 
         If SaveFiltered = True Then
             FilterMinimum = intFilterMin
@@ -2281,7 +2285,11 @@ Public Class frmMain
 
 
         '== Exit if no results ==
-        If rtResultsTracker.ScanResults.Count = 0 Then Exit Sub
+        If rtResultsTracker.ScanResults.Count = 0 Then
+            If asAppSettings.IsConsole Then Console.WriteLine("No results to write. Exiting application.")
+            Exit Sub
+        End If
+
 
         If SaveFiltered = True Then
             FilterMinimum = intFilterMin
