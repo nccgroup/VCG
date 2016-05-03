@@ -61,6 +61,8 @@ Public Class CodeTracker
     Public DestinationBuffer As String = ""                     ' Keep track of this to determnine correct error checking for realloc
     Public SourceBuffer As String = ""                          ' Keep track of this to determnine correct error checking for realloc
 
+    Public UserVariables As New ArrayList                       ' List of user-controlled varaibles from commandline
+
     Private dicMemAssign As New Dictionary(Of String, String)   ' Dictionary of instances of new/malloc
     Private dicBuffer As New Dictionary(Of String, String)      ' Dictionary of fixed buffers
     Private dicInteger As New Dictionary(Of String, String)     ' Dictionary of integer assignments to help identify any buffer sizes
@@ -90,6 +92,7 @@ Public Class CodeTracker
     Public IsFileOpen As Boolean = False
     Public HasTry As Boolean = False
     Public HasResourceRelease As Boolean = True
+    Public HasIntent As Boolean = False
 
     Public SerializeBraces As Integer = 0
     Public DeserializeBraces As Integer = 0
@@ -110,6 +113,7 @@ Public Class CodeTracker
     Public PrivateInstanceVars As New ArrayList
     Public ServletNames As New ArrayList        ' The list of servlet class names
     Public SyncBlockObjects As New ArrayList    ' List of locked object names and any inner locked objects in nested synchronized blocks
+    Public AndroidIntents As New ArrayList      ' Android intents, stored to determine whether used explicitly or implicitly
 
     Public ServletInstances As New Dictionary(Of String, String)    ' Maps each Servlet object onto its class name
     Private dicStatic As New Dictionary(Of String, String)  ' Instances of static variables to look for non-threadsafe operations
@@ -215,6 +219,7 @@ Public Class CodeTracker
         IsFileOpen = False
         HasTry = False
         HasResourceRelease = True
+        HasIntent = False
 
         HttpRequestVar = ""
         ServletName = ""
@@ -236,7 +241,7 @@ Public Class CodeTracker
         dicStatic.Clear()
         PrivateInstanceVars.Clear()
         SyncBlockObjects.Clear()
-
+        AndroidIntents.Clear()
 
         ' PL/SQL details
         IsOracleEncrypt = False
@@ -295,6 +300,7 @@ Public Class CodeTracker
 
         dicBuffer.Clear()
         dicInteger.Clear()
+        UserVariables.Clear()
 
         ' Used for tracking thread issues in C++ and Java
         ServletNames.Clear()
@@ -799,9 +805,12 @@ Public Class CodeTracker
                 Or Regex.IsMatch(strStatement, "\b(unsigned|UNSIGNED)\b\s+\b(short|int|long|INT|LONG)\b\s+\w+(\,|$|=|\))") _
                 Or Regex.IsMatch(strStatement, "\b(short|int|long|INT|LONG)\b\s+\b(unsigned|UNSIGNED)\b\s+\w+(\,|$|=|\))") Then
 
-                '== strip off anything which follows the equals sign (if present) as we won't need it ==
+                '== Strip off anything which follows the equals sign (if present) as we won't need it ==
                 arrFragments = strStatement.Trim().Split("=")
                 strDescription = arrFragments.First.Trim()
+
+                '== Multiple declarations, comma separated ==
+
 
                 '== Obtain each comma-separated statement ==
                 arrPlaceHolders = strDescription.Split(",")
@@ -1209,8 +1218,8 @@ NextLoop:
                     strRightSide = arrFragments.ElementAt(1).Trim()
 
                     '== The sizeof operator returns a signed integer ==
-                    If strRightSide.Contains("sizeof") Then blnIsSizeOfR = True
-                    If strLeftSide.Contains("sizeof") Then blnIsSizeOfL = True
+                    If Regex.IsMatch(strRightSide, "\bsizeof\b\s*\(") Then blnIsSizeOfR = True
+                    If Regex.IsMatch(strLeftSide, "\bsizeof\b\s*\(") Then blnIsSizeOfL = True
 
                     '== Get the items immediately adjacent to the comparison operator and trim any spaces/braces from the edges ==
                     arrFragments = Regex.Split(strLeftSide, "(\(|\s+)")
@@ -1241,22 +1250,22 @@ NextLoop:
                     ElseIf strLeftSide.StartsWith("0x") Or strRightSide.StartsWith("0x") Then
                         Return False
                     ElseIf IsNumeric(strLeftSide) And Not IsNumeric(strRightSide) Then
-                        If strLeftSide.Contains("-") And dicUnsigned.ContainsKey(strRightSide) Then
+                        If Regex.IsMatch(strLeftSide, "\-\d+") And dicUnsigned.ContainsKey(strRightSide) Then
                             Return True
                         Else
                             Return False
                         End If
 
                     ElseIf IsNumeric(strRightSide) And Not IsNumeric(strLeftSide) Then
-                        If strRightSide.Contains("-") And dicUnsigned.ContainsKey(strLeftSide) Then
+                        If Regex.IsMatch(strRightSide, "\-\d+") And dicUnsigned.ContainsKey(strLeftSide) Then
                             Return True
                         Else
                             Return False
                         End If
                     Else
                         '== Both sides are variable names so check in dictionary ==
-                        If (blnIsSizeOfL Or (dicUnsigned.ContainsKey(strLeftSide))) And ((Not dicUnsigned.ContainsKey(strRightSide)) And (Not blnIsSizeOfR)) _
-                            Or ((Not dicUnsigned.ContainsKey(strLeftSide)) And (Not blnIsSizeOfL)) And (blnIsSizeOfR Or dicUnsigned.ContainsKey(strRightSide)) Then
+                        If (dicUnsigned.ContainsKey(strLeftSide)) And (((Not dicUnsigned.ContainsKey(strRightSide)) And dicInteger.ContainsKey(strRightSide)) And (Not blnIsSizeOfR)) _
+                            Or (((Not dicUnsigned.ContainsKey(strLeftSide)) And dicInteger.ContainsKey(strLeftSide)) And (Not blnIsSizeOfL)) And (dicUnsigned.ContainsKey(strRightSide)) Then
                             Return True
                         End If
                     End If

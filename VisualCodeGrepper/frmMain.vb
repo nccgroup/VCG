@@ -1260,6 +1260,7 @@ Public Class frmMain
         Next intIndex
 
         ' Set current language
+        If asAppSettings.TestType = AppSettings.COBOL Then asAppSettings.IncludeCobol = True
         SelectLanguage(asAppSettings.TestType)
 
         ' Import results or carry out scan?

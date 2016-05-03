@@ -123,6 +123,9 @@
   <metadata name="sfdSaveFileDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>171, 17</value>
   </metadata>
+  <data name="txtTempGrepTitle.Text" xml:space="preserve">
+    <value>The content of the text box below will behave in the same way as the content of the config files.Use '//'  for comments, put each target function on a separate line and use '=&gt;' to separate a bad function from its description.</value>
+  </data>
   <metadata name="cdColorDialog.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>318, 17</value>
   </metadata>

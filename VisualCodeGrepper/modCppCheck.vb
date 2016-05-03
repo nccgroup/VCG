@@ -31,14 +31,20 @@ Module modCppCheck
         '====================================================================================
 
         TrackVarAssignments(CodeLine, FileName)     ' Check for matching new/delete, etc.
+        TrackUserVarAssignments(CodeLine, FileName) ' Track any variables which are passed in on the command line, from files, etc.
         CheckBuffer(CodeLine, FileName)             ' Track buffer sizes and check for overflows
-        CheckSigned(CodeLine, FileName)             ' Check for signed/unsigned integer comparisons
         CheckDestructorThrow(CodeLine, FileName)    ' Identify entry to class destructor, report any exception throw within destructor
         CheckRace(CodeLine, FileName)               ' Check for race conditions and TOCTOU vulns
         CheckPrintF(CodeLine, FileName)             ' Check for printf format string vulnerabilities
         CheckUnsafeTempFiles(CodeLine, FileName)    ' Check for static/obvious filenames for temp files
         CheckReallocFailure(CodeLine, FileName)     ' Check for 'free' on failure
         CheckUnsafeSafe(CodeLine, FileName)         ' Check unsafe use of return values from 'safe' functions
+        CheckCmdInjection(CodeLine, FileName)       ' Check for potential command injection
+
+        '== Beta functionality ==
+        If asAppSettings.IncludeSigned Then
+            CheckSigned(CodeLine, FileName)         ' Check for signed/unsigned integer comparisons
+        End If
 
     End Sub
 
@@ -65,6 +71,29 @@ Module modCppCheck
 
     End Sub
 
+    Private Sub TrackUserVarAssignments(ByVal CodeLine As String, ByVal FileName As String)
+        ' Keep record of user-controlled variables
+        '=========================================
+        Dim arrFragments As String()
+        Dim strLeft As String = ""
+
+
+        '== Track assignments from argv, system variables, ini files or registry ==
+        If (Regex.IsMatch(CodeLine, "\w+\s*\=\s*\bargv\b\s*\[")) Or (Regex.IsMatch(CodeLine, "\w+\s*\=\s*\b(getenv|GetPrivateProfileString|GetPrivateProfileInt)\b\s*\(")) Or (Regex.IsMatch(CodeLine, "\w+\s*\=\s*Registry\:\:\w+\-\>OpenSubKey")) Then
+            ' Extract the variable name
+            arrFragments = CodeLine.Split("=")
+            strLeft = GetLastItem(arrFragments.First)
+        End If
+
+        '== Store any discovered variables
+        If strLeft <> "" Then
+            If Not ctCodeTracker.UserVariables.Contains(strLeft) Then
+                ctCodeTracker.UserVariables.Add(strLeft)
+            End If
+        End If
+
+    End Sub
+
     Private Sub CheckBuffer(ByVal CodeLine As String, ByVal FileName As String)
         ' Keep record of integer assignments and char arrays
         ' Add to the CodeTracker dictionary for checking
@@ -78,7 +107,7 @@ Module modCppCheck
         If CodeLine.Contains("=") And Not (CodeLine.Contains("==") Or CodeLine.Contains("*") Or CodeLine.Contains("[")) And _
                                            (Regex.IsMatch(CodeLine, "\b(short|int|long|uint16|uint32|size_t|UINT|INT|LONG)\b")) Then
             ctCodeTracker.AddInteger(CodeLine)
-        ElseIf Regex.IsMatch(CodeLine, "\s+\w+\s*\=") And Not CodeLine.Contains("==") Then
+        ElseIf Regex.IsMatch(CodeLine, "\s*\w+\s*\=") And Not CodeLine.Contains("==") Then
             arrFragments = CodeLine.Split("=")
             strLeft = GetLastItem(arrFragments.First)
             'For Each itmItem In ctCodeTracker.GetIntegers
@@ -252,6 +281,34 @@ Module modCppCheck
                 ctCodeTracker.SourceBuffer = ""
             End If
 
+        End If
+
+    End Sub
+
+    Private Sub CheckCmdInjection(ByVal CodeLine As String, ByVal FileName As String)
+        ' Check for potential command injection
+        '======================================
+        Dim blnIsFound As Boolean = False
+
+
+        '== Are commands being passed to system? ==
+        If Regex.IsMatch(CodeLine, "\b(system|popen|execlp)\b\s*\(") Then
+
+            '== Is a user-controlled variable present? ==
+            For Each strVar In ctCodeTracker.UserVariables
+                If CodeLine.Contains(strVar) Then
+                    frmMain.ListCodeIssue("User Controlled Variable Used on System Command Line", "The application appears to allow the use of an unvalidated user-controlled variable [" + strVar + "] when executing a system command.", FileName, CodeIssue.HIGH, CodeLine)
+                    blnIsFound = True
+                    Exit For
+                End If
+            Next
+            If blnIsFound = False And (Regex.IsMatch(CodeLine, "\b(system|popen|execlp)\b\s*\(\s*\bgetenv\b")) Then
+                '== Is a system variable present? ==
+                frmMain.ListCodeIssue("Application Variable Used on System Command Line", "The application appears to allow the use of an unvalidated system variable when executing a system command.", FileName, CodeIssue.HIGH, CodeLine)
+            ElseIf blnIsFound = False And ((Not CodeLine.Contains("""")) Or (CodeLine.Contains("""") And CodeLine.Contains("+")) Or (Regex.IsMatch(CodeLine, "\b(system|popen|execlp)\b\s*\(\s*\b(strcat|strncat)\b"))) Then
+                '== Is an unidentified variable present? ==
+                frmMain.ListCodeIssue("Application Variable Used on System Command Line", "The application appears to allow the use of an unvalidated variable when executing a system command. Carry out a manual check to determine whether the variable is user-controlled.", FileName, CodeIssue.MEDIUM, CodeLine)
+            End If
         End If
 
     End Sub

@@ -451,13 +451,19 @@ Module modMain
                             ciCodeIssue.FunctionName = strLine
                             ciCodeIssue.Description = ""
                         End If
-                        asAppSettings.BadFunctions.Add(ciCodeIssue)
+
+                        If Not asAppSettings.BadFunctions.Contains(ciCodeIssue) Then asAppSettings.BadFunctions.Add(ciCodeIssue)
                     End If
                 Next
 
             Catch ex As Exception
                 MsgBox(ex.ToString)
             End Try
+        End If
+
+        ' Fix to stop temp content being wiped at start of scan
+        If asAppSettings.TempGrepText <> "" Then
+            frmOptions.LoadTempGrepContent(asAppSettings.TempGrepText)
         End If
 
     End Sub

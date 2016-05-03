@@ -14,6 +14,9 @@
 ' You should have received a copy of the GNU General Public License
 ' along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+Imports System.Text.RegularExpressions
+
+
 Public Class frmOptions
 
     Private Sub btnCPPEdit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCPPEdit.Click
@@ -68,9 +71,13 @@ Public Class frmOptions
         asAppSettings.OutputLevel = 7 - cboReporting.SelectedIndex
 
 
+        '======= Java settings =======
         ' Set OWASP compliance
         asAppSettings.IsFinalizeCheck = cbFinalize.Checked
         asAppSettings.IsInnerClassCheck = cbInnerClass.Checked
+        'Android checks
+        asAppSettings.IsAndroid = cbAndroid.Checked
+        '----------------------------------------------
 
         ' Set output file
         If asAppSettings.IsOutputFile = True And txtOutput.Text.Trim() <> "" Then asAppSettings.OutputFile = txtOutput.Text.Trim
@@ -78,6 +85,20 @@ Public Class frmOptions
         ' Set XML Export options
         frmMain.SaveCheckState = cbSaveState.Checked
         frmMain.SaveFiltered = rbFiltered.Checked
+
+        ' Include any required beta functionality
+        SetBetaDetails(cbSigned.Checked, cbCobol.Checked)
+
+        ' Load contents of temporary grep box into bad function array
+        If txtTempGrep.Text.Trim = "" Then
+            asAppSettings.TempGrepText = ""
+            modMain.LoadUnsafeFunctionList(asAppSettings.TestType)
+            Exit Sub
+        Else
+            asAppSettings.TempGrepText = txtTempGrep.Text
+            LoadTempGrepContent(txtTempGrep.Text)
+        End If
+
 
         If (rbFiltered.Checked And CheckFilters() = False) Then Exit Sub
 
@@ -139,6 +160,9 @@ Public Class frmOptions
         cbFinalize.Checked = asAppSettings.IsFinalizeCheck
         cbInnerClass.Checked = asAppSettings.IsInnerClassCheck
 
+        ' Android checks
+        cbAndroid.Checked = asAppSettings.IsAndroid
+
         ' Output file
         cbOutput.Checked = asAppSettings.IsOutputFile
         txtOutput.Text = asAppSettings.OutputFile
@@ -148,6 +172,14 @@ Public Class frmOptions
         rbFiltered.Checked = frmMain.SaveFiltered
         rbAll.Checked = Not frmMain.SaveFiltered
         SetFilterDetails()
+
+        ' Beta functionality
+        cbSigned.Checked = asAppSettings.IncludeSigned
+        cbCobol.Checked = asAppSettings.IncludeCobol
+        SetBetaDetails(asAppSettings.IncludeSigned, asAppSettings.IncludeCobol)
+
+        ' Temporary Grep text
+        txtTempGrep.Text = asAppSettings.TempGrepText
 
     End Sub
 
@@ -367,6 +399,32 @@ Public Class frmOptions
 
     End Sub
 
+    Private Sub SetBetaDetails(IncludeSigned As Boolean, IncludeCobol As Boolean)
+        'Implement any beta functionality that the user requires
+        '=======================================================
+
+        ' C/C++ signed/unsigned comparison
+        asAppSettings.IncludeSigned = IncludeSigned
+
+        ' COBOL scanning
+        lblCobol.Visible = IncludeCobol
+        txtCobol.Visible = IncludeCobol
+        btnCobolBrowse.Visible = IncludeCobol
+        btnCobolEdit.Visible = IncludeCobol
+
+        ' Enable/disable controls on main form
+        frmMain.COBOLToolStripMenuItem.Visible = IncludeCobol
+
+        If IncludeCobol = True Then
+            cboCurrentLanguage.Items.Add("COBOL")
+            cboStartUpLanguage.Items.Add("COBOL")
+        Else
+            cboCurrentLanguage.Items.Remove("COBOL")
+            cboStartUpLanguage.Items.Remove("COBOL")
+        End If
+
+    End Sub
+
     Private Sub btnColour_Click(sender As System.Object, e As System.EventArgs) Handles btnColour.Click
         ' Allow user to modify the colour for checked listbox items
         '==========================================================
@@ -374,6 +432,53 @@ Public Class frmOptions
         If cdColorDialog.ShowDialog() <> Windows.Forms.DialogResult.Cancel Then
             asAppSettings.ListItemColour = cdColorDialog.Color
         End If
+
+    End Sub
+
+    Public Sub LoadTempGrepContent(TempGrepText As String)
+        ' Take content of temp grep box and add to the list of bad functions
+        '===================================================================
+        Dim arrTempGrepContent As String()
+        Dim strDescription As String = ""
+        Dim arrFuncList As String()
+
+
+        arrTempGrepContent = TempGrepText.Split(vbNewLine)
+
+        Try
+            For Each strLine In arrTempGrepContent
+
+                ' Check for comments/whitespace
+                If (strLine.Trim() <> Nothing) And (Not strLine.Trim().StartsWith("//")) Then
+
+                    Dim ciCodeIssue As New CodeIssue
+
+                    ' Build up array of bad functions and any associated descriptions
+                    If strLine.Contains("=>") Then
+                        arrFuncList = Regex.Split(strLine, "=>")
+                        ciCodeIssue.FunctionName = arrFuncList.First
+
+                        strDescription = arrFuncList.Last.Trim
+
+                        ' Extract severity level from description (if present)
+                        If strDescription.StartsWith("[0]") Or strDescription.StartsWith("[1]") Or strDescription.StartsWith("[2]") Or strDescription.StartsWith("[3]") Then
+                            ciCodeIssue.Severity = CInt(strDescription.Substring(1, 1))
+                            strDescription = strDescription.Substring(3).Trim
+                        End If
+
+                        ciCodeIssue.Description = strDescription
+                    Else
+                        ciCodeIssue.FunctionName = strLine
+                        ciCodeIssue.Description = ""
+                    End If
+
+                    If Not asAppSettings.BadFunctions.Contains(ciCodeIssue) Then asAppSettings.BadFunctions.Add(ciCodeIssue)
+                End If
+            Next
+
+        Catch ex As Exception
+            MsgBox(ex.ToString)
+        End Try
 
     End Sub
 

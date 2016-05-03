@@ -32,6 +32,7 @@ Module modCSharpCheck
         CheckSQLInjection(CodeLine, FileName)           ' Check for SQLi
         CheckXSS(CodeLine, FileName)                    ' Check for XSS
         CheckSecureStorage(CodeLine, FileName)          ' Are sensitive variables stored without using SecureString?
+        CheckIntOverflow(CodeLine, FileName)            ' Are int overflows being trapped?
         CheckLogDisplay(CodeLine, FileName)             ' Is data sanitised before being written to logs?
         CheckFileRace(CodeLine, FileName)               ' Check for race conditions and TOCTOU vulns
         CheckSerialization(CodeLine, FileName)          ' Identify serializable objects and check their security permissions
@@ -175,21 +176,38 @@ Module modCSharpCheck
             Next
         End If
 
-        '== Check for DOM-based XSS in .asp pages ==
-        If FileName.ToLower.EndsWith(".asp") Or FileName.ToLower.EndsWith(".aspx") Then
-            If Regex.IsMatch(CodeLine, "\s+var\s+\w+\s*=\s*""\s*\<\%\s*\=\s*\w+\%\>""\;") And Not Regex.IsMatch(CodeLine, "validate|encode|sanitize|sanitise") Then
-                '== Extract variable name from assignment statement ==
-                strVarName = GetVarName(CodeLine)
-                If Regex.IsMatch(strVarName, "^[a-zA-Z0-9_]*$") And Not ctCodeTracker.SQLStatements.Contains(strVarName) Then ctCodeTracker.InputVars.Add(strVarName)
-            ElseIf ((CodeLine.Contains("document.write(") And CodeLine.Contains("+") And CodeLine.Contains("""")) Or Regex.IsMatch(CodeLine, ".innerHTML\s*\=\s*\w+;")) And Not Regex.IsMatch(CodeLine, "\s*\S*\s*validate|encode|sanitize|sanitise\s*\S*\s*") Then
-                For Each strVar In ctCodeTracker.InputVars
-                    If CodeLine.Contains(strVar) Then
-                        frmMain.ListCodeIssue("Potential DOM-Based XSS", "The application appears to allow XSS via an unencoded/unsanitised input variable.", FileName, CodeIssue.HIGH, CodeLine)
-                        Exit For
-                    End If
-                Next
+
+        '== Check for use of raw strings in HTML output ==
+        If Regex.IsMatch(CodeLine, "\bHtml\b\.Raw\(") Then
+            For Each strVar In ctCodeTracker.InputVars
+                If CodeLine.Contains(strVar) Then
+                    frmMain.ListCodeIssue("Potential XSS", "The application uses the potentially dangerous Html.Raw construct in conjunction with a user-supplied variable.", FileName, CodeIssue.HIGH, CodeLine)
+                    blnIsFound = True
+                    Exit For
+                End If
+            Next
+
+            If Not blnIsFound Then
+                frmMain.ListCodeIssue("Potential XSS", "The application uses the potentially dangerous Html.Raw construct.", FileName, CodeIssue.MEDIUM, CodeLine)
             End If
         End If
+
+
+            '== Check for DOM-based XSS in .asp pages ==
+            If FileName.ToLower.EndsWith(".asp") Or FileName.ToLower.EndsWith(".aspx") Then
+                If Regex.IsMatch(CodeLine, "\s+var\s+\w+\s*=\s*""\s*\<\%\s*\=\s*\w+\%\>""\;") And Not Regex.IsMatch(CodeLine, "validate|encode|sanitize|sanitise") Then
+                    '== Extract variable name from assignment statement ==
+                    strVarName = GetVarName(CodeLine)
+                    If Regex.IsMatch(strVarName, "^[a-zA-Z0-9_]*$") And Not ctCodeTracker.SQLStatements.Contains(strVarName) Then ctCodeTracker.InputVars.Add(strVarName)
+                ElseIf ((CodeLine.Contains("document.write(") And CodeLine.Contains("+") And CodeLine.Contains("""")) Or Regex.IsMatch(CodeLine, ".innerHTML\s*\=\s*\w+;")) And Not Regex.IsMatch(CodeLine, "\s*\S*\s*validate|encode|sanitize|sanitise\s*\S*\s*") Then
+                    For Each strVar In ctCodeTracker.InputVars
+                        If CodeLine.Contains(strVar) Then
+                            frmMain.ListCodeIssue("Potential DOM-Based XSS", "The application appears to allow XSS via an unencoded/unsanitised input variable.", FileName, CodeIssue.HIGH, CodeLine)
+                            Exit For
+                        End If
+                    Next
+                End If
+            End If
 
     End Sub
 
@@ -217,7 +235,24 @@ Module modCSharpCheck
         '============================================================================
 
         If Regex.IsMatch(CodeLine, "\s+(String|char\[\])\s+\S*(Password|password|key)\S*") Then
-            frmMain.ListCodeIssue("Insecure Storage of Sensitive Information", "The application used standard strings and byte arrays to store sensitive transient data such as passwords and cryptographic private keys instead of the more secure SecureString class.", FileName, CodeIssue.MEDIUM, CodeLine)
+            frmMain.ListCodeIssue("Insecure Storage of Sensitive Information", "The code uses standard strings and byte arrays to store sensitive transient data such as passwords and cryptographic private keys instead of the more secure SecureString class.", FileName, CodeIssue.MEDIUM, CodeLine)
+        End If
+
+    End Sub
+
+    Public Sub CheckIntOverflow(ByVal CodeLine As String, ByVal FileName As String)
+        ' Check whether precautions are in place to deal with integer overflows
+        '======================================================================
+
+        If Regex.IsMatch(CodeLine, "\bint\b\s*\w+\s*\=\s*\bchecked\b\s+\(") Then
+            ' A check is in place, exit function
+            Return
+        ElseIf ((Regex.IsMatch(CodeLine, "\bint\b\s*\w+\s*\=\s*\bunchecked\b\s+\(")) And (CodeLine.Contains("+") Or CodeLine.Contains("*"))) Then
+            ' Checks have been switched off
+            frmMain.ListCodeIssue("Integer Operation With Overflow Check Deliberately Disabled", "The code carries out integer operations with a deliberate disabling of overflow defences. Manually review the code to ensure that it is safe.", FileName, CodeIssue.STANDARD, CodeLine)
+        ElseIf ((Regex.IsMatch(CodeLine, "\bint\b\s*\w+\s*\=")) And (CodeLine.Contains("+") Or CodeLine.Contains("*"))) Then
+            ' Unchecked operation
+            frmMain.ListCodeIssue("Integer Operation Without Overflow Check", "The code carries out integer operations without enabling overflow defences. Manually review the code to ensure that it is safe", FileName, CodeIssue.STANDARD, CodeLine)
         End If
 
     End Sub

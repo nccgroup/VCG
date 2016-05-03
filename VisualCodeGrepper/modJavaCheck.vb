@@ -50,6 +50,12 @@ Module modJavaCheck
         ' Identify any nested classes (if required by user)
         If asAppSettings.IsInnerClassCheck Then CheckInnerClasses(CodeLine, FileName)
 
+        ' Carry out any Android-specific checks
+        If asAppSettings.IsAndroid = True Then
+            CheckAndroidStaticCrypto(CodeLine, FileName)
+            CheckAndroidIntent(CodeLine, FileName)
+        End If
+
     End Sub
 
     Private Sub CheckServlet(ByVal CodeLine As String, ByVal FileName As String)
@@ -262,7 +268,7 @@ Module modJavaCheck
         '=====================================================
 
         '== Check for safe or unsafe implementation of cloning ==
-        If CodeLine.Contains("public ") And CodeLine.Contains(" clone") Then
+        If Regex.IsMatch(CodeLine, "\bpublic\b\s+\w+\s+\bclone\b\s*\(") Then
             ctCodeTracker.ImplementsClone = True
         End If
         If ctCodeTracker.ImplementsClone = True And CodeLine.Contains("throw new java.lang.CloneNotSupportedException") Then
@@ -725,6 +731,64 @@ Module modJavaCheck
             ctCodeTracker.IsFileOpen = False
             If Regex.IsMatch(CodeLine, "\.\bclose\b\s*\(") Then
                 ctCodeTracker.HasResourceRelease = True
+            End If
+        End If
+
+    End Sub
+
+    Private Sub CheckAndroidStaticCrypto(ByVal CodeLine As String, ByVal FileName As String)
+        ' Determine whether static crypto is being used for Android apps
+        '===============================================================
+
+        '== Check for use of static string in crypto command ==
+        If Regex.IsMatch(CodeLine, "CryptoAPI\.(encrypt|decrypt)\s*\(\""\w+\""\s*\,") Then
+            frmMain.ListCodeIssue("Static Crypto Keys in Use", "The application appears to be using static crypto keys. The absence of secure key storage may allow unauthorised decryption of data.", FileName, CodeIssue.HIGH, CodeLine)
+        End If
+
+    End Sub
+
+    Private Sub CheckAndroidIntent(ByVal CodeLine As String, ByVal FileName As String)
+        ' Determine whether implicit intents are being used for Android apps
+        '===================================================================
+        Dim strFragments As String()
+        Dim strIntent As String = ""
+
+
+        '== Check for creation of blank intent ==
+        If ctCodeTracker.HasIntent = False And Regex.IsMatch(CodeLine, "\bIntent\b\s+\w+\s*\=\s*new\s+Intent\s*\(\s*\)") Then
+
+            ' Sey boolean to show that an intent exists
+            ctCodeTracker.HasIntent = True
+
+            ' Store the name of the intent
+            strFragments = Regex.Split(CodeLine, "\=\s*new\s+Intent\s*\(\s*\)")
+            strIntent = GetLastItem(strFragments.First())
+            If strIntent <> "" And Not ctCodeTracker.AndroidIntents.Contains(strIntent) Then ctCodeTracker.AndroidIntents.Add(strIntent)
+
+        ElseIf ctCodeTracker.HasIntent = True And Regex.IsMatch(CodeLine, "\.setClass\(") Then
+
+            ' Remove any explicit intents from the dictionary
+            strFragments = Regex.Split(CodeLine, "\.setClass\(")
+
+            If strFragments.Count > 1 Then
+                strIntent = GetFirstItem(strFragments.ElementAt(1), ")")
+
+                If strIntent <> "" And ctCodeTracker.AndroidIntents.Contains(strIntent) Then ctCodeTracker.AndroidIntents.Remove(strIntent)
+                If ctCodeTracker.AndroidIntents.Count = 0 Then ctCodeTracker.HasIntent = False
+            End If
+
+        ElseIf ctCodeTracker.HasIntent = True And Regex.IsMatch(CodeLine, "\bstartActivity\b\s*\(") Then
+
+            ' Remove any explicit intents from the dictionary
+            strFragments = Regex.Split(CodeLine, "\bstartActivity\b\s*\(")
+
+            If strFragments.Count > 1 Then
+                strIntent = GetFirstItem(strFragments.ElementAt(1), ")")
+                If strIntent <> "" And ctCodeTracker.AndroidIntents.Contains(strIntent) Then
+                    ctCodeTracker.AndroidIntents.Remove(strIntent)
+                    If ctCodeTracker.AndroidIntents.Count = 0 Then ctCodeTracker.HasIntent = False
+                    frmMain.ListCodeIssue("Implicit Intents in Use", "The application appears to be using implicit intents which could be intercepted by rogue applications. Intent name: " & strIntent, FileName, CodeIssue.MEDIUM, CodeLine)
+                End If
             End If
         End If
 

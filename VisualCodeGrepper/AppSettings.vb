@@ -122,7 +122,16 @@ Public Class AppSettings
     Public IsFinalizeCheck As Boolean = True    ' Check for finalization of Java classes as per OWASP recommendations
     Public IsInnerClassCheck As Boolean = True  ' Check for nesting of Java classes as per OWASP recommendations
     Public IsConfigOnly As Boolean = False      ' Do we want to limit code checks to file content only, or do a full test?
+    Public IsAndroid As Boolean = False          ' Include any Java checks for Android issues
     '==================================
+
+    '=========================================================
+    '== Include beta functionality if requested by the user ==
+    '---------------------------------------------------------
+    Public IncludeBeta As Boolean = False
+    Public IncludeSigned As Boolean = False
+    Public IncludeCobol As Boolean = False
+    '=========================================================
 
 
     '== The current colour for items which have been checked in the results list ==
@@ -141,5 +150,8 @@ Public Class AppSettings
     '== Settings for console ouput ==
     Public IsConsole As Boolean = False
     Public IsVerbose As Boolean = False
+
+    '== Settings for Temporary Grep
+    Public TempGrepText As String = ""
 
 End Class

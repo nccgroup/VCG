@@ -32,9 +32,6 @@ Partial Class frmOptions
         Me.gbReporting = New System.Windows.Forms.GroupBox()
         Me.cboReporting = New System.Windows.Forms.ComboBox()
         Me.lblReporting = New System.Windows.Forms.Label()
-        Me.gbOWASP = New System.Windows.Forms.GroupBox()
-        Me.cbInnerClass = New System.Windows.Forms.CheckBox()
-        Me.cbFinalize = New System.Windows.Forms.CheckBox()
         Me.gbOutput = New System.Windows.Forms.GroupBox()
         Me.cbOutput = New System.Windows.Forms.CheckBox()
         Me.txtOutput = New System.Windows.Forms.TextBox()
@@ -78,6 +75,12 @@ Partial Class frmOptions
         Me.lblSQL = New System.Windows.Forms.Label()
         Me.lblJava = New System.Windows.Forms.Label()
         Me.lblCPP = New System.Windows.Forms.Label()
+        Me.tpJava = New System.Windows.Forms.TabPage()
+        Me.gbAndroid = New System.Windows.Forms.GroupBox()
+        Me.cbAndroid = New System.Windows.Forms.CheckBox()
+        Me.gbOWASP = New System.Windows.Forms.GroupBox()
+        Me.cbInnerClass = New System.Windows.Forms.CheckBox()
+        Me.cbFinalize = New System.Windows.Forms.CheckBox()
         Me.tpXMLExport = New System.Windows.Forms.TabPage()
         Me.btnExport = New System.Windows.Forms.Button()
         Me.gbFilter = New System.Windows.Forms.GroupBox()
@@ -95,32 +98,44 @@ Partial Class frmOptions
         Me.rbAll = New System.Windows.Forms.RadioButton()
         Me.tpDisplay = New System.Windows.Forms.TabPage()
         Me.gbDisplay = New System.Windows.Forms.GroupBox()
+        Me.cbShowStatusBar = New System.Windows.Forms.CheckBox()
         Me.lblColour = New System.Windows.Forms.Label()
         Me.btnColour = New System.Windows.Forms.Button()
         Me.cbReminder = New System.Windows.Forms.CheckBox()
         Me.cbShowChart = New System.Windows.Forms.CheckBox()
+        Me.tpBeta = New System.Windows.Forms.TabPage()
+        Me.gbBeta = New System.Windows.Forms.GroupBox()
+        Me.cbSigned = New System.Windows.Forms.CheckBox()
+        Me.cbCobol = New System.Windows.Forms.CheckBox()
+        Me.tpGrep = New System.Windows.Forms.TabPage()
+        Me.txtTempGrepTitle = New System.Windows.Forms.TextBox()
+        Me.txtTempGrep = New System.Windows.Forms.TextBox()
         Me.cdColorDialog = New System.Windows.Forms.ColorDialog()
-        Me.cbShowStatusBar = New System.Windows.Forms.CheckBox()
         Me.tabOptions.SuspendLayout()
         Me.tpGeneral.SuspendLayout()
         Me.gbReporting.SuspendLayout()
-        Me.gbOWASP.SuspendLayout()
         Me.gbOutput.SuspendLayout()
         Me.gbFileTypes.SuspendLayout()
         Me.gbLanguage.SuspendLayout()
         Me.tpConfigFiles.SuspendLayout()
         Me.gbConfigFiles.SuspendLayout()
+        Me.tpJava.SuspendLayout()
+        Me.gbAndroid.SuspendLayout()
+        Me.gbOWASP.SuspendLayout()
         Me.tpXMLExport.SuspendLayout()
         Me.gbFilter.SuspendLayout()
         Me.gbExportMode.SuspendLayout()
         Me.tpDisplay.SuspendLayout()
         Me.gbDisplay.SuspendLayout()
+        Me.tpBeta.SuspendLayout()
+        Me.gbBeta.SuspendLayout()
+        Me.tpGrep.SuspendLayout()
         Me.SuspendLayout()
         '
         'btnCancel
         '
         Me.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.btnCancel.Location = New System.Drawing.Point(400, 349)
+        Me.btnCancel.Location = New System.Drawing.Point(402, 310)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(75, 23)
         Me.btnCancel.TabIndex = 0
@@ -130,7 +145,7 @@ Partial Class frmOptions
         'btnOK
         '
         Me.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK
-        Me.btnOK.Location = New System.Drawing.Point(481, 349)
+        Me.btnOK.Location = New System.Drawing.Point(483, 310)
         Me.btnOK.Name = "btnOK"
         Me.btnOK.Size = New System.Drawing.Size(75, 23)
         Me.btnOK.TabIndex = 1
@@ -141,25 +156,27 @@ Partial Class frmOptions
         '
         Me.tabOptions.Controls.Add(Me.tpGeneral)
         Me.tabOptions.Controls.Add(Me.tpConfigFiles)
+        Me.tabOptions.Controls.Add(Me.tpJava)
         Me.tabOptions.Controls.Add(Me.tpXMLExport)
         Me.tabOptions.Controls.Add(Me.tpDisplay)
+        Me.tabOptions.Controls.Add(Me.tpBeta)
+        Me.tabOptions.Controls.Add(Me.tpGrep)
         Me.tabOptions.Location = New System.Drawing.Point(1, 2)
         Me.tabOptions.Name = "tabOptions"
         Me.tabOptions.SelectedIndex = 0
-        Me.tabOptions.Size = New System.Drawing.Size(559, 341)
+        Me.tabOptions.Size = New System.Drawing.Size(560, 302)
         Me.tabOptions.TabIndex = 8
         '
         'tpGeneral
         '
         Me.tpGeneral.Controls.Add(Me.gbReporting)
-        Me.tpGeneral.Controls.Add(Me.gbOWASP)
         Me.tpGeneral.Controls.Add(Me.gbOutput)
         Me.tpGeneral.Controls.Add(Me.gbFileTypes)
         Me.tpGeneral.Controls.Add(Me.gbLanguage)
         Me.tpGeneral.Location = New System.Drawing.Point(4, 22)
         Me.tpGeneral.Name = "tpGeneral"
         Me.tpGeneral.Padding = New System.Windows.Forms.Padding(3)
-        Me.tpGeneral.Size = New System.Drawing.Size(551, 315)
+        Me.tpGeneral.Size = New System.Drawing.Size(552, 276)
         Me.tpGeneral.TabIndex = 0
         Me.tpGeneral.Text = "General"
         Me.tpGeneral.UseVisualStyleBackColor = True
@@ -168,7 +185,7 @@ Partial Class frmOptions
         '
         Me.gbReporting.Controls.Add(Me.cboReporting)
         Me.gbReporting.Controls.Add(Me.lblReporting)
-        Me.gbReporting.Location = New System.Drawing.Point(8, 139)
+        Me.gbReporting.Location = New System.Drawing.Point(8, 141)
         Me.gbReporting.Name = "gbReporting"
         Me.gbReporting.Size = New System.Drawing.Size(536, 46)
         Me.gbReporting.TabIndex = 10
@@ -193,43 +210,12 @@ Partial Class frmOptions
         Me.lblReporting.TabIndex = 0
         Me.lblReporting.Text = "Display/Scan for Results Equal to or Above:"
         '
-        'gbOWASP
-        '
-        Me.gbOWASP.Controls.Add(Me.cbInnerClass)
-        Me.gbOWASP.Controls.Add(Me.cbFinalize)
-        Me.gbOWASP.Location = New System.Drawing.Point(8, 191)
-        Me.gbOWASP.Name = "gbOWASP"
-        Me.gbOWASP.Size = New System.Drawing.Size(536, 39)
-        Me.gbOWASP.TabIndex = 9
-        Me.gbOWASP.TabStop = False
-        Me.gbOWASP.Text = "OWASP Recommendations"
-        '
-        'cbInnerClass
-        '
-        Me.cbInnerClass.AutoSize = True
-        Me.cbInnerClass.Location = New System.Drawing.Point(251, 16)
-        Me.cbInnerClass.Name = "cbInnerClass"
-        Me.cbInnerClass.Size = New System.Drawing.Size(174, 17)
-        Me.cbInnerClass.TabIndex = 1
-        Me.cbInnerClass.Text = "Check for Nested Java Classes"
-        Me.cbInnerClass.UseVisualStyleBackColor = True
-        '
-        'cbFinalize
-        '
-        Me.cbFinalize.AutoSize = True
-        Me.cbFinalize.Location = New System.Drawing.Point(12, 16)
-        Me.cbFinalize.Name = "cbFinalize"
-        Me.cbFinalize.Size = New System.Drawing.Size(204, 17)
-        Me.cbFinalize.TabIndex = 0
-        Me.cbFinalize.Text = "Check for Finalization of Java Classes"
-        Me.cbFinalize.UseVisualStyleBackColor = True
-        '
         'gbOutput
         '
         Me.gbOutput.Controls.Add(Me.cbOutput)
         Me.gbOutput.Controls.Add(Me.txtOutput)
         Me.gbOutput.Controls.Add(Me.btnOutputBrowse)
-        Me.gbOutput.Location = New System.Drawing.Point(8, 233)
+        Me.gbOutput.Location = New System.Drawing.Point(8, 190)
         Me.gbOutput.Name = "gbOutput"
         Me.gbOutput.Size = New System.Drawing.Size(536, 72)
         Me.gbOutput.TabIndex = 8
@@ -239,7 +225,7 @@ Partial Class frmOptions
         'cbOutput
         '
         Me.cbOutput.AutoSize = True
-        Me.cbOutput.Location = New System.Drawing.Point(12, 20)
+        Me.cbOutput.Location = New System.Drawing.Point(12, 18)
         Me.cbOutput.Name = "cbOutput"
         Me.cbOutput.Size = New System.Drawing.Size(117, 17)
         Me.cbOutput.TabIndex = 0
@@ -248,7 +234,7 @@ Partial Class frmOptions
         '
         'txtOutput
         '
-        Me.txtOutput.Location = New System.Drawing.Point(9, 43)
+        Me.txtOutput.Location = New System.Drawing.Point(9, 41)
         Me.txtOutput.Name = "txtOutput"
         Me.txtOutput.Size = New System.Drawing.Size(491, 20)
         Me.txtOutput.TabIndex = 3
@@ -294,7 +280,7 @@ Partial Class frmOptions
         'cboFileTypes
         '
         Me.cboFileTypes.FormattingEnabled = True
-        Me.cboFileTypes.Items.AddRange(New Object() {"C/C++", "Java", "PL/SQL", "C#", "VB", "PHP"})
+        Me.cboFileTypes.Items.AddRange(New Object() {"C/C++", "Java", "PL/SQL", "C#", "VB", "PHP", "COBOL"})
         Me.cboFileTypes.Location = New System.Drawing.Point(9, 20)
         Me.cboFileTypes.Name = "cboFileTypes"
         Me.cboFileTypes.Size = New System.Drawing.Size(105, 21)
@@ -316,7 +302,7 @@ Partial Class frmOptions
         'cboStartUpLanguage
         '
         Me.cboStartUpLanguage.FormattingEnabled = True
-        Me.cboStartUpLanguage.Items.AddRange(New Object() {"C/C++", "Java", "PL/SQL", "C#", "VB", "PHP"})
+        Me.cboStartUpLanguage.Items.AddRange(New Object() {"C/C++", "Java", "PL/SQL", "C#", "VB", "PHP", "COBOL"})
         Me.cboStartUpLanguage.Location = New System.Drawing.Point(364, 20)
         Me.cboStartUpLanguage.Name = "cboStartUpLanguage"
         Me.cboStartUpLanguage.Size = New System.Drawing.Size(100, 21)
@@ -325,7 +311,7 @@ Partial Class frmOptions
         'cboCurrentLanguage
         '
         Me.cboCurrentLanguage.FormattingEnabled = True
-        Me.cboCurrentLanguage.Items.AddRange(New Object() {"C/C++", "Java", "PL/SQL", "C#", "VB", "PHP"})
+        Me.cboCurrentLanguage.Items.AddRange(New Object() {"C/C++", "Java", "PL/SQL", "C#", "VB", "PHP", "COBOL"})
         Me.cboCurrentLanguage.Location = New System.Drawing.Point(118, 20)
         Me.cboCurrentLanguage.Name = "cboCurrentLanguage"
         Me.cboCurrentLanguage.Size = New System.Drawing.Size(100, 21)
@@ -355,7 +341,7 @@ Partial Class frmOptions
         Me.tpConfigFiles.Location = New System.Drawing.Point(4, 22)
         Me.tpConfigFiles.Name = "tpConfigFiles"
         Me.tpConfigFiles.Padding = New System.Windows.Forms.Padding(3)
-        Me.tpConfigFiles.Size = New System.Drawing.Size(551, 315)
+        Me.tpConfigFiles.Size = New System.Drawing.Size(552, 276)
         Me.tpConfigFiles.TabIndex = 1
         Me.tpConfigFiles.Text = "Config Files"
         Me.tpConfigFiles.UseVisualStyleBackColor = True
@@ -392,7 +378,7 @@ Partial Class frmOptions
         Me.gbConfigFiles.Controls.Add(Me.lblCPP)
         Me.gbConfigFiles.Location = New System.Drawing.Point(6, 6)
         Me.gbConfigFiles.Name = "gbConfigFiles"
-        Me.gbConfigFiles.Size = New System.Drawing.Size(536, 233)
+        Me.gbConfigFiles.Size = New System.Drawing.Size(536, 216)
         Me.gbConfigFiles.TabIndex = 5
         Me.gbConfigFiles.TabStop = False
         Me.gbConfigFiles.Text = "Config Files"
@@ -639,6 +625,68 @@ Partial Class frmOptions
         Me.lblCPP.TabIndex = 0
         Me.lblCPP.Text = "C/C++:"
         '
+        'tpJava
+        '
+        Me.tpJava.Controls.Add(Me.gbAndroid)
+        Me.tpJava.Controls.Add(Me.gbOWASP)
+        Me.tpJava.Location = New System.Drawing.Point(4, 22)
+        Me.tpJava.Name = "tpJava"
+        Me.tpJava.Size = New System.Drawing.Size(552, 276)
+        Me.tpJava.TabIndex = 5
+        Me.tpJava.Text = "Java"
+        Me.tpJava.UseVisualStyleBackColor = True
+        '
+        'gbAndroid
+        '
+        Me.gbAndroid.Controls.Add(Me.cbAndroid)
+        Me.gbAndroid.Location = New System.Drawing.Point(8, 70)
+        Me.gbAndroid.Name = "gbAndroid"
+        Me.gbAndroid.Size = New System.Drawing.Size(536, 50)
+        Me.gbAndroid.TabIndex = 12
+        Me.gbAndroid.TabStop = False
+        Me.gbAndroid.Text = "Mobile Applications"
+        '
+        'cbAndroid
+        '
+        Me.cbAndroid.AutoSize = True
+        Me.cbAndroid.Location = New System.Drawing.Point(11, 21)
+        Me.cbAndroid.Name = "cbAndroid"
+        Me.cbAndroid.Size = New System.Drawing.Size(139, 17)
+        Me.cbAndroid.TabIndex = 12
+        Me.cbAndroid.Text = "Include Android Checks"
+        Me.cbAndroid.UseVisualStyleBackColor = True
+        '
+        'gbOWASP
+        '
+        Me.gbOWASP.Controls.Add(Me.cbInnerClass)
+        Me.gbOWASP.Controls.Add(Me.cbFinalize)
+        Me.gbOWASP.Location = New System.Drawing.Point(8, 14)
+        Me.gbOWASP.Name = "gbOWASP"
+        Me.gbOWASP.Size = New System.Drawing.Size(536, 46)
+        Me.gbOWASP.TabIndex = 10
+        Me.gbOWASP.TabStop = False
+        Me.gbOWASP.Text = "OWASP Recommendations"
+        '
+        'cbInnerClass
+        '
+        Me.cbInnerClass.AutoSize = True
+        Me.cbInnerClass.Location = New System.Drawing.Point(251, 18)
+        Me.cbInnerClass.Name = "cbInnerClass"
+        Me.cbInnerClass.Size = New System.Drawing.Size(174, 17)
+        Me.cbInnerClass.TabIndex = 1
+        Me.cbInnerClass.Text = "Check for Nested Java Classes"
+        Me.cbInnerClass.UseVisualStyleBackColor = True
+        '
+        'cbFinalize
+        '
+        Me.cbFinalize.AutoSize = True
+        Me.cbFinalize.Location = New System.Drawing.Point(12, 18)
+        Me.cbFinalize.Name = "cbFinalize"
+        Me.cbFinalize.Size = New System.Drawing.Size(204, 17)
+        Me.cbFinalize.TabIndex = 0
+        Me.cbFinalize.Text = "Check for Finalization of Java Classes"
+        Me.cbFinalize.UseVisualStyleBackColor = True
+        '
         'tpXMLExport
         '
         Me.tpXMLExport.Controls.Add(Me.btnExport)
@@ -647,7 +695,7 @@ Partial Class frmOptions
         Me.tpXMLExport.Location = New System.Drawing.Point(4, 22)
         Me.tpXMLExport.Name = "tpXMLExport"
         Me.tpXMLExport.Padding = New System.Windows.Forms.Padding(3)
-        Me.tpXMLExport.Size = New System.Drawing.Size(551, 315)
+        Me.tpXMLExport.Size = New System.Drawing.Size(552, 276)
         Me.tpXMLExport.TabIndex = 2
         Me.tpXMLExport.Text = "Result Filter and XML Export"
         Me.tpXMLExport.UseVisualStyleBackColor = True
@@ -813,7 +861,7 @@ Partial Class frmOptions
         Me.tpDisplay.Location = New System.Drawing.Point(4, 22)
         Me.tpDisplay.Name = "tpDisplay"
         Me.tpDisplay.Padding = New System.Windows.Forms.Padding(3)
-        Me.tpDisplay.Size = New System.Drawing.Size(551, 315)
+        Me.tpDisplay.Size = New System.Drawing.Size(552, 276)
         Me.tpDisplay.TabIndex = 3
         Me.tpDisplay.Text = "Display"
         Me.tpDisplay.UseVisualStyleBackColor = True
@@ -831,6 +879,16 @@ Partial Class frmOptions
         Me.gbDisplay.TabIndex = 0
         Me.gbDisplay.TabStop = False
         Me.gbDisplay.Text = "Display Options"
+        '
+        'cbShowStatusBar
+        '
+        Me.cbShowStatusBar.AutoSize = True
+        Me.cbShowStatusBar.Location = New System.Drawing.Point(8, 86)
+        Me.cbShowStatusBar.Name = "cbShowStatusBar"
+        Me.cbShowStatusBar.Size = New System.Drawing.Size(105, 17)
+        Me.cbShowStatusBar.TabIndex = 4
+        Me.cbShowStatusBar.Text = "Show Status Bar"
+        Me.cbShowStatusBar.UseVisualStyleBackColor = True
         '
         'lblColour
         '
@@ -870,21 +928,81 @@ Partial Class frmOptions
         Me.cbShowChart.Text = "Show charts and code breakdown when scan finishes"
         Me.cbShowChart.UseVisualStyleBackColor = True
         '
-        'cbShowStatusBar
+        'tpBeta
         '
-        Me.cbShowStatusBar.AutoSize = True
-        Me.cbShowStatusBar.Location = New System.Drawing.Point(8, 86)
-        Me.cbShowStatusBar.Name = "cbShowStatusBar"
-        Me.cbShowStatusBar.Size = New System.Drawing.Size(105, 17)
-        Me.cbShowStatusBar.TabIndex = 4
-        Me.cbShowStatusBar.Text = "Show Status Bar"
-        Me.cbShowStatusBar.UseVisualStyleBackColor = True
+        Me.tpBeta.Controls.Add(Me.gbBeta)
+        Me.tpBeta.Location = New System.Drawing.Point(4, 22)
+        Me.tpBeta.Name = "tpBeta"
+        Me.tpBeta.Size = New System.Drawing.Size(552, 276)
+        Me.tpBeta.TabIndex = 4
+        Me.tpBeta.Text = "Beta Functionality"
+        Me.tpBeta.UseVisualStyleBackColor = True
+        '
+        'gbBeta
+        '
+        Me.gbBeta.Controls.Add(Me.cbSigned)
+        Me.gbBeta.Controls.Add(Me.cbCobol)
+        Me.gbBeta.Location = New System.Drawing.Point(5, 6)
+        Me.gbBeta.Name = "gbBeta"
+        Me.gbBeta.Size = New System.Drawing.Size(540, 303)
+        Me.gbBeta.TabIndex = 1
+        Me.gbBeta.TabStop = False
+        Me.gbBeta.Text = "Beta Functionality Options"
+        '
+        'cbSigned
+        '
+        Me.cbSigned.AutoSize = True
+        Me.cbSigned.Location = New System.Drawing.Point(8, 29)
+        Me.cbSigned.Name = "cbSigned"
+        Me.cbSigned.Size = New System.Drawing.Size(240, 17)
+        Me.cbSigned.TabIndex = 1
+        Me.cbSigned.Text = "Include signed/unsigned comparison (C/C++)"
+        Me.cbSigned.UseVisualStyleBackColor = True
+        '
+        'cbCobol
+        '
+        Me.cbCobol.AutoSize = True
+        Me.cbCobol.Location = New System.Drawing.Point(8, 59)
+        Me.cbCobol.Name = "cbCobol"
+        Me.cbCobol.Size = New System.Drawing.Size(205, 17)
+        Me.cbCobol.TabIndex = 0
+        Me.cbCobol.Text = "Include COBOL scanning functionality"
+        Me.cbCobol.UseVisualStyleBackColor = True
+        '
+        'tpGrep
+        '
+        Me.tpGrep.Controls.Add(Me.txtTempGrepTitle)
+        Me.tpGrep.Controls.Add(Me.txtTempGrep)
+        Me.tpGrep.Location = New System.Drawing.Point(4, 22)
+        Me.tpGrep.Name = "tpGrep"
+        Me.tpGrep.Size = New System.Drawing.Size(552, 276)
+        Me.tpGrep.TabIndex = 6
+        Me.tpGrep.Text = "Temporary Grep"
+        Me.tpGrep.UseVisualStyleBackColor = True
+        '
+        'txtTempGrepTitle
+        '
+        Me.txtTempGrepTitle.Location = New System.Drawing.Point(8, 8)
+        Me.txtTempGrepTitle.Multiline = True
+        Me.txtTempGrepTitle.Name = "txtTempGrepTitle"
+        Me.txtTempGrepTitle.ReadOnly = True
+        Me.txtTempGrepTitle.Size = New System.Drawing.Size(531, 54)
+        Me.txtTempGrepTitle.TabIndex = 1
+        Me.txtTempGrepTitle.Text = resources.GetString("txtTempGrepTitle.Text")
+        '
+        'txtTempGrep
+        '
+        Me.txtTempGrep.Location = New System.Drawing.Point(8, 68)
+        Me.txtTempGrep.Multiline = True
+        Me.txtTempGrep.Name = "txtTempGrep"
+        Me.txtTempGrep.Size = New System.Drawing.Size(531, 196)
+        Me.txtTempGrep.TabIndex = 0
         '
         'frmOptions
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(559, 376)
+        Me.ClientSize = New System.Drawing.Size(565, 341)
         Me.Controls.Add(Me.tabOptions)
         Me.Controls.Add(Me.btnOK)
         Me.Controls.Add(Me.btnCancel)
@@ -898,8 +1016,6 @@ Partial Class frmOptions
         Me.tpGeneral.ResumeLayout(False)
         Me.gbReporting.ResumeLayout(False)
         Me.gbReporting.PerformLayout()
-        Me.gbOWASP.ResumeLayout(False)
-        Me.gbOWASP.PerformLayout()
         Me.gbOutput.ResumeLayout(False)
         Me.gbOutput.PerformLayout()
         Me.gbFileTypes.ResumeLayout(False)
@@ -909,6 +1025,11 @@ Partial Class frmOptions
         Me.tpConfigFiles.ResumeLayout(False)
         Me.gbConfigFiles.ResumeLayout(False)
         Me.gbConfigFiles.PerformLayout()
+        Me.tpJava.ResumeLayout(False)
+        Me.gbAndroid.ResumeLayout(False)
+        Me.gbAndroid.PerformLayout()
+        Me.gbOWASP.ResumeLayout(False)
+        Me.gbOWASP.PerformLayout()
         Me.tpXMLExport.ResumeLayout(False)
         Me.gbFilter.ResumeLayout(False)
         Me.gbFilter.PerformLayout()
@@ -917,6 +1038,11 @@ Partial Class frmOptions
         Me.tpDisplay.ResumeLayout(False)
         Me.gbDisplay.ResumeLayout(False)
         Me.gbDisplay.PerformLayout()
+        Me.tpBeta.ResumeLayout(False)
+        Me.gbBeta.ResumeLayout(False)
+        Me.gbBeta.PerformLayout()
+        Me.tpGrep.ResumeLayout(False)
+        Me.tpGrep.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -929,9 +1055,6 @@ Partial Class frmOptions
     Friend WithEvents gbReporting As System.Windows.Forms.GroupBox
     Friend WithEvents cboReporting As System.Windows.Forms.ComboBox
     Friend WithEvents lblReporting As System.Windows.Forms.Label
-    Friend WithEvents gbOWASP As System.Windows.Forms.GroupBox
-    Friend WithEvents cbInnerClass As System.Windows.Forms.CheckBox
-    Friend WithEvents cbFinalize As System.Windows.Forms.CheckBox
     Friend WithEvents gbOutput As System.Windows.Forms.GroupBox
     Friend WithEvents cbOutput As System.Windows.Forms.CheckBox
     Friend WithEvents txtOutput As System.Windows.Forms.TextBox
@@ -998,4 +1121,17 @@ Partial Class frmOptions
     Friend WithEvents btnColour As System.Windows.Forms.Button
     Friend WithEvents cdColorDialog As System.Windows.Forms.ColorDialog
     Friend WithEvents cbShowStatusBar As System.Windows.Forms.CheckBox
+    Friend WithEvents tpBeta As System.Windows.Forms.TabPage
+    Friend WithEvents gbBeta As System.Windows.Forms.GroupBox
+    Friend WithEvents cbSigned As System.Windows.Forms.CheckBox
+    Friend WithEvents cbCobol As System.Windows.Forms.CheckBox
+    Friend WithEvents tpJava As System.Windows.Forms.TabPage
+    Friend WithEvents gbOWASP As System.Windows.Forms.GroupBox
+    Friend WithEvents cbInnerClass As System.Windows.Forms.CheckBox
+    Friend WithEvents cbFinalize As System.Windows.Forms.CheckBox
+    Friend WithEvents tpGrep As System.Windows.Forms.TabPage
+    Friend WithEvents txtTempGrep As System.Windows.Forms.TextBox
+    Friend WithEvents txtTempGrepTitle As System.Windows.Forms.TextBox
+    Friend WithEvents gbAndroid As System.Windows.Forms.GroupBox
+    Friend WithEvents cbAndroid As System.Windows.Forms.CheckBox
 End Class

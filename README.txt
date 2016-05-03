@@ -1,7 +1,7 @@
 ====================================================================================
 VCG (VisualCodeGrepper)
 
-Current version: 2.0.2
+Current version: 2.1.0
 
 Send comments and bug reports to: vcgapplication@gmail.com
 
@@ -10,7 +10,7 @@ Send comments and bug reports to: vcgapplication@gmail.com
 Contents:
 
 1. Overview
-2. Latest additions to VCG V2.0.2 
+2. Latest additions to VCG V2.1.0
 3. Using VCG
 	Input files/codebase
 	Options & settings
@@ -32,27 +32,25 @@ I’ve tried to produce something which doesn’t return the large number of false p
 
 
 ====================================================================================
-Latest additions to VCG V2.0.2
+Latest additions to VCG V2.1.0
 ------------------------------------------------------------------------------------
 
 New features:
-1. Improvements to GUI:
-	a) Drag and drop file/directory to be tested (instead of the annoying directory selector)
-	b) Drag and drop multiple directories
-	c) Ability to choose different colours for selecting items in the results table to distinguish false positives, serious stuff, etc. (selected colours are preserved when un-ticking, saving to XML, etc.)
-	d) Ability to delete selected results
-	e) Group rich text results by issue title
-	f) Group rich text results by filename
-2. Command line options (including a console-only mode)
-3. Ability to select a single file instead of a directory
-4. Export/import results to/from CSV file.
-5. Detection of unsafe use of safe functions in C (Use of the return value from strlcpy, strlcat, etc.)
-6. Ability to change Severity levels of issues
-7. Config file for list of dangerous comments (so that you can now add, change or remove these)
-8. Improved detection of SQL injection in Java
-9. Improved detection of banned functions from config files (added word boundaries to prevent inaccurate grepping such as a search for ‘gets’ returning ‘getstring’)
+	1)	Switch Beta Functionality on/off (in the Options dialog). This lets you decide whether or not to use half-finished things I’ve put in there:
+		a.	COBOL tests
+		b.	Signed/Unsigned comparisons in C/C++ (relegated this to beta functionality - despite further fixes it still results in false positives)
+	2)	Temporary Grep – New feature to include a temporary one-off list of additional bad functions without changing the config file for an individual language.
 
-10. Bugfixes to prevent failure to correctly match bad functions in config file and to prevent failure to import bad functions from config files when used in command line mode.
+New checks/tests:
+	1)	Detection of command line injection in C++
+	2)	A patronising warning if the use of ‘assert’ is detected in C++
+	3)	C# int overflow – checks for a failure to guard against or trap overflows (Note! It does not check for an overflow taking place, it only checks for a cavalier attitude to coding!)
+	4)	Improved XSS detection for Java and C# (in this context ‘improved’ means it spots more occurrences)
+	5)	Improved cloning detection in Java (less false positives due all-new improved regex!)
+	6)	Checks for Android-related issues in Java code (this can be switched off in the Options screen, like the OWASP Java checks)
+		a.	Static crypto keys
+		b.	Implicit intents
+
 
 
 ====================================================================================
