@@ -39,3 +39,24 @@ C:\Users\Nick\Documents\Visual Studio 2010\Projects\VisualCodeGrepper\VisualCode
 C:\Users\Nick\Documents\Visual Studio 2010\Projects\VisualCodeGrepper\VisualCodeGrepper\obj\x86\Release\VisualCodeGrepper.Resources.resources
 C:\Users\Nick\Documents\Visual Studio 2010\Projects\VisualCodeGrepper\VisualCodeGrepper\obj\x86\Release\VisualCodeGrepper.vbproj.GenerateResource.Cache
 C:\Users\Nick\Documents\Visual Studio 2010\Projects\VisualCodeGrepper\VisualCodeGrepper\obj\x86\Release\VisualCodeGrepper.frmNewSeverity.resources
+C:\Users\norrisch\code\VCG\VisualCodeGrepper\bin\Release\VisualCodeGrepper.exe
+C:\Users\norrisch\code\VCG\VisualCodeGrepper\bin\Release\VisualCodeGrepper.pdb
+C:\Users\norrisch\code\VCG\VisualCodeGrepper\bin\Release\VisualCodeGrepper.xml
+C:\Users\norrisch\code\VCG\VisualCodeGrepper\obj\x86\Release\VisualCodeGrepper.AboutBox.resources
+C:\Users\norrisch\code\VCG\VisualCodeGrepper\obj\x86\Release\VisualCodeGrepper.frmBreakdownReminder.resources
+C:\Users\norrisch\code\VCG\VisualCodeGrepper\obj\x86\Release\VisualCodeGrepper.frmNewSeverity.resources
+C:\Users\norrisch\code\VCG\VisualCodeGrepper\obj\x86\Release\VisualCodeGrepper.frmReminder.resources
+C:\Users\norrisch\code\VCG\VisualCodeGrepper\obj\x86\Release\VisualCodeGrepper.frmBreakdown.resources
+C:\Users\norrisch\code\VCG\VisualCodeGrepper\obj\x86\Release\VisualCodeGrepper.frmCodeDetails.resources
+C:\Users\norrisch\code\VCG\VisualCodeGrepper\obj\x86\Release\VisualCodeGrepper.frmFilter.resources
+C:\Users\norrisch\code\VCG\VisualCodeGrepper\obj\x86\Release\VisualCodeGrepper.frmIndividualBreakdown.resources
+C:\Users\norrisch\code\VCG\VisualCodeGrepper\obj\x86\Release\VisualCodeGrepper.frmLoading.resources
+C:\Users\norrisch\code\VCG\VisualCodeGrepper\obj\x86\Release\VisualCodeGrepper.frmMain.resources
+C:\Users\norrisch\code\VCG\VisualCodeGrepper\obj\x86\Release\VisualCodeGrepper.frmOptions.resources
+C:\Users\norrisch\code\VCG\VisualCodeGrepper\obj\x86\Release\VisualCodeGrepper.frmSort.resources
+C:\Users\norrisch\code\VCG\VisualCodeGrepper\obj\x86\Release\VisualCodeGrepper.Resources.resources
+C:\Users\norrisch\code\VCG\VisualCodeGrepper\obj\x86\Release\VisualCodeGrepper.vbproj.GenerateResource.Cache
+C:\Users\norrisch\code\VCG\VisualCodeGrepper\obj\x86\Release\VisualCodeGrepper.vbproj.CoreCompileInputs.cache
+C:\Users\norrisch\code\VCG\VisualCodeGrepper\obj\x86\Release\VisualCodeGrepper.exe
+C:\Users\norrisch\code\VCG\VisualCodeGrepper\obj\x86\Release\VisualCodeGrepper.xml
+C:\Users\norrisch\code\VCG\VisualCodeGrepper\obj\x86\Release\VisualCodeGrepper.pdb

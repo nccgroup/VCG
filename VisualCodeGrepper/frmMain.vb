@@ -23,9 +23,12 @@ Imports System.Threading
 Imports System.Web
 Imports System.Windows.Forms.DataVisualization.Charting
 Imports System.Text.RegularExpressions
-Imports System.Collections
+Imports System.Collections.Concurrent
 Imports System.Xml
-
+Imports System.Collections.Generic
+Imports System.Threading.Tasks
+Imports System.Threading.Tasks.Task
+Imports Microsoft.WindowsAPICodePack.Dialogs
 
 Public Class frmMain
 
@@ -85,11 +88,15 @@ Public Class frmMain
         Dim strTargetFolder As String
 
 
-        ' Get target directory
-        fbFolderBrowser.ShowDialog()
+        Dim dialog = New CommonOpenFileDialog()
+        dialog.IsFolderPicker = True
+        Dim result As CommonFileDialogResult = dialog.ShowDialog()
 
-        If Not Windows.Forms.DialogResult.Cancel Then
-            strTargetFolder = Me.fbFolderBrowser.SelectedPath.ToString
+        ' Get target directory
+        'fbFolderBrowser.ShowDialog()
+
+        If result = CommonFileDialogResult.Ok Then
+            strTargetFolder = dialog.FileName.ToString()
             LoadFiles(strTargetFolder)
         End If
 
@@ -236,7 +243,9 @@ Public Class frmMain
             modMain.ctCodeTracker.ResetCDictionaries()
 
             For Each strItem As String In rtResultsTracker.FileList
-
+                '
+                'todo: add threading here
+                '
                 IncrementLoadingBar(strItem)
                 arrShortName = strItem.Split("\")
                 modMain.ctCodeTracker.Reset()
@@ -318,7 +327,7 @@ Public Class frmMain
                     If asAppSettings.IsVerbose = True Then Console.WriteLine("Scanning file: " & strItem)
                 End If
                 rtResultsTracker.FileCount += 1
-
+                rtResultsTracker.ResetFileCountVars()
 
                 '== Avoid the GUI locking or hanging during processing ==
                 Application.DoEvents()
@@ -1352,7 +1361,11 @@ Public Class frmMain
             ' Check whether we have a file or directory
             If Directory.Exists(TargetFolder) Then
                 ' Iterate through files from target directory and obtain all relevant filenames
-                objResults = Directory.EnumerateFiles(TargetFolder, "*.*", SearchOption.AllDirectories)
+                Dim thrdFileCollector As ThreadedFileCollector = New ThreadedFileCollector
+                Dim di As DirectoryInfo = New DirectoryInfo(TargetFolder)
+                objResults = thrdFileCollector.CollectFiles(di, "*.*")
+
+                'objResults = Directory.EnumerateFiles(TargetFolder, "*.*", SearchOption.AllDirectories)
 
                 Dim lstResults As List(Of String) = New List(Of String)(Directory.EnumerateFiles(TargetFolder, "*.*", SearchOption.AllDirectories))
                 If asAppSettings.IsConsole = False Then
@@ -2730,6 +2743,23 @@ Public Class frmMain
             Application.DoEvents()
 
         End Function
+    End Class
+
+
+    Public Class ThreadedFileCollector
+        Public Function CollectFiles(directory As DirectoryInfo, pattern As String) As List(Of String)
+            Dim queue As New ConcurrentQueue(Of String)()
+            InternalCollectFiles(directory, pattern, queue)
+            Return queue.AsEnumerable().ToList()
+        End Function
+
+        Private Sub InternalCollectFiles(directory As DirectoryInfo, pattern As String, queue As ConcurrentQueue(Of String))
+            For Each result As String In directory.GetFiles(pattern).[Select](Function(file) file.FullName)
+                queue.Enqueue(result)
+            Next
+
+            Task.WaitAll(directory.GetDirectories().[Select](Function(dir) Task.Factory.StartNew(Sub() InternalCollectFiles(dir, pattern, queue))).ToArray())
+        End Sub
     End Class
 
     Private Class TitleComparer
