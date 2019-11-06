@@ -174,22 +174,22 @@ Module modMain
 
         Dim strHelp As String
 
-        strHelp = "Visual Code Grepper (VCG) 2.0 (C) Nick Dunn and John Murray, 2012-2014." & vbNewLine & _
-            "Usage:  VisualCodeGrepper [Options]" & vbNewLine & vbNewLine & _
-            "STARTUP:" & vbNewLine & _
-            "Set desired starting point for GUI. If using console mode these options will set target(s) to be scanned." & vbNewLine & _
-            " -t, --target <Filename|DirectoryName>:	Set target file or directory. Use this option either to load target immediately into GUI or to provide the target for console mode." & vbNewLine & _
-            " -l, --language <CPP|PLSQL|JAVA|CS|VB|PHP>:	Set target language (Default is C/C++)." & vbNewLine & _
-            " -e, --extensions <ext1|ext2|ext3>:	Set file extensions to be analysed (See ReadMe or Options screen for language-specific defaults)." & vbNewLine & _
-            " -i, --import <Filename>:	Import XML/CSV results to GUI." & vbNewLine & vbNewLine & _
-            "OUTPUT:" & vbNewLine & _
-            "Automagically export results to a file in the specified format. Use XML output if you wish to reload results into the GUI later on." & vbNewLine & _
-            " -x, --export <Filename>:	Automatically export results to XML file." & vbNewLine & _
-            " -f, --csv-export <Filename>:		Automatically export results to CSV file." & vbNewLine & _
-            " -r, --results <Filename>:	Automatically export results to flat text file." & vbNewLine & vbNewLine & _
-            "CONSOLE OPTIONS:" & vbNewLine & _
-            " -c, --console:		Run application in console only (hide GUI)." & vbNewLine & _
-            " -v, --verbose:		Set console output to verbose mode." & vbNewLine & _
+        strHelp = "Visual Code Grepper (VCG) 2.0 (C) Nick Dunn and John Murray, 2012-2014." & vbNewLine &
+            "Usage:  VisualCodeGrepper [Options]" & vbNewLine & vbNewLine &
+            "STARTUP:" & vbNewLine &
+            "Set desired starting point for GUI. If using console mode these options will set target(s) to be scanned." & vbNewLine &
+            " -t, --target <Filename|DirectoryName>:	Set target file or directory. Use this option either to load target immediately into GUI or to provide the target for console mode." & vbNewLine &
+            " -l, --language <CPP|PLSQL|JAVA|CS|VB|PHP>:	Set target language (Default is C/C++)." & vbNewLine &
+            " -e, --extensions <ext1|ext2|ext3>:	Set file extensions to be analysed (See ReadMe or Options screen for language-specific defaults)." & vbNewLine &
+            " -i, --import <Filename>:	Import XML/CSV results to GUI." & vbNewLine & vbNewLine &
+            "OUTPUT:" & vbNewLine &
+            "Automagically export results to a file in the specified format. Use XML output if you wish to reload results into the GUI later on." & vbNewLine &
+            " -x, --export <Filename>:	Automatically export results to XML file." & vbNewLine &
+            " -f, --csv-export <Filename>:		Automatically export results to CSV file." & vbNewLine &
+            " -r, --results <Filename>:	Automatically export results to flat text file." & vbNewLine & vbNewLine &
+            "CONSOLE OPTIONS:" & vbNewLine &
+            " -c, --console:		Run application in console only (hide GUI)." & vbNewLine &
+            " -v, --verbose:		Set console output to verbose mode." & vbNewLine &
             " -h, --help:		Show help." & vbNewLine
 
         Console.Write(strHelp)
@@ -216,6 +216,8 @@ Module modMain
                 asAppSettings.TestType = AppSettings.VB
             Case "PHP"
                 asAppSettings.TestType = AppSettings.PHP
+            Case "COBOL"
+                asAppSettings.TestType = AppSettings.COBOL
             Case Else
                 blnRetVal = False
         End Select
@@ -291,6 +293,7 @@ Module modMain
                 asAppSettings.BadFuncFile = asAppSettings.COBOLConfFile
                 LoadUnsafeFunctionList(AppSettings.COBOL)
                 asAppSettings.SingleLineComment = "*"
+                asAppSettings.AltSingleLineComment = "\/"   ' This will be used in a regex so it must be escaped
         End Select
 
 
@@ -305,6 +308,7 @@ Module modMain
                     .CSToolStripMenuItem.Checked = False
                     .VBToolStripMenuItem.Checked = False
                     .PHPToolStripMenuItem.Checked = False
+                    .COBOLToolStripMenuItem.Checked = False
                     .sslLabel.Text = "Language: C/C++   File Suffixes: " & asAppSettings.CSuffixes
                 Case AppSettings.JAVA
                     .CCToolStripMenuItem.Checked = False
@@ -312,6 +316,7 @@ Module modMain
                     .CSToolStripMenuItem.Checked = False
                     .VBToolStripMenuItem.Checked = False
                     .PHPToolStripMenuItem.Checked = False
+                    .COBOLToolStripMenuItem.Checked = False
                     .sslLabel.Text = "Language: Java   File Suffixes: " & asAppSettings.JavaSuffixes
                 Case AppSettings.SQL
                     .CCToolStripMenuItem.Checked = False
@@ -319,6 +324,7 @@ Module modMain
                     .CSToolStripMenuItem.Checked = False
                     .VBToolStripMenuItem.Checked = False
                     .PHPToolStripMenuItem.Checked = False
+                    .COBOLToolStripMenuItem.Checked = False
                     asAppSettings.SingleLineComment = "--"
                     .sslLabel.Text = "Language: PL/SQL   File Suffixes: " & asAppSettings.PLSQLSuffixes
                 Case AppSettings.CSHARP
@@ -327,6 +333,7 @@ Module modMain
                     .PLSQLToolStripMenuItem.Checked = False
                     .VBToolStripMenuItem.Checked = False
                     .PHPToolStripMenuItem.Checked = False
+                    .COBOLToolStripMenuItem.Checked = False
                     .sslLabel.Text = "Language: C#   File Suffixes: " & asAppSettings.CSharpSuffixes
                 Case AppSettings.VB
                     .CCToolStripMenuItem.Checked = False
@@ -334,6 +341,7 @@ Module modMain
                     .PLSQLToolStripMenuItem.Checked = False
                     .CSToolStripMenuItem.Checked = False
                     .PHPToolStripMenuItem.Checked = False
+                    .COBOLToolStripMenuItem.Checked = False
                     .sslLabel.Text = "Language: VB   File Suffixes: " & asAppSettings.VBSuffixes
                 Case AppSettings.PHP
                     .CCToolStripMenuItem.Checked = False
@@ -341,6 +349,7 @@ Module modMain
                     .PLSQLToolStripMenuItem.Checked = False
                     .CSToolStripMenuItem.Checked = False
                     .VBToolStripMenuItem.Checked = False
+                    .COBOLToolStripMenuItem.Checked = False
                     .sslLabel.Text = "Language: PHP   File Suffixes: " & asAppSettings.PHPSuffixes
                 Case AppSettings.COBOL
                     .CCToolStripMenuItem.Checked = False
@@ -653,6 +662,8 @@ Module modMain
                 If ctCodeTracker.HasResourceRelease = False Then
                     .ListCodeIssue("Failure To Release Resources In All Cases", "There appears to be no release of resources in the 'finally' block, potentially resulting in DoS conditions from excessive resource consumption.", FileName, CodeIssue.MEDIUM, "", ctCodeTracker.FileOpenLine)
                 End If
+            ElseIf asAppSettings.TestType = AppSettings.COBOL And ctCodeTracker.ProgramId.Trim() = "" Then
+                .ListCodeIssue("File Has No PROGRAM-ID", "The file does not appear to include a PROGRAM-ID. The lack of a properly formatted identification division can make code more difficult to read and maintain.", FileName, CodeIssue.LOW)
             End If
         End With
 
