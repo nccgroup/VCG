@@ -36,21 +36,16 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "..\VisualCodeGrepper\bin\Debug\VisualCodeGrepper.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\VisualCodeGrepper\bin\VisualCodeGrepper.exe"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
-Source: "..\VisualCodeGrepper\bin\Debug\badcomments.conf"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\VisualCodeGrepper\bin\Debug\cobolfunctions.conf"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\VisualCodeGrepper\bin\Debug\cppfunctions.conf"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\VisualCodeGrepper\bin\Debug\csfunctions.conf"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\VisualCodeGrepper\bin\Debug\javafunctions.conf"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\VisualCodeGrepper\bin\Debug\Microsoft.WindowsAPICodePack.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\VisualCodeGrepper\bin\Debug\Microsoft.WindowsAPICodePack.ExtendedLinguisticServices.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\VisualCodeGrepper\bin\Debug\Microsoft.WindowsAPICodePack.Sensors.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\VisualCodeGrepper\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\VisualCodeGrepper\bin\Debug\Microsoft.WindowsAPICodePack.ShellExtensions.dll"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\VisualCodeGrepper\bin\Debug\phpfunctions.conf"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\VisualCodeGrepper\bin\Debug\plsqlfunctions.conf"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\VisualCodeGrepper\bin\Debug\vbfunctions.conf"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\VisualCodeGrepper\config\badcomments.conf"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\VisualCodeGrepper\config\cobolfunctions.conf"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\VisualCodeGrepper\config\cppfunctions.conf"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\VisualCodeGrepper\config\csfunctions.conf"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\VisualCodeGrepper\config\javafunctions.conf"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\VisualCodeGrepper\config\phpfunctions.conf"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\VisualCodeGrepper\config\plsqlfunctions.conf"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\VisualCodeGrepper\config\vbfunctions.conf"; DestDir: "{app}"; Flags: ignoreversion
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"

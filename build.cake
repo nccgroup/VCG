@@ -11,7 +11,7 @@ var configuration = Argument("configuration", "Release");
 //////////////////////////////////////////////////////////////////////
 
 // Define directories.
-var buildDir = Directory("./bin") + Directory(configuration);
+var buildDir = Directory("./bin/VisualCodeGrepper"); //+ Directory(configuration);
 
 //////////////////////////////////////////////////////////////////////
 // TASKS
@@ -48,21 +48,21 @@ Task("Build")
     }
 });
 
-Task("Run-Unit-Tests")
-    .IsDependentOn("Build")
-    .Does(() =>
-{
-    NUnit3("./bin/" + configuration + "/*.Tests.dll", new NUnit3Settings {
-        NoResults = true
-        });
-});
+//Task("Run-Unit-Tests")
+//    .IsDependentOn("Build")
+//    .Does(() =>
+//{
+//    NUnit3("./bin/" + configuration + "/*.Tests.dll", new NUnit3Settings {
+//        NoResults = true
+//        });
+//});
 
 Task("Build-Install-Exe")
     .IsDependentOn("Build")
     .Does(() =>
 {
     InnoSetup("./setup/vcg-installer-project.iss", new InnoSetupSettings {
-		OutputDirectory = "./bin/setup",
+		OutputDirectory = "./VisualCodeGrepper/bin/installer",
 		ToolPath = "./setup/inno/ISCC.exe"
     });
 });

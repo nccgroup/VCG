@@ -1,6 +1,12 @@
 
 # Created by https://www.gitignore.io/api/cake,visualstudio
 
+### VCG Specific ###
+VisualCodeGrepper/obj
+VisualCodeGrepper/obj/*
+VisualCodeGrepper/bin/*
+VisualCodeGrepper/bin
+
 ### Cake ###
 tools/*
 !tools/packages.config
