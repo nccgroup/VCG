@@ -61,7 +61,10 @@ Task("Build-Install-Exe")
     .IsDependentOn("Build")
     .Does(() =>
 {
-    InnoSetup("./installer/vcg-installer-project.iss");
+    InnoSetup("./setup/vcg-installer-project.iss", new InnoSetupSettings {
+		OutputDirectory = "./bin/setup",
+		ToolPath = "./setup/inno/ISCC.exe"
+    });
 });
 
 

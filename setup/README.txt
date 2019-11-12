@@ -1,7 +1,7 @@
 ====================================================================================
 VCG (VisualCodeGrepper)
 
-Current version: 2.0.2
+Current version: 2.2.0
 
 Send comments and bug reports to: vcgapplication@gmail.com
 
@@ -10,7 +10,7 @@ Send comments and bug reports to: vcgapplication@gmail.com
 Contents:
 
 1. Overview
-2. Latest additions to VCG V2.0.2 
+2. Latest additions to VCG V2.2.0
 3. Using VCG
 	Input files/codebase
 	Options & settings
@@ -32,27 +32,12 @@ I’ve tried to produce something which doesn’t return the large number of false p
 
 
 ====================================================================================
-Latest additions to VCG V2.0.2
+Latest additions to VCG V2.2.0
 ------------------------------------------------------------------------------------
 
 New features:
-1. Improvements to GUI:
-	a) Drag and drop file/directory to be tested (instead of the annoying directory selector)
-	b) Drag and drop multiple directories
-	c) Ability to choose different colours for selecting items in the results table to distinguish false positives, serious stuff, etc. (selected colours are preserved when un-ticking, saving to XML, etc.)
-	d) Ability to delete selected results
-	e) Group rich text results by issue title
-	f) Group rich text results by filename
-2. Command line options (including a console-only mode)
-3. Ability to select a single file instead of a directory
-4. Export/import results to/from CSV file.
-5. Detection of unsafe use of safe functions in C (Use of the return value from strlcpy, strlcat, etc.)
-6. Ability to change Severity levels of issues
-7. Config file for list of dangerous comments (so that you can now add, change or remove these)
-8. Improved detection of SQL injection in Java
-9. Improved detection of banned functions from config files (added word boundaries to prevent inaccurate grepping such as a search for ‘gets’ returning ‘getstring’)
-
-10. Bugfixes to prevent failure to correctly match bad functions in config file and to prevent failure to import bad functions from config files when used in command line mode.
+	1)	COBOL added to list of supported languages.
+	2)	Save metadata as XML: Use File -> Export Code Metadata as XML... menu option. The resulting XML holds details for number of lines of code, comments, whitespace, etc.
 
 
 ====================================================================================
@@ -72,6 +57,7 @@ PL/SQL:	.pls .sql .pkb .pks
 C#:	.cs .asp .aspx web.config	(the web.config file is included to check for input validation, debug settings, etc.)
 VB:	.vb .asp .aspx web.config	(the web.config file is included to check for input validation, debug settings, etc.)
 PHP:	.php php.ini			(the php.ini file is included to check for bad configs such as register_globals)
+COBOL:	.cob .cbl .clt .cl2 .cics
 
 ------------------------------------------------------------------------------------
 
@@ -80,6 +66,7 @@ Options and Settings:
 File types - 	Use this to alter the types of file that VCG will scan for each code type. To scan all files in a directory add .* to the list or delete all types and submit an empty string.
 Config files -	Specify a configuration file for each language. This holds a listing of any functions or code fragments that may be considered a risk and require reporting. This feature essentially adds an additional layer of checks on top of the more complex operations carried out as part of the code scan.
 Severity -	VCG can be set to only report errors above a certain level of severity. e.g. Select 'Medium' to only get Medium, High and Critical in the report.
+COBOL settings - The initial column should be specified - i.e. the first column after the line numbers. This will generally be 1 for a listing with no line numbers or 7 for a listing which includes line numbers. A different setting may be required if the code/comment lines in the listing begin in a different column. The z/OS setting can be used to include checks for safe use of the CICS API, etc.
 OWASP Settings (Java only) - If selected these will identify two violations of OWASP best practice for Java programming listed on the OWASP secure coding pages. Nested classes and non-final public classes will be reported on - as there are likely to be large numbers of these violations without a great deal of risk the option is given to turn off either of these scans.
 Output file -	ASCII output will be written to this file if selected.
 
@@ -147,7 +134,7 @@ Usage:  VisualCodeGrepper [Options]
 STARTUP OPTIONS:
 	(Set desired starting point for GUI. If using console mode these options will set target(s) to be scanned.)
 	-t, --target <Filename|DirectoryName>:	Set target file or directory. Use this option either to load target immediately into GUI or to provide the target for console mode.
-	-l, --language <CPP|PLSQL|JAVA|CS|VB|PHP>:	Set target language (Default is C/C++).
+	-l, --language <CPP|PLSQL|JAVA|CS|VB|PHP|COBOL>:	Set target language (Default is C/C++).
 	-e, --extensions <ext1|ext2|ext3>:	Set file extensions to be analysed (See ReadMe or Options screen for language-specific defaults).
 	-i, --import <Filename>:	Import XML/CSV results to GUI.
 
