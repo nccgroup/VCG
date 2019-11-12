@@ -2,9 +2,9 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Visual Code Grepper"
-#define MyAppVersion "2.0.2"
+#define MyAppVersion "2.2.0"
 #define MyAppPublisher "Nick Dunn & John Murray"
-#define MyAppURL "https://github.com/MicksMix/VCG"
+#define MyAppURL "https://github.com/nccgroup/VCG"
 #define MyAppExeName "VisualCodeGrepper.exe"
 
 [Setup]
