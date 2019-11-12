@@ -69,6 +69,12 @@ Public Class AppSettings
     Public NumSuffixes As Integer = 0
     '==============================================
 
+    '=================================
+    '== Settings for COBOL programs ==
+    '---------------------------------
+    Public COBOLStartColumn As Integer = 7
+    Public IsZOS As Boolean = True
+    '=================================
 
     '===================================================================
     '== Initialise arrays at start - these hold bad stuff to look for ==
@@ -130,7 +136,7 @@ Public Class AppSettings
     '---------------------------------------------------------
     Public IncludeBeta As Boolean = False
     Public IncludeSigned As Boolean = False
-    Public IncludeCobol As Boolean = False
+    Public IncludeCobol As Boolean = True
     '=========================================================
 
 

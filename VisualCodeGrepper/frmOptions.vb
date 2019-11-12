@@ -79,6 +79,16 @@ Public Class frmOptions
         asAppSettings.IsAndroid = cbAndroid.Checked
         '----------------------------------------------
 
+        '======= COBOL settings =======
+        ' Set width of left hand column to account for linenumbers, copybook names, etc.
+        If udCOBOLStart.Value >= 1 Then
+            asAppSettings.COBOLStartColumn = udCOBOLStart.Value
+        Else
+            udCOBOLStart.Value = 1
+        End If
+        asAppSettings.IsZOS = cbZOS.Checked
+        '----------------------------------------------
+
         ' Set output file
         If asAppSettings.IsOutputFile = True And txtOutput.Text.Trim() <> "" Then asAppSettings.OutputFile = txtOutput.Text.Trim
 
@@ -162,6 +172,10 @@ Public Class frmOptions
 
         ' Android checks
         cbAndroid.Checked = asAppSettings.IsAndroid
+
+        ' COBOL settings
+        udCOBOLStart.Value = asAppSettings.COBOLStartColumn
+        cbZOS.Checked = asAppSettings.IsZOS
 
         ' Output file
         cbOutput.Checked = asAppSettings.IsOutputFile
@@ -407,21 +421,21 @@ Public Class frmOptions
         asAppSettings.IncludeSigned = IncludeSigned
 
         ' COBOL scanning
-        lblCobol.Visible = IncludeCobol
-        txtCobol.Visible = IncludeCobol
-        btnCobolBrowse.Visible = IncludeCobol
-        btnCobolEdit.Visible = IncludeCobol
+        'lblCobol.Visible = IncludeCobol
+        'txtCobol.Visible = IncludeCobol
+        'btnCobolBrowse.Visible = IncludeCobol
+        'btnCobolEdit.Visible = IncludeCobol
 
         ' Enable/disable controls on main form
-        frmMain.COBOLToolStripMenuItem.Visible = IncludeCobol
+        'frmMain.COBOLToolStripMenuItem.Visible = IncludeCobol
 
-        If IncludeCobol = True Then
-            cboCurrentLanguage.Items.Add("COBOL")
-            cboStartUpLanguage.Items.Add("COBOL")
-        Else
-            cboCurrentLanguage.Items.Remove("COBOL")
-            cboStartUpLanguage.Items.Remove("COBOL")
-        End If
+        'If IncludeCobol = True Then
+        'cboCurrentLanguage.Items.Add("COBOL")
+        'cboStartUpLanguage.Items.Add("COBOL")
+        'Else
+        'cboCurrentLanguage.Items.Remove("COBOL")
+        'cboStartUpLanguage.Items.Remove("COBOL")
+        'End If
 
     End Sub
 

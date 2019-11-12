@@ -23,12 +23,9 @@ Imports System.Threading
 Imports System.Web
 Imports System.Windows.Forms.DataVisualization.Charting
 Imports System.Text.RegularExpressions
-Imports System.Collections.Concurrent
+Imports System.Collections
 Imports System.Xml
-Imports System.Collections.Generic
-Imports System.Threading.Tasks
-Imports System.Threading.Tasks.Task
-Imports Microsoft.WindowsAPICodePack.Dialogs
+
 
 Public Class frmMain
 
@@ -88,15 +85,11 @@ Public Class frmMain
         Dim strTargetFolder As String
 
 
-        Dim dialog = New CommonOpenFileDialog()
-        dialog.IsFolderPicker = True
-        Dim result As CommonFileDialogResult = dialog.ShowDialog()
-
         ' Get target directory
-        'fbFolderBrowser.ShowDialog()
+        fbFolderBrowser.ShowDialog()
 
-        If result = CommonFileDialogResult.Ok Then
-            strTargetFolder = dialog.FileName.ToString()
+        If Not Windows.Forms.DialogResult.Cancel Then
+            strTargetFolder = Me.fbFolderBrowser.SelectedPath.ToString
             LoadFiles(strTargetFolder)
         End If
 
@@ -243,9 +236,7 @@ Public Class frmMain
             modMain.ctCodeTracker.ResetCDictionaries()
 
             For Each strItem As String In rtResultsTracker.FileList
-                '
-                'todo: add threading here
-                '
+
                 IncrementLoadingBar(strItem)
                 arrShortName = strItem.Split("\")
                 modMain.ctCodeTracker.Reset()
@@ -272,24 +263,42 @@ Public Class frmMain
                         rtResultsTracker.OverallLineCount += 1
                         rtResultsTracker.LineCount += 1
 
+                        '== If this is a COBOL program then we need to trim the specified number of characters from start of line ==
+                        '== These represent line numbers, name of copybook, etc. ==
+                        If asAppSettings.TestType = AppSettings.COBOL And asAppSettings.COBOLStartColumn > 1 Then
+                            If asAppSettings.COBOLStartColumn > strLine.Length Then
+                                strLine = ""
+                            Else
+                                strLine = strLine.Substring(asAppSettings.COBOLStartColumn - 1, strLine.Length - asAppSettings.COBOLStartColumn + 1)
+                            End If
+                        End If
+
                         If strLine.Trim() <> "" Then            ' Check that it's not a blank line
                             If blnIsCommented = False Then      ' Check whether we're already inside a comment block
 
                                 ' Multiple conditions for single line comments.
-                                ' A lot of the difficulties caused by VB and PHP which have two types of single line comment 
+                                ' A lot of the difficulties caused by VB, COBOL and PHP which have two types of single line comment 
                                 ' and VB/COBOL which have no multiple line comment.
 
-                                If asAppSettings.TestType = AppSettings.COBOL And (strLine.TrimStart.Substring(0, 1) = asAppSettings.SingleLineComment Or Regex.IsMatch(strLine, "^(\s*\d{6}\s*)\*")) Then
+                                If asAppSettings.TestType = AppSettings.COBOL And (strLine.Substring(0, 1) = asAppSettings.SingleLineComment) Then
                                     ' COBOL's system for whole-line comments is simpler than other languages
                                     strScanResult = ScanLine(CommentScan, CodeScan, strLine, strItem, asAppSettings.SingleLineComment, blnIsColoured)
+                                ElseIf asAppSettings.TestType = AppSettings.COBOL And (strLine.Substring(0, 1) = strTrimmedComment And asAppSettings.IsZOS) Then
+                                    ' COBOL's system for whole-line comments is simpler than other languages. IBM allows single line comments with '/'
+                                    strScanResult = ScanLine(CommentScan, CodeScan, strLine, strItem, strTrimmedComment, blnIsColoured)
+                                ElseIf asAppSettings.TestType = AppSettings.COBOL Then
+                                    ' If line of COBOL has no comment in column 1, then it's all code
+                                    rtResultsTracker.OverallCodeCount += 1
+                                    rtResultsTracker.CodeCount += 1
+                                    CheckCode(strLine, strItem)
                                 ElseIf ((strLine.Contains(asAppSettings.SingleLineComment) And asAppSettings.SingleLineComment = "//" And Not strLine.ToLower.Contains("http:" + asAppSettings.SingleLineComment))) _
                                                                 Or (asAppSettings.TestType = AppSettings.SQL And strLine.Contains(asAppSettings.SingleLineComment)) Or (asAppSettings.TestType = AppSettings.VB And strLine.Contains(asAppSettings.SingleLineComment) And Not (strLine.Contains("""") And (InStr(strLine, """") < InStr(strLine, "'")))) Then
                                     strScanResult = ScanLine(CommentScan, CodeScan, strLine, strItem, asAppSettings.SingleLineComment, blnIsColoured)
                                 ElseIf (asAppSettings.AltSingleLineComment.Trim() <> "" And Regex.IsMatch(strLine, "\b" & asAppSettings.AltSingleLineComment & "\b")) Then
                                     strScanResult = ScanLine(CommentScan, CodeScan, strLine, strItem, strTrimmedComment, blnIsColoured)
-                                ElseIf ((Not asAppSettings.TestType = AppSettings.VB) And (strLine.Contains(asAppSettings.BlockStartComment) And strLine.Contains(asAppSettings.BlockEndComment)) And (InStr(strLine, asAppSettings.BlockStartComment) < InStr(strLine, asAppSettings.BlockEndComment)) And Not (strLine.Contains("/*/"))) Then
+                                ElseIf ((Not asAppSettings.TestType = AppSettings.VB And Not asAppSettings.TestType = AppSettings.COBOL) And (strLine.Contains(asAppSettings.BlockStartComment) And strLine.Contains(asAppSettings.BlockEndComment)) And (InStr(strLine, asAppSettings.BlockStartComment) < InStr(strLine, asAppSettings.BlockEndComment)) And Not (strLine.Contains("/*/"))) Then
                                     strScanResult = ScanLine(CommentScan, CodeScan, strLine, strItem, "both", blnIsColoured)
-                                ElseIf (Not asAppSettings.TestType = AppSettings.VB) And (strLine.Contains(asAppSettings.BlockStartComment) And Not (strLine.Contains("/*/")) And Not (strLine.Contains("print") And (InStr(strLine, asAppSettings.BlockStartComment) > InStr(strLine, "print")))) Then
+                                ElseIf (Not asAppSettings.TestType = AppSettings.VB And Not asAppSettings.TestType = AppSettings.COBOL) And (strLine.Contains(asAppSettings.BlockStartComment) And Not (strLine.Contains("/*/")) And Not (strLine.Contains("print") And (InStr(strLine, asAppSettings.BlockStartComment) > InStr(strLine, "print")))) Then
                                     blnIsCommented = True
                                     strScanResult = ScanLine(CommentScan, CodeScan, strLine, strItem, asAppSettings.BlockStartComment, blnIsColoured)
                                 Else
@@ -300,7 +309,7 @@ Public Class frmMain
                                     CheckCode(strLine, strItem)
                                 End If
 
-                            ElseIf (Not asAppSettings.TestType = AppSettings.VB) And strLine.Contains(asAppSettings.BlockEndComment) Then    ' End of a comment block
+                            ElseIf (Not asAppSettings.TestType = AppSettings.VB And Not asAppSettings.TestType = AppSettings.COBOL) And strLine.Contains(asAppSettings.BlockEndComment) Then    ' End of a comment block
                                 blnIsCommented = False
                                 strScanResult = ScanLine(CommentScan, CodeScan, strLine, strItem, asAppSettings.BlockEndComment, blnIsColoured)
                             Else
@@ -316,7 +325,7 @@ Public Class frmMain
                     Next
 
                     '== List any file-level code issues (mis-matched deletes, mallocs, etc.) ==
-                    If asAppSettings.TestType = AppSettings.C Or asAppSettings.TestType = AppSettings.JAVA Then CheckFileLevelIssues(strItem)
+                    If (asAppSettings.TestType = AppSettings.C Or asAppSettings.TestType = AppSettings.JAVA Or asAppSettings.TestType = AppSettings.COBOL) Then CheckFileLevelIssues(strItem)
                 End If
 
                 '== Update graphs and tables ==
@@ -327,7 +336,7 @@ Public Class frmMain
                     If asAppSettings.IsVerbose = True Then Console.WriteLine("Scanning file: " & strItem)
                 End If
                 rtResultsTracker.FileCount += 1
-                rtResultsTracker.ResetFileCountVars()
+
 
                 '== Avoid the GUI locking or hanging during processing ==
                 Application.DoEvents()
@@ -1042,9 +1051,9 @@ Public Class frmMain
         End With
 
         '== Show percentage breakdowns ==
-        frmBreakdown.lblResults.Text = rtResultsTracker.OverallLineCount & " Lines: " & vbNewLine & rtResultsTracker.OverallCommentCount & _
-            " Comments (~" & Math.Round(Math.Abs((rtResultsTracker.OverallCommentCount / rtResultsTracker.OverallLineCount) * 100), 1) & "%)" & vbNewLine & rtResultsTracker.OverallWhitespaceCount & _
-            " Lines of Whitespace (~" & Math.Round(Math.Abs((rtResultsTracker.OverallWhitespaceCount / rtResultsTracker.OverallLineCount) * 100), 1) & "%)" & vbNewLine & rtResultsTracker.OverallLineCount - (rtResultsTracker.OverallCommentCount + rtResultsTracker.OverallWhitespaceCount) & _
+        frmBreakdown.lblResults.Text = rtResultsTracker.OverallLineCount & " Lines: " & vbNewLine & rtResultsTracker.OverallCommentCount &
+            " Comments (~" & Math.Round(Math.Abs((rtResultsTracker.OverallCommentCount / rtResultsTracker.OverallLineCount) * 100), 1) & "%)" & vbNewLine & rtResultsTracker.OverallWhitespaceCount &
+            " Lines of Whitespace (~" & Math.Round(Math.Abs((rtResultsTracker.OverallWhitespaceCount / rtResultsTracker.OverallLineCount) * 100), 1) & "%)" & vbNewLine & rtResultsTracker.OverallLineCount - (rtResultsTracker.OverallCommentCount + rtResultsTracker.OverallWhitespaceCount) &
             " Lines of Code (including comment-appended code) (~" & (100 - ((Math.Round(Math.Abs((rtResultsTracker.OverallCommentCount / rtResultsTracker.OverallLineCount) * 100), 1) + Math.Round(Math.Abs((rtResultsTracker.OverallWhitespaceCount / rtResultsTracker.OverallLineCount) * 100), 1)))) & "%)"
 
     End Sub
@@ -1361,11 +1370,7 @@ Public Class frmMain
             ' Check whether we have a file or directory
             If Directory.Exists(TargetFolder) Then
                 ' Iterate through files from target directory and obtain all relevant filenames
-                Dim thrdFileCollector As ThreadedFileCollector = New ThreadedFileCollector
-                Dim di As DirectoryInfo = New DirectoryInfo(TargetFolder)
-                objResults = thrdFileCollector.CollectFiles(di, "*.*")
-
-                'objResults = Directory.EnumerateFiles(TargetFolder, "*.*", SearchOption.AllDirectories)
+                objResults = Directory.EnumerateFiles(TargetFolder, "*.*", SearchOption.AllDirectories)
 
                 Dim lstResults As List(Of String) = New List(Of String)(Directory.EnumerateFiles(TargetFolder, "*.*", SearchOption.AllDirectories))
                 If asAppSettings.IsConsole = False Then
@@ -2166,7 +2171,7 @@ Public Class frmMain
             xwWriter.Close()
 
             If asAppSettings.IsConsole = False Then frmLoading.Close()
-            DisplayError("XML output successfully exported.")
+            DisplayError("XML output successfully exported.", "Export Finished")
 
         Catch exError As Exception
             If asAppSettings.IsConsole = False Then frmLoading.Close()
@@ -2277,6 +2282,132 @@ Public Class frmMain
 
             xrReader.Close()
             frmLoading.Close()
+
+        Catch exError As Exception
+            If asAppSettings.IsConsole = False Then frmLoading.Close()
+            DisplayError(exError.Message)
+        End Try
+
+    End Sub
+
+    Public Sub ExportMetaDataXML(Optional ByVal ExportFile As String = "")
+        ' Export details of LoC, comments, whitespace, etc. to XML file
+        '==============================================================
+        Dim xwsSettings As New XmlWriterSettings()
+        Dim xwWriter As XmlWriter
+
+        Dim strResultsFile As String = ""
+        Dim strLanguage As String = ""
+
+
+        '== Exit if no data ==
+        If rtResultsTracker.FileCount = 0 Then
+            If asAppSettings.IsConsole Then Console.WriteLine("No results to write. Exiting application.")
+            Exit Sub
+        End If
+
+        '== Get language for results in text form in order to put meaningful comment at start of file ==
+        Select Case asAppSettings.TestType
+            Case AppSettings.C
+                strLanguage = "C"
+            Case AppSettings.JAVA
+                strLanguage = "Java"
+            Case AppSettings.SQL
+                strLanguage = "PL/SQL"
+            Case AppSettings.CSHARP
+                strLanguage = "C#"
+            Case AppSettings.PHP
+                strLanguage = "PHP"
+            Case AppSettings.COBOL
+                strLanguage = "COBOL"
+        End Select
+
+        If ExportFile = "" Then
+            '== Get filename from user ==
+            With sfdSaveFileDialog
+                .Filter = "XML files (*.xml)|*.xml|Text files (*.txt)|*.txt|All files (*.*)|*.*"
+
+                If .ShowDialog() = Windows.Forms.DialogResult.OK Then
+                    strResultsFile = .FileName
+                End If
+
+                If strResultsFile.Trim = "" Then
+                    Exit Sub
+                Else
+                    ExportFile = strResultsFile
+                End If
+
+            End With
+        End If
+
+
+        '== Create file and write output ==
+        Try
+            xwWriter = XmlWriter.Create(ExportFile, xwsSettings)
+
+            ' Use indention for the xml output
+            xwsSettings.Indent = True
+
+            With xwWriter
+                ' Begin document with Xml declaration
+                .WriteStartDocument()
+
+                ' Write a comment.
+                .WriteComment("XML Export of Code Metadata for directory: " & rtResultsTracker.TargetDirectory & ". Scanned for " & strLanguage & " security issues.")
+
+                ' Write the root element.
+                .WriteStartElement("VCGCodeMetadata")
+
+                '== Display progress to screen as appropriate ==
+                If asAppSettings.IsConsole = False Then
+                    ShowLoading("Exporting results to XML...", rtResultsTracker.FileCount)
+                ElseIf asAppSettings.IsConsole = True And asAppSettings.IsVerbose Then
+                    Console.WriteLine("Exporting results to XML. Number of files: " & CStr(rtResultsTracker.FileCount))
+                End If
+
+
+                ' Write metadata to file
+                .WriteStartElement("TotalLines")
+                .WriteString(rtResultsTracker.OverallLineCount)
+                .WriteEndElement()
+
+                .WriteStartElement("LinesOfCode")
+                .WriteString(rtResultsTracker.OverallCodeCount)
+                .WriteEndElement()
+
+                .WriteStartElement("Whitespace")
+                .WriteString(rtResultsTracker.OverallWhitespaceCount)
+                .WriteEndElement()
+
+                .WriteStartElement("BannedAPIs")
+                .WriteString(rtResultsTracker.OverallBadFuncCount)
+                .WriteEndElement()
+
+                .WriteStartElement("Comments")
+                .WriteString(rtResultsTracker.OverallCommentCount)
+                .WriteEndElement()
+
+                .WriteStartElement("FixMeComments")
+                .WriteString(rtResultsTracker.OverallFixMeCount)
+                .WriteEndElement()
+
+                If asAppSettings.IsConsole = False Then
+                    IncrementLoadingBar("Writing XML...")
+                End If
+
+                frmLoading.Close()
+
+                ' Close XmlTextWriter
+                .WriteEndElement()
+                .WriteEndDocument()
+                .Close()
+
+            End With
+
+            xwWriter.Close()
+
+            If asAppSettings.IsConsole = False Then frmLoading.Close()
+            DisplayError("XML output successfully exported.", "Export Finished")
 
         Catch exError As Exception
             If asAppSettings.IsConsole = False Then frmLoading.Close()
@@ -2745,23 +2876,6 @@ Public Class frmMain
         End Function
     End Class
 
-
-    Public Class ThreadedFileCollector
-        Public Function CollectFiles(directory As DirectoryInfo, pattern As String) As List(Of String)
-            Dim queue As New ConcurrentQueue(Of String)()
-            InternalCollectFiles(directory, pattern, queue)
-            Return queue.AsEnumerable().ToList()
-        End Function
-
-        Private Sub InternalCollectFiles(directory As DirectoryInfo, pattern As String, queue As ConcurrentQueue(Of String))
-            For Each result As String In directory.GetFiles(pattern).[Select](Function(file) file.FullName)
-                queue.Enqueue(result)
-            Next
-
-            Task.WaitAll(directory.GetDirectories().[Select](Function(dir) Task.Factory.StartNew(Sub() InternalCollectFiles(dir, pattern, queue))).ToArray())
-        End Sub
-    End Class
-
     Private Class TitleComparer
         Implements IComparer
 
@@ -2910,6 +3024,10 @@ Public Class frmMain
 
         ShowResults()
 
+    End Sub
+
+    Private Sub ExportMetaDataToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExportMetaDataToolStripMenuItem.Click
+        ExportMetaDataXML()
     End Sub
 
 End Class

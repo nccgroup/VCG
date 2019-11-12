@@ -170,6 +170,9 @@ Public Class CodeTracker
     ' Used for tracking details of the COBOL code
     '--------------------------------------------
     Public ProgramId As String = ""
+    Public DicPICs As New Dictionary(Of String, PICVar)
+    Public IsInsideCICS As Boolean = False
+    Public IsInsideSQL As Boolean = False
     '============================================
 
     '===================================================
@@ -291,6 +294,7 @@ Public Class CodeTracker
 
         ' COBOL details
         ProgramId = ""
+        DicPICs.Clear()
 
     End Sub
 
@@ -572,7 +576,7 @@ Public Class CodeTracker
             If strStatement.Trim() = "" Then Exit For
 
             ' Do we have multiple char decalarations on the same line
-            If Regex.IsMatch(strStatement, "\b" & BuffType & "\b\s+\w+\s*\[\s*[a-z,A-Z,0-9,_]\s*\]\s*\,\s*(\w+\s*\[|\*\s*\w+)") Or _
+            If Regex.IsMatch(strStatement, "\b" & BuffType & "\b\s+\w+\s*\[\s*[a-z,A-Z,0-9,_]\s*\]\s*\,\s*(\w+\s*\[|\*\s*\w+)") Or
                 Regex.IsMatch(strStatement, "\b" & BuffType & "\b\s*\*\s*\w+\s*\,\s*(\w+\s*\[|\*\s*\w+)") Then
                 blnIsMultDecs = True
             Else
@@ -641,7 +645,7 @@ Public Class CodeTracker
             ' The split means that we will get a final empty statement
             If strStatement.Trim() = "" Then Exit For
 
-            If Regex.IsMatch(strStatement, "\b" & BuffType & "\b\s+\w+\s*\[\s*[a-z,A-Z,0-9,_]\s*\]\s*\,\s*(\w+\s*\[|\*\s*\w+)") Or _
+            If Regex.IsMatch(strStatement, "\b" & BuffType & "\b\s+\w+\s*\[\s*[a-z,A-Z,0-9,_]\s*\]\s*\,\s*(\w+\s*\[|\*\s*\w+)") Or
             Regex.IsMatch(strStatement, "\b" & BuffType & "\b\s*\*\s*\w+\s*\,\s*(\w+\s*\[|\*\s*\w+)") Then
 
                 '== Remove 'char' from start ==
@@ -714,6 +718,166 @@ Public Class CodeTracker
         '================================================================
 
     End Sub
+
+    Public Sub AddPIC(ByVal CodeLine As String)
+        ' Add a record of the COBOL PIC varaiable and determine whether or not is signed or unsigned
+        '===========================================================================================
+        Dim strVarName As String = ""
+        Dim strDescription As String = ""
+        Dim strLength As String = ""
+        Dim strTemp As String = ""
+        Dim intLength As Integer = 1
+
+        Dim arrStatements As String()
+        Dim pvPlaceHolder As New PICVar
+
+
+        '== Split line into appropriate sections ==
+        arrStatements = Regex.Split(CodeLine.Trim(), "\s+\bPIC\b\s+")
+        If arrStatements.Length < 2 Then Exit Sub
+
+        '== Extract variable name and format from code line
+        strVarName = GetLastItem(arrStatements(0))
+        strDescription = GetFirstItem(arrStatements(1)).Trim(".")
+
+        If strVarName = "" Or strDescription = "" Then Exit Sub
+
+        '== Set up PIC object to hold values/metadata ==
+        pvPlaceHolder.VarName = strVarName
+
+        '== Check for numeric variable and determine whether signed/unsigned ==
+        If Regex.IsMatch(CodeLine, "[\w-]+\s+\bPIC\b\s+S") Then
+            '== Signed numeric ==
+            pvPlaceHolder.IsSigned = True
+            pvPlaceHolder.IsNumeric = True
+        ElseIf Regex.IsMatch(CodeLine, "[\w-]+\s+\bPIC\b\s+9") Then
+            '== Unsigned numeric ==
+            pvPlaceHolder.IsNumeric = True
+        End If
+
+        ' At this point we only need to do further work if the variable has more than one digit
+        If strDescription.Length() <> 1 Then
+
+            If strDescription.Contains("(") Then
+                '== Check for fixed length buffers with length in braces ==strtemp
+                strTemp = GetLastItem(strDescription, "(")
+                If strTemp.Contains(")") Then
+                    strDescription = GetFirstItem(strTemp, ")")
+                End If
+
+                If strDescription = "" Then Exit Sub
+
+                If IsNumeric(strDescription) Then
+                    pvPlaceHolder.Length = Convert.ToInt32(strDescription)
+                End If
+            ElseIf Regex.IsMatch(CodeLine, "[\w-]+\s+\bPIC\b\s+S") Then
+                '== Check for fixed length buffers with length defined by number of chars e.g. S9999 ==
+                If strDescription.Contains("V") Then
+                    intLength = strDescription.Length() - 2
+                Else
+                    intLength = strDescription.Length() - 1
+                End If
+
+            Else
+                '== Unsigned PIC of the form 999 or XXX ==
+                intLength = strDescription.Length()
+            End If
+        End If
+
+        '== Add the new PIC object to the dictionary ==
+        If DicPICs.ContainsKey(strVarName) Then DicPICs.Remove(strVarName)
+        DicPICs.Add(strVarName, pvPlaceHolder)
+
+    End Sub
+
+    Public Function CheckCOBOLSignedComp(ByVal CodeLine As String) As Boolean
+        ' Get status of numeric variables - signed or unsigned
+        ' Return true if signed is compared with unsigned, otherwise return false
+        '========================================================================
+        Dim blnRetVal As Boolean = False
+        Dim strLeftSide As String = ""
+        Dim strRightSide As String = ""
+        Dim strOperator As String = ""
+
+        Dim arrFragments As String()
+
+
+        '== If it's an empty string then don't bother ==
+        If CodeLine.Trim <> "" Then
+
+            '== Get the comparison operator ==
+            If CodeLine.Contains(" NE ") Then
+                strOperator = " NE "
+            ElseIf CodeLine.Contains("<=") Then
+                strOperator = "<="
+            ElseIf CodeLine.Contains(">=") Then
+                strOperator = ">="
+            ElseIf CodeLine.Contains("<") Then
+                strOperator = "<"
+            ElseIf CodeLine.Contains(">") Then
+                strOperator = ">"
+            ElseIf CodeLine.Contains("=") Then
+                strOperator = "="
+            Else
+                strOperator = ""
+            End If
+
+            '== If comparison is taking place continue with check ==
+            If strOperator <> "" Then
+
+                '== Break down code to get the operand either side of the comparison ==
+                arrFragments = Regex.Split(CodeLine, strOperator)
+                If arrFragments.Count < 2 Then Return False
+
+                strLeftSide = arrFragments.First.Trim()
+                strRightSide = arrFragments.ElementAt(1).Trim()
+
+                '== Get the items immediately adjacent to the comparison operator and trim any spaces/braces from the edges ==
+                '== Remove the weord NOT from immediately before the operator (if present) as this is COBOL's negation operand ==
+                strLeftSide = GetLastItem(strLeftSide)
+                If strLeftSide = "NOT" Then
+                    strLeftSide = GetFirstItem(arrFragments.First.Trim(), "NOT")
+                    strLeftSide = GetLastItem(strLeftSide)
+                End If
+
+                strRightSide = GetFirstItem(strRightSide)
+
+                '== Exit if we have no expression, string expression, etc. ==
+                If (strLeftSide = "" Or strRightSide = "") Then Return False
+                If (strLeftSide.Contains("""") Or strRightSide.Contains("""")) Then Return False
+                If (strLeftSide.Contains("'") Or strRightSide.Contains("'")) Then Return False
+
+                '== If we find an unsigned comparison anywhere then just exit function and return 'true' ==
+                If IsNumeric(strLeftSide) And IsNumeric(strRightSide) Then
+                    Return False
+                ElseIf IsNumeric(strLeftSide) And Not IsNumeric(strRightSide) Then
+                    If Regex.IsMatch(strLeftSide, "\-\d+") And dicUnsigned.ContainsKey(strRightSide) Then
+                        Return True
+                    Else
+                        Return False
+                    End If
+
+                ElseIf IsNumeric(strRightSide) And Not IsNumeric(strLeftSide) Then
+                    If Regex.IsMatch(strRightSide, "\-\d+") And dicUnsigned.ContainsKey(strLeftSide) Then
+                        Return True
+                    Else
+                        Return False
+                    End If
+                Else
+                    '== Both sides are variable names so check in dictionary ==
+                    If (dicUnsigned.ContainsKey(strLeftSide)) And (((Not dicUnsigned.ContainsKey(strRightSide)) And dicInteger.ContainsKey(strRightSide))) _
+                            Or (((Not dicUnsigned.ContainsKey(strLeftSide)) And dicInteger.ContainsKey(strLeftSide)) And (dicUnsigned.ContainsKey(strRightSide))) Then
+                        Return True
+                    End If
+                End If
+
+            End If
+        End If
+
+        '== If we have reached this point then no signed/unsigned comparison has been encountered ==
+        Return False
+
+    End Function
 
     Public Sub AddInteger(ByVal CodeLine As String)
         ' Take the variable name and its details and add them to the list

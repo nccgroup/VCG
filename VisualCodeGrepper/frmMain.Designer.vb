@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmMain
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class frmMain
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
         Me.mnuMain = New System.Windows.Forms.MenuStrip()
@@ -36,6 +36,8 @@ Partial Class frmMain
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripMenuItem14 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem15 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator4 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ExportMetaDataToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -117,164 +119,177 @@ Partial Class frmMain
         '
         'mnuMain
         '
+        Me.mnuMain.ImageScalingSize = New System.Drawing.Size(32, 32)
         Me.mnuMain.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.EditToolStripMenuItem, Me.ViewToolStripMenuItem, Me.ScanToolStripMenuItem, Me.ToolsToolStripMenuItem, Me.HelpToolStripMenuItem})
         Me.mnuMain.Location = New System.Drawing.Point(0, 0)
         Me.mnuMain.Name = "mnuMain"
-        Me.mnuMain.Size = New System.Drawing.Size(819, 24)
+        Me.mnuMain.Padding = New System.Windows.Forms.Padding(12, 4, 0, 4)
+        Me.mnuMain.Size = New System.Drawing.Size(1638, 44)
         Me.mnuMain.TabIndex = 0
         Me.mnuMain.Text = "MenuStrip1"
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewTargetToolStripMenuItem, Me.NewTargetFileToolStripMenuItem, Me.SaveResultsToolStripMenuItem, Me.ToolStripMenuItem5, Me.ToolStripMenuItem9, Me.ToolStripMenuItem1, Me.ToolStripMenuItem10, Me.ToolStripMenuItem11, Me.ToolStripSeparator1, Me.ToolStripMenuItem14, Me.ToolStripMenuItem15, Me.ToolStripSeparator2, Me.ExitToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewTargetToolStripMenuItem, Me.NewTargetFileToolStripMenuItem, Me.SaveResultsToolStripMenuItem, Me.ToolStripMenuItem5, Me.ToolStripMenuItem9, Me.ToolStripMenuItem1, Me.ToolStripMenuItem10, Me.ToolStripMenuItem11, Me.ToolStripSeparator1, Me.ToolStripMenuItem14, Me.ToolStripMenuItem15, Me.ToolStripSeparator4, Me.ExportMetaDataToolStripMenuItem, Me.ToolStripSeparator2, Me.ExitToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
-        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
+        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(64, 36)
         Me.FileToolStripMenuItem.Text = "File"
         '
         'NewTargetToolStripMenuItem
         '
         Me.NewTargetToolStripMenuItem.Name = "NewTargetToolStripMenuItem"
         Me.NewTargetToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.NewTargetToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.NewTargetToolStripMenuItem.Size = New System.Drawing.Size(450, 38)
         Me.NewTargetToolStripMenuItem.Text = "New Target Directory..."
         '
         'NewTargetFileToolStripMenuItem
         '
         Me.NewTargetFileToolStripMenuItem.Name = "NewTargetFileToolStripMenuItem"
         Me.NewTargetFileToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.T), System.Windows.Forms.Keys)
-        Me.NewTargetFileToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.NewTargetFileToolStripMenuItem.Size = New System.Drawing.Size(450, 38)
         Me.NewTargetFileToolStripMenuItem.Text = "New Target File..."
         '
         'SaveResultsToolStripMenuItem
         '
         Me.SaveResultsToolStripMenuItem.Name = "SaveResultsToolStripMenuItem"
         Me.SaveResultsToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SaveResultsToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.SaveResultsToolStripMenuItem.Size = New System.Drawing.Size(450, 38)
         Me.SaveResultsToolStripMenuItem.Text = "Save Results as Text..."
         '
         'ToolStripMenuItem5
         '
         Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
-        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(234, 6)
+        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(447, 6)
         '
         'ToolStripMenuItem9
         '
         Me.ToolStripMenuItem9.Name = "ToolStripMenuItem9"
-        Me.ToolStripMenuItem9.Size = New System.Drawing.Size(237, 22)
+        Me.ToolStripMenuItem9.Size = New System.Drawing.Size(450, 38)
         Me.ToolStripMenuItem9.Text = "Clear"
         '
         'ToolStripMenuItem1
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(234, 6)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(447, 6)
         '
         'ToolStripMenuItem10
         '
         Me.ToolStripMenuItem10.Name = "ToolStripMenuItem10"
-        Me.ToolStripMenuItem10.Size = New System.Drawing.Size(237, 22)
+        Me.ToolStripMenuItem10.Size = New System.Drawing.Size(450, 38)
         Me.ToolStripMenuItem10.Text = "Export Results as XML..."
         '
         'ToolStripMenuItem11
         '
         Me.ToolStripMenuItem11.Name = "ToolStripMenuItem11"
-        Me.ToolStripMenuItem11.Size = New System.Drawing.Size(237, 22)
+        Me.ToolStripMenuItem11.Size = New System.Drawing.Size(450, 38)
         Me.ToolStripMenuItem11.Text = "Import Results from XML File..."
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(234, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(447, 6)
         '
         'ToolStripMenuItem14
         '
         Me.ToolStripMenuItem14.Name = "ToolStripMenuItem14"
-        Me.ToolStripMenuItem14.Size = New System.Drawing.Size(237, 22)
+        Me.ToolStripMenuItem14.Size = New System.Drawing.Size(450, 38)
         Me.ToolStripMenuItem14.Text = "Export Results to CSV File.."
         '
         'ToolStripMenuItem15
         '
         Me.ToolStripMenuItem15.Name = "ToolStripMenuItem15"
-        Me.ToolStripMenuItem15.Size = New System.Drawing.Size(237, 22)
+        Me.ToolStripMenuItem15.Size = New System.Drawing.Size(450, 38)
         Me.ToolStripMenuItem15.Text = "Import Results from CSV File..."
+        '
+        'ToolStripSeparator4
+        '
+        Me.ToolStripSeparator4.Name = "ToolStripSeparator4"
+        Me.ToolStripSeparator4.Size = New System.Drawing.Size(447, 6)
+        '
+        'ExportMetaDataToolStripMenuItem
+        '
+        Me.ExportMetaDataToolStripMenuItem.Name = "ExportMetaDataToolStripMenuItem"
+        Me.ExportMetaDataToolStripMenuItem.Size = New System.Drawing.Size(450, 38)
+        Me.ExportMetaDataToolStripMenuItem.Text = "Export Code Metadata as XML..."
         '
         'ToolStripSeparator2
         '
         Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(234, 6)
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(447, 6)
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
         Me.ExitToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(450, 38)
         Me.ExitToolStripMenuItem.Text = "Exit"
         '
         'EditToolStripMenuItem
         '
         Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CutToolStripMenuItem, Me.CopyToolStripMenuItem, Me.PasteToolStripMenuItem, Me.ToolStripMenuItem8, Me.FindToolStripMenuItem, Me.ToolStripMenuItem6, Me.SelectAllToolStripMenuItem})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(39, 20)
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(67, 36)
         Me.EditToolStripMenuItem.Text = "Edit"
         '
         'CutToolStripMenuItem
         '
         Me.CutToolStripMenuItem.Name = "CutToolStripMenuItem"
-        Me.CutToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
+        Me.CutToolStripMenuItem.Size = New System.Drawing.Size(212, 38)
         Me.CutToolStripMenuItem.Text = "Cut"
         '
         'CopyToolStripMenuItem
         '
         Me.CopyToolStripMenuItem.Name = "CopyToolStripMenuItem"
-        Me.CopyToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
+        Me.CopyToolStripMenuItem.Size = New System.Drawing.Size(212, 38)
         Me.CopyToolStripMenuItem.Text = "Copy"
         '
         'PasteToolStripMenuItem
         '
         Me.PasteToolStripMenuItem.Name = "PasteToolStripMenuItem"
-        Me.PasteToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
+        Me.PasteToolStripMenuItem.Size = New System.Drawing.Size(212, 38)
         Me.PasteToolStripMenuItem.Text = "Paste"
         '
         'ToolStripMenuItem8
         '
         Me.ToolStripMenuItem8.Name = "ToolStripMenuItem8"
-        Me.ToolStripMenuItem8.Size = New System.Drawing.Size(119, 6)
+        Me.ToolStripMenuItem8.Size = New System.Drawing.Size(209, 6)
         '
         'FindToolStripMenuItem
         '
         Me.FindToolStripMenuItem.Name = "FindToolStripMenuItem"
-        Me.FindToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
+        Me.FindToolStripMenuItem.Size = New System.Drawing.Size(212, 38)
         Me.FindToolStripMenuItem.Text = "Find"
         '
         'ToolStripMenuItem6
         '
         Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
-        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(119, 6)
+        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(209, 6)
         '
         'SelectAllToolStripMenuItem
         '
         Me.SelectAllToolStripMenuItem.Name = "SelectAllToolStripMenuItem"
-        Me.SelectAllToolStripMenuItem.Size = New System.Drawing.Size(122, 22)
+        Me.SelectAllToolStripMenuItem.Size = New System.Drawing.Size(212, 38)
         Me.SelectAllToolStripMenuItem.Text = "Select All"
         '
         'ViewToolStripMenuItem
         '
         Me.ViewToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.GroupRichTextResultsByIssueToolStripMenuItem, Me.GroupRichTextResultsByFileToolStripMenuItem, Me.ShowIndividualRichTextResultsToolStripMenuItem, Me.ToolStripMenuItem16, Me.StatusBarToolStripMenuItem})
         Me.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem"
-        Me.ViewToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
+        Me.ViewToolStripMenuItem.Size = New System.Drawing.Size(78, 36)
         Me.ViewToolStripMenuItem.Text = "View"
         '
         'GroupRichTextResultsByIssueToolStripMenuItem
         '
         Me.GroupRichTextResultsByIssueToolStripMenuItem.CheckOnClick = True
         Me.GroupRichTextResultsByIssueToolStripMenuItem.Name = "GroupRichTextResultsByIssueToolStripMenuItem"
-        Me.GroupRichTextResultsByIssueToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.GroupRichTextResultsByIssueToolStripMenuItem.Size = New System.Drawing.Size(466, 38)
         Me.GroupRichTextResultsByIssueToolStripMenuItem.Text = "Group Rich Text Results by Issue"
         '
         'GroupRichTextResultsByFileToolStripMenuItem
         '
         Me.GroupRichTextResultsByFileToolStripMenuItem.CheckOnClick = True
         Me.GroupRichTextResultsByFileToolStripMenuItem.Name = "GroupRichTextResultsByFileToolStripMenuItem"
-        Me.GroupRichTextResultsByFileToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.GroupRichTextResultsByFileToolStripMenuItem.Size = New System.Drawing.Size(466, 38)
         Me.GroupRichTextResultsByFileToolStripMenuItem.Text = "Group Rich Text Results by File"
         '
         'ShowIndividualRichTextResultsToolStripMenuItem
@@ -283,13 +298,13 @@ Partial Class frmMain
         Me.ShowIndividualRichTextResultsToolStripMenuItem.CheckOnClick = True
         Me.ShowIndividualRichTextResultsToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ShowIndividualRichTextResultsToolStripMenuItem.Name = "ShowIndividualRichTextResultsToolStripMenuItem"
-        Me.ShowIndividualRichTextResultsToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.ShowIndividualRichTextResultsToolStripMenuItem.Size = New System.Drawing.Size(466, 38)
         Me.ShowIndividualRichTextResultsToolStripMenuItem.Text = "Show Individual Rich Text Results"
         '
         'ToolStripMenuItem16
         '
         Me.ToolStripMenuItem16.Name = "ToolStripMenuItem16"
-        Me.ToolStripMenuItem16.Size = New System.Drawing.Size(245, 6)
+        Me.ToolStripMenuItem16.Size = New System.Drawing.Size(463, 6)
         '
         'StatusBarToolStripMenuItem
         '
@@ -297,125 +312,125 @@ Partial Class frmMain
         Me.StatusBarToolStripMenuItem.CheckOnClick = True
         Me.StatusBarToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.StatusBarToolStripMenuItem.Name = "StatusBarToolStripMenuItem"
-        Me.StatusBarToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.StatusBarToolStripMenuItem.Size = New System.Drawing.Size(466, 38)
         Me.StatusBarToolStripMenuItem.Text = "Status Bar"
         '
         'ScanToolStripMenuItem
         '
         Me.ScanToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.StartScanningToolStripMenuItem, Me.ToolStripMenuItem4, Me.VisualCodeBreakdownToolStripMenuItem, Me.VisualSecurityBreakdownToolStripMenuItem, Me.VisualBadFuncBreakdownToolStripMenuItem, Me.VisualCommentBreakdownToolStripMenuItem, Me.ToolStripMenuItem7, Me.ExportFixMeCommentsToolStripMenuItem, Me.ToolStripMenuItem12, Me.SortRichTextResultsOnSeverityToolStripMenuItem, Me.SortRichTextResultsOnFileNameToolStripMenuItem, Me.ToolStripMenuItem13, Me.FilterResultsToolStripMenuItem, Me.ToolStripSeparator3, Me.DeleteItemToolStripMenuItem})
         Me.ScanToolStripMenuItem.Name = "ScanToolStripMenuItem"
-        Me.ScanToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
+        Me.ScanToolStripMenuItem.Size = New System.Drawing.Size(77, 36)
         Me.ScanToolStripMenuItem.Text = "Scan"
         '
         'StartScanningToolStripMenuItem
         '
         Me.StartScanningToolStripMenuItem.Enabled = False
         Me.StartScanningToolStripMenuItem.Name = "StartScanningToolStripMenuItem"
-        Me.StartScanningToolStripMenuItem.Size = New System.Drawing.Size(366, 22)
+        Me.StartScanningToolStripMenuItem.Size = New System.Drawing.Size(706, 38)
         Me.StartScanningToolStripMenuItem.Text = "Full Scan"
         '
         'ToolStripMenuItem4
         '
         Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
-        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(363, 6)
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(703, 6)
         '
         'VisualCodeBreakdownToolStripMenuItem
         '
         Me.VisualCodeBreakdownToolStripMenuItem.Enabled = False
         Me.VisualCodeBreakdownToolStripMenuItem.Name = "VisualCodeBreakdownToolStripMenuItem"
-        Me.VisualCodeBreakdownToolStripMenuItem.Size = New System.Drawing.Size(366, 22)
+        Me.VisualCodeBreakdownToolStripMenuItem.Size = New System.Drawing.Size(706, 38)
         Me.VisualCodeBreakdownToolStripMenuItem.Text = "Visual Code/Comment Breakdown"
         '
         'VisualSecurityBreakdownToolStripMenuItem
         '
         Me.VisualSecurityBreakdownToolStripMenuItem.Enabled = False
         Me.VisualSecurityBreakdownToolStripMenuItem.Name = "VisualSecurityBreakdownToolStripMenuItem"
-        Me.VisualSecurityBreakdownToolStripMenuItem.Size = New System.Drawing.Size(366, 22)
+        Me.VisualSecurityBreakdownToolStripMenuItem.Size = New System.Drawing.Size(706, 38)
         Me.VisualSecurityBreakdownToolStripMenuItem.Text = "Scan Code Only (Ignore Comments)"
         '
         'VisualBadFuncBreakdownToolStripMenuItem
         '
         Me.VisualBadFuncBreakdownToolStripMenuItem.Enabled = False
         Me.VisualBadFuncBreakdownToolStripMenuItem.Name = "VisualBadFuncBreakdownToolStripMenuItem"
-        Me.VisualBadFuncBreakdownToolStripMenuItem.Size = New System.Drawing.Size(366, 22)
+        Me.VisualBadFuncBreakdownToolStripMenuItem.Size = New System.Drawing.Size(706, 38)
         Me.VisualBadFuncBreakdownToolStripMenuItem.Text = "Scan For Bad Functions Only (As Defined in Config File)"
         '
         'VisualCommentBreakdownToolStripMenuItem
         '
         Me.VisualCommentBreakdownToolStripMenuItem.Enabled = False
         Me.VisualCommentBreakdownToolStripMenuItem.Name = "VisualCommentBreakdownToolStripMenuItem"
-        Me.VisualCommentBreakdownToolStripMenuItem.Size = New System.Drawing.Size(366, 22)
+        Me.VisualCommentBreakdownToolStripMenuItem.Size = New System.Drawing.Size(706, 38)
         Me.VisualCommentBreakdownToolStripMenuItem.Text = "Scan Comments Only"
         '
         'ToolStripMenuItem7
         '
         Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
-        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(363, 6)
+        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(703, 6)
         '
         'ExportFixMeCommentsToolStripMenuItem
         '
         Me.ExportFixMeCommentsToolStripMenuItem.Enabled = False
         Me.ExportFixMeCommentsToolStripMenuItem.Name = "ExportFixMeCommentsToolStripMenuItem"
-        Me.ExportFixMeCommentsToolStripMenuItem.Size = New System.Drawing.Size(366, 22)
+        Me.ExportFixMeCommentsToolStripMenuItem.Size = New System.Drawing.Size(706, 38)
         Me.ExportFixMeCommentsToolStripMenuItem.Text = "Show All 'FixMe' Comments"
         '
         'ToolStripMenuItem12
         '
         Me.ToolStripMenuItem12.Name = "ToolStripMenuItem12"
-        Me.ToolStripMenuItem12.Size = New System.Drawing.Size(363, 6)
+        Me.ToolStripMenuItem12.Size = New System.Drawing.Size(703, 6)
         '
         'SortRichTextResultsOnSeverityToolStripMenuItem
         '
         Me.SortRichTextResultsOnSeverityToolStripMenuItem.Name = "SortRichTextResultsOnSeverityToolStripMenuItem"
-        Me.SortRichTextResultsOnSeverityToolStripMenuItem.Size = New System.Drawing.Size(366, 22)
+        Me.SortRichTextResultsOnSeverityToolStripMenuItem.Size = New System.Drawing.Size(706, 38)
         Me.SortRichTextResultsOnSeverityToolStripMenuItem.Text = "Sort Rich Text Results on Severity"
         '
         'SortRichTextResultsOnFileNameToolStripMenuItem
         '
         Me.SortRichTextResultsOnFileNameToolStripMenuItem.Name = "SortRichTextResultsOnFileNameToolStripMenuItem"
-        Me.SortRichTextResultsOnFileNameToolStripMenuItem.Size = New System.Drawing.Size(366, 22)
+        Me.SortRichTextResultsOnFileNameToolStripMenuItem.Size = New System.Drawing.Size(706, 38)
         Me.SortRichTextResultsOnFileNameToolStripMenuItem.Text = "Sort Rich Text Results on FileName"
         '
         'ToolStripMenuItem13
         '
         Me.ToolStripMenuItem13.Name = "ToolStripMenuItem13"
-        Me.ToolStripMenuItem13.Size = New System.Drawing.Size(363, 6)
+        Me.ToolStripMenuItem13.Size = New System.Drawing.Size(703, 6)
         '
         'FilterResultsToolStripMenuItem
         '
         Me.FilterResultsToolStripMenuItem.Name = "FilterResultsToolStripMenuItem"
-        Me.FilterResultsToolStripMenuItem.Size = New System.Drawing.Size(366, 22)
+        Me.FilterResultsToolStripMenuItem.Size = New System.Drawing.Size(706, 38)
         Me.FilterResultsToolStripMenuItem.Text = "Filter Results..."
         '
         'ToolStripSeparator3
         '
         Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
-        Me.ToolStripSeparator3.Size = New System.Drawing.Size(363, 6)
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(703, 6)
         '
         'DeleteItemToolStripMenuItem
         '
         Me.DeleteItemToolStripMenuItem.Name = "DeleteItemToolStripMenuItem"
         Me.DeleteItemToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.Delete
-        Me.DeleteItemToolStripMenuItem.Size = New System.Drawing.Size(366, 22)
+        Me.DeleteItemToolStripMenuItem.Size = New System.Drawing.Size(706, 38)
         Me.DeleteItemToolStripMenuItem.Text = "Delete Selected Item(s)"
         '
         'ToolsToolStripMenuItem
         '
         Me.ToolsToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BannedFunctionsToolStripMenuItem, Me.ToolStripMenuItem2, Me.CCToolStripMenuItem, Me.JavaToolStripMenuItem, Me.PLSQLToolStripMenuItem, Me.CSToolStripMenuItem, Me.VBToolStripMenuItem, Me.PHPToolStripMenuItem, Me.COBOLToolStripMenuItem, Me.ToolStripMenuItem3, Me.OptionsToolStripMenuItem})
         Me.ToolsToolStripMenuItem.Name = "ToolsToolStripMenuItem"
-        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(61, 20)
+        Me.ToolsToolStripMenuItem.Size = New System.Drawing.Size(113, 36)
         Me.ToolsToolStripMenuItem.Text = "Settings"
         '
         'BannedFunctionsToolStripMenuItem
         '
         Me.BannedFunctionsToolStripMenuItem.Name = "BannedFunctionsToolStripMenuItem"
-        Me.BannedFunctionsToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.BannedFunctionsToolStripMenuItem.Size = New System.Drawing.Size(418, 38)
         Me.BannedFunctionsToolStripMenuItem.Text = "Banned/Insecure Functions..."
         '
         'ToolStripMenuItem2
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(224, 6)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(415, 6)
         '
         'CCToolStripMenuItem
         '
@@ -423,95 +438,97 @@ Partial Class frmMain
         Me.CCToolStripMenuItem.CheckOnClick = True
         Me.CCToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked
         Me.CCToolStripMenuItem.Name = "CCToolStripMenuItem"
-        Me.CCToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.CCToolStripMenuItem.Size = New System.Drawing.Size(418, 38)
         Me.CCToolStripMenuItem.Text = "C/C++"
         '
         'JavaToolStripMenuItem
         '
         Me.JavaToolStripMenuItem.CheckOnClick = True
         Me.JavaToolStripMenuItem.Name = "JavaToolStripMenuItem"
-        Me.JavaToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.JavaToolStripMenuItem.Size = New System.Drawing.Size(418, 38)
         Me.JavaToolStripMenuItem.Text = "Java"
         '
         'PLSQLToolStripMenuItem
         '
         Me.PLSQLToolStripMenuItem.CheckOnClick = True
         Me.PLSQLToolStripMenuItem.Name = "PLSQLToolStripMenuItem"
-        Me.PLSQLToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.PLSQLToolStripMenuItem.Size = New System.Drawing.Size(418, 38)
         Me.PLSQLToolStripMenuItem.Text = "PL/SQL"
         '
         'CSToolStripMenuItem
         '
         Me.CSToolStripMenuItem.CheckOnClick = True
         Me.CSToolStripMenuItem.Name = "CSToolStripMenuItem"
-        Me.CSToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.CSToolStripMenuItem.Size = New System.Drawing.Size(418, 38)
         Me.CSToolStripMenuItem.Text = "C#"
         '
         'VBToolStripMenuItem
         '
         Me.VBToolStripMenuItem.CheckOnClick = True
         Me.VBToolStripMenuItem.Name = "VBToolStripMenuItem"
-        Me.VBToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.VBToolStripMenuItem.Size = New System.Drawing.Size(418, 38)
         Me.VBToolStripMenuItem.Text = "VB"
         '
         'PHPToolStripMenuItem
         '
         Me.PHPToolStripMenuItem.CheckOnClick = True
         Me.PHPToolStripMenuItem.Name = "PHPToolStripMenuItem"
-        Me.PHPToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.PHPToolStripMenuItem.Size = New System.Drawing.Size(418, 38)
         Me.PHPToolStripMenuItem.Text = "PHP"
         '
         'COBOLToolStripMenuItem
         '
         Me.COBOLToolStripMenuItem.CheckOnClick = True
         Me.COBOLToolStripMenuItem.Name = "COBOLToolStripMenuItem"
-        Me.COBOLToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.COBOLToolStripMenuItem.Size = New System.Drawing.Size(418, 38)
         Me.COBOLToolStripMenuItem.Text = "COBOL"
-        Me.COBOLToolStripMenuItem.Visible = False
         '
         'ToolStripMenuItem3
         '
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(224, 6)
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(415, 6)
         '
         'OptionsToolStripMenuItem
         '
         Me.OptionsToolStripMenuItem.Name = "OptionsToolStripMenuItem"
-        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.OptionsToolStripMenuItem.Size = New System.Drawing.Size(418, 38)
         Me.OptionsToolStripMenuItem.Text = "Options..."
         '
         'HelpToolStripMenuItem
         '
         Me.HelpToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AboutVCGToolStripMenuItem})
         Me.HelpToolStripMenuItem.Name = "HelpToolStripMenuItem"
-        Me.HelpToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
+        Me.HelpToolStripMenuItem.Size = New System.Drawing.Size(77, 36)
         Me.HelpToolStripMenuItem.Text = "Help"
         '
         'AboutVCGToolStripMenuItem
         '
         Me.AboutVCGToolStripMenuItem.Name = "AboutVCGToolStripMenuItem"
-        Me.AboutVCGToolStripMenuItem.Size = New System.Drawing.Size(133, 22)
+        Me.AboutVCGToolStripMenuItem.Size = New System.Drawing.Size(230, 38)
         Me.AboutVCGToolStripMenuItem.Text = "About VCG"
         '
         'ssStatusStrip
         '
+        Me.ssStatusStrip.ImageScalingSize = New System.Drawing.Size(32, 32)
         Me.ssStatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.sslLabel})
-        Me.ssStatusStrip.Location = New System.Drawing.Point(0, 452)
+        Me.ssStatusStrip.Location = New System.Drawing.Point(0, 875)
         Me.ssStatusStrip.Name = "ssStatusStrip"
-        Me.ssStatusStrip.Size = New System.Drawing.Size(819, 22)
+        Me.ssStatusStrip.Padding = New System.Windows.Forms.Padding(2, 0, 28, 0)
+        Me.ssStatusStrip.Size = New System.Drawing.Size(1638, 37)
         Me.ssStatusStrip.TabIndex = 1
         '
         'sslLabel
         '
         Me.sslLabel.Name = "sslLabel"
-        Me.sslLabel.Size = New System.Drawing.Size(102, 17)
+        Me.sslLabel.Size = New System.Drawing.Size(202, 32)
         Me.sslLabel.Text = "Language: C/C++"
         '
         'spMain
         '
         Me.spMain.Dock = System.Windows.Forms.DockStyle.Fill
         Me.spMain.IsSplitterFixed = True
-        Me.spMain.Location = New System.Drawing.Point(0, 24)
+        Me.spMain.Location = New System.Drawing.Point(0, 44)
+        Me.spMain.Margin = New System.Windows.Forms.Padding(6)
         Me.spMain.Name = "spMain"
         Me.spMain.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
@@ -522,8 +539,9 @@ Partial Class frmMain
         'spMain.Panel2
         '
         Me.spMain.Panel2.Controls.Add(Me.tcMain)
-        Me.spMain.Size = New System.Drawing.Size(819, 428)
-        Me.spMain.SplitterDistance = 25
+        Me.spMain.Size = New System.Drawing.Size(1638, 831)
+        Me.spMain.SplitterDistance = 44
+        Me.spMain.SplitterWidth = 8
         Me.spMain.TabIndex = 2
         '
         'cboTargetDir
@@ -532,8 +550,9 @@ Partial Class frmMain
         Me.cboTargetDir.Dock = System.Windows.Forms.DockStyle.Fill
         Me.cboTargetDir.FormattingEnabled = True
         Me.cboTargetDir.Location = New System.Drawing.Point(0, 0)
+        Me.cboTargetDir.Margin = New System.Windows.Forms.Padding(6)
         Me.cboTargetDir.Name = "cboTargetDir"
-        Me.cboTargetDir.Size = New System.Drawing.Size(819, 21)
+        Me.cboTargetDir.Size = New System.Drawing.Size(1638, 33)
         Me.cboTargetDir.TabIndex = 0
         '
         'tcMain
@@ -543,18 +562,20 @@ Partial Class frmMain
         Me.tcMain.Controls.Add(Me.tabResultsTable)
         Me.tcMain.Dock = System.Windows.Forms.DockStyle.Fill
         Me.tcMain.Location = New System.Drawing.Point(0, 0)
+        Me.tcMain.Margin = New System.Windows.Forms.Padding(6)
         Me.tcMain.Name = "tcMain"
         Me.tcMain.SelectedIndex = 0
-        Me.tcMain.Size = New System.Drawing.Size(819, 399)
+        Me.tcMain.Size = New System.Drawing.Size(1638, 779)
         Me.tcMain.TabIndex = 1
         '
         'tabTargetFiles
         '
         Me.tabTargetFiles.Controls.Add(Me.lbTargets)
-        Me.tabTargetFiles.Location = New System.Drawing.Point(4, 22)
+        Me.tabTargetFiles.Location = New System.Drawing.Point(8, 39)
+        Me.tabTargetFiles.Margin = New System.Windows.Forms.Padding(6)
         Me.tabTargetFiles.Name = "tabTargetFiles"
-        Me.tabTargetFiles.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabTargetFiles.Size = New System.Drawing.Size(811, 373)
+        Me.tabTargetFiles.Padding = New System.Windows.Forms.Padding(6)
+        Me.tabTargetFiles.Size = New System.Drawing.Size(1622, 732)
         Me.tabTargetFiles.TabIndex = 0
         Me.tabTargetFiles.Text = "Target Files"
         Me.tabTargetFiles.UseVisualStyleBackColor = True
@@ -563,18 +584,21 @@ Partial Class frmMain
         '
         Me.lbTargets.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lbTargets.FormattingEnabled = True
-        Me.lbTargets.Location = New System.Drawing.Point(3, 3)
+        Me.lbTargets.ItemHeight = 25
+        Me.lbTargets.Location = New System.Drawing.Point(6, 6)
+        Me.lbTargets.Margin = New System.Windows.Forms.Padding(6)
         Me.lbTargets.Name = "lbTargets"
-        Me.lbTargets.Size = New System.Drawing.Size(805, 367)
+        Me.lbTargets.Size = New System.Drawing.Size(1610, 720)
         Me.lbTargets.TabIndex = 1
         '
         'tabResults
         '
         Me.tabResults.Controls.Add(Me.rtbResults)
-        Me.tabResults.Location = New System.Drawing.Point(4, 22)
+        Me.tabResults.Location = New System.Drawing.Point(8, 39)
+        Me.tabResults.Margin = New System.Windows.Forms.Padding(6)
         Me.tabResults.Name = "tabResults"
-        Me.tabResults.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabResults.Size = New System.Drawing.Size(811, 373)
+        Me.tabResults.Padding = New System.Windows.Forms.Padding(6)
+        Me.tabResults.Size = New System.Drawing.Size(1622, 730)
         Me.tabResults.TabIndex = 1
         Me.tabResults.Text = "Results"
         Me.tabResults.UseVisualStyleBackColor = True
@@ -582,19 +606,21 @@ Partial Class frmMain
         'rtbResults
         '
         Me.rtbResults.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.rtbResults.Location = New System.Drawing.Point(3, 3)
+        Me.rtbResults.Location = New System.Drawing.Point(6, 6)
+        Me.rtbResults.Margin = New System.Windows.Forms.Padding(6)
         Me.rtbResults.Name = "rtbResults"
-        Me.rtbResults.Size = New System.Drawing.Size(805, 367)
+        Me.rtbResults.Size = New System.Drawing.Size(1610, 718)
         Me.rtbResults.TabIndex = 0
         Me.rtbResults.Text = ""
         '
         'tabResultsTable
         '
         Me.tabResultsTable.Controls.Add(Me.lvResults)
-        Me.tabResultsTable.Location = New System.Drawing.Point(4, 22)
+        Me.tabResultsTable.Location = New System.Drawing.Point(8, 39)
+        Me.tabResultsTable.Margin = New System.Windows.Forms.Padding(6)
         Me.tabResultsTable.Name = "tabResultsTable"
-        Me.tabResultsTable.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabResultsTable.Size = New System.Drawing.Size(811, 373)
+        Me.tabResultsTable.Padding = New System.Windows.Forms.Padding(6)
+        Me.tabResultsTable.Size = New System.Drawing.Size(1622, 730)
         Me.tabResultsTable.TabIndex = 2
         Me.tabResultsTable.Text = "Summary Table"
         Me.tabResultsTable.UseVisualStyleBackColor = True
@@ -607,9 +633,10 @@ Partial Class frmMain
         Me.lvResults.Dock = System.Windows.Forms.DockStyle.Fill
         Me.lvResults.FullRowSelect = True
         Me.lvResults.HideSelection = False
-        Me.lvResults.Location = New System.Drawing.Point(3, 3)
+        Me.lvResults.Location = New System.Drawing.Point(6, 6)
+        Me.lvResults.Margin = New System.Windows.Forms.Padding(6)
         Me.lvResults.Name = "lvResults"
-        Me.lvResults.Size = New System.Drawing.Size(805, 367)
+        Me.lvResults.Size = New System.Drawing.Size(1610, 718)
         Me.lvResults.TabIndex = 0
         Me.lvResults.UseCompatibleStateImageBehavior = False
         Me.lvResults.View = System.Windows.Forms.View.Details
@@ -649,15 +676,16 @@ Partial Class frmMain
         '
         'frmMain
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(12.0!, 25.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(819, 474)
+        Me.ClientSize = New System.Drawing.Size(1638, 912)
         Me.Controls.Add(Me.spMain)
         Me.Controls.Add(Me.ssStatusStrip)
         Me.Controls.Add(Me.mnuMain)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.KeyPreview = True
         Me.MainMenuStrip = Me.mnuMain
+        Me.Margin = New System.Windows.Forms.Padding(6)
         Me.Name = "frmMain"
         Me.Text = "VCG"
         Me.mnuMain.ResumeLayout(False)
@@ -756,5 +784,6 @@ Partial Class frmMain
     Friend WithEvents ToolStripMenuItem16 As System.Windows.Forms.ToolStripSeparator
     Friend WithEvents StatusBarToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents VisualBadFuncBreakdownToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
-
+    Friend WithEvents ToolStripSeparator4 As ToolStripSeparator
+    Friend WithEvents ExportMetaDataToolStripMenuItem As ToolStripMenuItem
 End Class
