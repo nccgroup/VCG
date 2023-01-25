@@ -1,6 +1,6 @@
 # VCG (VisualCodeGrepper)
 
-* Current version: [V2.3.0](#v230]] (January 2023)
+* Current version: [V2.3.0](#v230) (January 2023)
 
 * Send comments and bug reports to: vcgapplication@gmail.com
 
