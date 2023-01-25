@@ -13,7 +13,7 @@
     <AssemblyName>VisualCodeGrepper</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>WindowsForms</MyType>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -32,6 +32,9 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
@@ -39,18 +42,20 @@
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <OutputPath>bin\Debug\</OutputPath>
-    <DocumentationFile>VisualCodeGrepper.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <DefineDebug>false</DefineDebug>
     <DefineTrace>true</DefineTrace>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DocumentationFile>VisualCodeGrepper.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
@@ -58,7 +63,7 @@
     <OptionExplicit>On</OptionExplicit>
   </PropertyGroup>
   <PropertyGroup>
-    <OptionCompare>Binary</OptionCompare>
+    <OptionCompare>Text</OptionCompare>
   </PropertyGroup>
   <PropertyGroup>
     <OptionStrict>Off</OptionStrict>
@@ -72,11 +77,34 @@
   <PropertyGroup>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Debug\</OutputPath>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|AnyCPU'">
+    <DefineTrace>true</DefineTrace>
+    <OutputPath>bin\Release\</OutputPath>
+    <Optimize>true</Optimize>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml" />
@@ -97,98 +125,101 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutBox.Designer.vb">
+    <Compile Include="Forms\AboutBox.Designer.vb">
       <DependentUpon>AboutBox.vb</DependentUpon>
     </Compile>
-    <Compile Include="AboutBox.vb">
+    <Compile Include="Forms\AboutBox.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AppSettings.vb" />
-    <Compile Include="PICVar.vb" />
-    <Compile Include="CodeIssue.vb" />
-    <Compile Include="CodeTracker.vb" />
-    <Compile Include="FileData.vb" />
-    <Compile Include="FileGroup.vb" />
-    <Compile Include="frmBreakdownReminder.Designer.vb">
+    <Compile Include="Models\AppSettings.vb" />
+    <Compile Include="Models\PICVar.vb" />
+    <Compile Include="Models\CodeIssue.vb" />
+    <Compile Include="Models\CodeTracker.vb" />
+    <Compile Include="Models\FileData.vb" />
+    <Compile Include="Models\FileGroup.vb" />
+    <Compile Include="Forms\frmBreakdownReminder.Designer.vb">
       <DependentUpon>frmBreakdownReminder.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmBreakdownReminder.vb">
+    <Compile Include="Forms\frmBreakdownReminder.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmNewSeverity.Designer.vb">
+    <Compile Include="Forms\frmNewSeverity.Designer.vb">
       <DependentUpon>frmNewSeverity.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmNewSeverity.vb">
+    <Compile Include="Forms\frmNewSeverity.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmReminder.Designer.vb">
+    <Compile Include="Forms\frmReminder.Designer.vb">
       <DependentUpon>frmReminder.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmReminder.vb">
+    <Compile Include="Forms\frmReminder.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmBreakdown.Designer.vb">
+    <Compile Include="Forms\frmBreakdown.Designer.vb">
       <DependentUpon>frmBreakdown.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmBreakdown.vb">
+    <Compile Include="Forms\frmBreakdown.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmCodeDetails.Designer.vb">
+    <Compile Include="Forms\frmCodeDetails.Designer.vb">
       <DependentUpon>frmCodeDetails.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmCodeDetails.vb">
+    <Compile Include="Forms\frmCodeDetails.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmFilter.Designer.vb">
+    <Compile Include="Forms\frmFilter.Designer.vb">
       <DependentUpon>frmFilter.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmFilter.vb">
+    <Compile Include="Forms\frmFilter.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmIndividualBreakdown.Designer.vb">
+    <Compile Include="Forms\frmIndividualBreakdown.Designer.vb">
       <DependentUpon>frmIndividualBreakdown.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmIndividualBreakdown.vb">
+    <Compile Include="Forms\frmIndividualBreakdown.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmLoading.Designer.vb">
+    <Compile Include="Forms\frmLoading.Designer.vb">
       <DependentUpon>frmLoading.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmLoading.vb">
+    <Compile Include="Forms\frmLoading.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmMain.vb">
+    <Compile Include="Forms\frmMain.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmMain.Designer.vb">
+    <Compile Include="Forms\frmMain.Designer.vb">
       <DependentUpon>frmMain.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmOptions.Designer.vb">
+    <Compile Include="Forms\frmOptions.Designer.vb">
       <DependentUpon>frmOptions.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmOptions.vb">
+    <Compile Include="Forms\frmOptions.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmSort.Designer.vb">
+    <Compile Include="Forms\frmSort.Designer.vb">
       <DependentUpon>frmSort.vb</DependentUpon>
     </Compile>
-    <Compile Include="frmSort.vb">
+    <Compile Include="Forms\frmSort.vb">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="IssueGroup.vb" />
-    <Compile Include="modCobolCheck.vb" />
-    <Compile Include="modCppCheck.vb" />
-    <Compile Include="modCSharpCheck.vb" />
-    <Compile Include="modJavaCheck.vb" />
-    <Compile Include="modMain.vb" />
-    <Compile Include="modPHPCheck.vb" />
-    <Compile Include="modPlSqlCheck.vb" />
-    <Compile Include="modVBCheck.vb" />
+    <Compile Include="Models\IssueGroup.vb" />
+    <Compile Include="Modules\modCobolCheck.vb" />
+    <Compile Include="Modules\modCppCheck.vb" />
+    <Compile Include="Modules\modCSharpCheck.vb" />
+    <Compile Include="Modules\modJavaCheck.vb" />
+    <Compile Include="Modules\modLogger.vb" />
+    <Compile Include="Modules\modMain.vb" />
+    <Compile Include="Modules\modPHPCheck.vb" />
+    <Compile Include="Modules\modPlSqlCheck.vb" />
+    <Compile Include="Modules\modVBCheck.vb" />
+    <Compile Include="Modules\modNativeMethods.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="My Project\Resources.Designer.vb">
       <AutoGen>True</AutoGen>
@@ -200,46 +231,47 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ResultsTracker.vb" />
-    <Compile Include="ScanResult.vb" />
-    <Compile Include="SyncBlock.vb" />
+    <Compile Include="Models\ResultsTracker.vb" />
+    <Compile Include="Models\ScanResult.vb" />
+    <Compile Include="Models\SyncBlock.vb" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="AboutBox.resx">
+    <EmbeddedResource Include="Forms\AboutBox.resx">
       <DependentUpon>AboutBox.vb</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmBreakdownReminder.resx">
+    <EmbeddedResource Include="Forms\frmBreakdownReminder.resx">
       <DependentUpon>frmBreakdownReminder.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmNewSeverity.resx">
+    <EmbeddedResource Include="Forms\frmNewSeverity.resx">
       <DependentUpon>frmNewSeverity.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmReminder.resx">
+    <EmbeddedResource Include="Forms\frmReminder.resx">
       <DependentUpon>frmReminder.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmBreakdown.resx">
+    <EmbeddedResource Include="Forms\frmBreakdown.resx">
       <DependentUpon>frmBreakdown.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmCodeDetails.resx">
+    <EmbeddedResource Include="Forms\frmCodeDetails.resx">
       <DependentUpon>frmCodeDetails.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmFilter.resx">
+    <EmbeddedResource Include="Forms\frmFilter.resx">
       <DependentUpon>frmFilter.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmIndividualBreakdown.resx">
+    <EmbeddedResource Include="Forms\frmIndividualBreakdown.resx">
       <DependentUpon>frmIndividualBreakdown.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmLoading.resx">
+    <EmbeddedResource Include="Forms\frmLoading.resx">
       <DependentUpon>frmLoading.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmMain.resx">
+    <EmbeddedResource Include="Forms\frmMain.resx">
       <DependentUpon>frmMain.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmOptions.resx">
+    <EmbeddedResource Include="Forms\frmOptions.resx">
       <DependentUpon>frmOptions.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmSort.resx">
+    <EmbeddedResource Include="Forms\frmSort.resx">
       <DependentUpon>frmSort.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
@@ -251,6 +283,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Config\badcomments.conf" />
+    <None Include="Config\cobolfunctions.conf" />
+    <None Include="Config\cppfunctions.conf" />
+    <None Include="Config\csfunctions.conf" />
+    <None Include="Config\javafunctions.conf" />
+    <None Include="Config\phpfunctions.conf" />
+    <None Include="Config\plsqlfunctions.conf" />
+    <None Include="Config\vbfunctions.conf" />
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
@@ -268,16 +308,6 @@
       <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
       <Visible>False</Visible>
       <ProductName>Windows Installer 3.1</ProductName>
@@ -288,6 +318,9 @@
     <Content Include="propertiesORoptions.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(ProjectDir)Config\*" "$(TargetDir)"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

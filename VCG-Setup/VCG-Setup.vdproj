@@ -15,19 +15,19 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_3CD5ECA0055B4E719F714DBD19769CDA"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_589E1FC06B9C41D691363A49F6B1F969"
+        "MsmKey" = "8:_2AD58D77303748D68CF4DC3928EC4C76"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_5C85DEE12C9F474E992D1FD7F9BD8287"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_8E9B5447C388407899CFCF5B25378A1E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -47,6 +47,12 @@
         {
         "MsmKey" = "8:_9D77F1834A664839B59D3763C97F12B7"
         "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_B05013241BF9170CD95192BFA21DEFC5"
+        "OwnerKey" = "8:_2AD58D77303748D68CF4DC3928EC4C76"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -82,7 +88,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3CD5ECA0055B4E719F714DBD19769CDA"
+        "OwnerKey" = "8:_2AD58D77303748D68CF4DC3928EC4C76"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_B05013241BF9170CD95192BFA21DEFC5"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -112,10 +124,10 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
                     {
-                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
-                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
                     }
                 }
             }
@@ -144,10 +156,10 @@
             "ComponentsUrl" = "8:"
                 "Items"
                 {
-                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
                     {
-                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
-                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
                     }
                 }
             }
@@ -172,7 +184,7 @@
                 {
                 "Name" = "8:.NET Framework"
                 "Message" = "8:[VSDNETMSG]"
-                "FrameworkVersion" = "8:.NETFramework,Version=v4.6.1"
+                "FrameworkVersion" = "8:.NETFramework,Version=v4.7.2"
                 "AllowLaterVersions" = "11:FALSE"
                 "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=671728"
                 }
@@ -180,26 +192,6 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_589E1FC06B9C41D691363A49F6B1F969"
-            {
-            "SourcePath" = "8:..\\README.txt"
-            "TargetName" = "8:README.txt"
-            "Tag" = "8:"
-            "Folder" = "8:_EED2A8ED9BB0498FA811345550076A59"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5C85DEE12C9F474E992D1FD7F9BD8287"
             {
             "SourcePath" = "8:..\\VisualCodeGrepper\\bin\\Release\\badcomments.conf"
@@ -220,6 +212,26 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8E9B5447C388407899CFCF5B25378A1E"
+            {
+            "SourcePath" = "8:..\\README.md"
+            "TargetName" = "8:README.md"
+            "Tag" = "8:"
+            "Folder" = "8:_EED2A8ED9BB0498FA811345550076A59"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:FALSE"
+            "ReadOnly" = "11:TRUE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_90DCD2CBE9CB4376A2C77A5126D3272B"
             {
             "SourcePath" = "8:..\\EULA.txt"
@@ -229,7 +241,7 @@
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
+            "ReadOnly" = "11:TRUE"
             "Hidden" = "11:FALSE"
             "System" = "11:FALSE"
             "Permanent" = "11:FALSE"
@@ -278,6 +290,37 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B05013241BF9170CD95192BFA21DEFC5"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:System.IO.Compression, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+                "ScatterAssemblies"
+                {
+                    "_B05013241BF9170CD95192BFA21DEFC5"
+                    {
+                    "Name" = "8:System.IO.Compression.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:System.IO.Compression.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_EED2A8ED9BB0498FA811345550076A59"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_B214E3CC22F14D92A905A3667494D551"
@@ -448,14 +491,14 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:VisualCodeGrepper"
         "ProductCode" = "8:{42C297A6-806F-4B7E-B5F6-07C7C61BBE59}"
-        "PackageCode" = "8:{7E6C7B25-6021-45C1-8904-80B2AD2BD735}"
+        "PackageCode" = "8:{4A745D75-4B7F-4D8C-99B9-3DA2B81E91FD}"
         "UpgradeCode" = "8:{B6741813-9E2F-4E43-9C45-AFD808B26DEB}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:2.2.0"
+        "ProductVersion" = "8:2.3.0"
         "Manufacturer" = "8:Nick Dunn"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -464,12 +507,12 @@
         "ARPCONTACT" = "8:Nick Dunn"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:"
-        "ARPURLINFOABOUT" = "8:"
+        "ARPURLINFOABOUT" = "8:https://github.com/nccgroup/VCG"
         "ARPPRODUCTICON" = "8:"
         "ARPIconIndex" = "3:0"
         "SearchPath" = "8:"
         "UseSystemSearchPath" = "11:TRUE"
-        "TargetPlatform" = "3:0"
+        "TargetPlatform" = "3:1"
         "PreBuildEvent" = "8:"
         "PostBuildEvent" = "8:"
         "RunPostBuildEvent" = "3:0"
@@ -576,13 +619,13 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_3CD5ECA0055B4E719F714DBD19769CDA"
+            "Target" = "8:_2AD58D77303748D68CF4DC3928EC4C76"
             "Folder" = "8:_BB36A0C742E2432F8088F5E91DC36F3C"
             "WorkingFolder" = "8:_EED2A8ED9BB0498FA811345550076A59"
             "Icon" = "8:"
             "Feature" = "8:"
             }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_E94ABDA6656D4068B46DB8358DEB26C4"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_404524F9D6224D1F884E50E790800B23"
             {
             "Name" = "8:Shortcut to VisualCodeGrepper"
             "Arguments" = "8:"
@@ -590,7 +633,7 @@
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_3CD5ECA0055B4E719F714DBD19769CDA"
+            "Target" = "8:_2AD58D77303748D68CF4DC3928EC4C76"
             "Folder" = "8:_63EB93F2EC7944CA9A80424C6E6BABA2"
             "WorkingFolder" = "8:_EED2A8ED9BB0498FA811345550076A59"
             "Icon" = "8:"
@@ -995,9 +1038,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_3CD5ECA0055B4E719F714DBD19769CDA"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_2AD58D77303748D68CF4DC3928EC4C76"
             {
-            "SourcePath" = "8:..\\VisualCodeGrepper\\obj\\x86\\Release\\VisualCodeGrepper.exe"
+            "SourcePath" = "8:..\\VisualCodeGrepper\\obj\\Release\\VisualCodeGrepper.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_EED2A8ED9BB0498FA811345550076A59"
@@ -1015,7 +1058,7 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             "ProjectOutputGroupRegister" = "3:1"
-            "OutputConfiguration" = "8:Release|x86"
+            "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:Built"
             "OutputProjectGuid" = "8:{DF04B593-4694-49F8-BC1E-70D064BE8C53}"
             "ShowKeyOutput" = "11:TRUE"

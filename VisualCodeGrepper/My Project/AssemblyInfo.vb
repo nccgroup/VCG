@@ -8,12 +8,12 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("VisualCodeGrepper")> 
-<Assembly: AssemblyDescription("Code analysis tool. Written for funzies by Jonathan Murray and Nick Dunn")> 
-<Assembly: AssemblyCompany("")> 
-<Assembly: AssemblyProduct("VisualCodeGrepper")> 
-<Assembly: AssemblyCopyright("Copyright ©  2012-2014")> 
-<Assembly: AssemblyTrademark("")> 
+<Assembly: AssemblyTitle("VisualCodeGrepper")>
+<Assembly: AssemblyDescription("Code analysis tool. Written for funzies by Jonathan Murray and Nick Dunn")>
+<Assembly: AssemblyCompany("")>
+<Assembly: AssemblyProduct("VisualCodeGrepper")>
+<Assembly: AssemblyCopyright("GNU General Public License")>
+<Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
 
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("2.2.0.0")>
-<Assembly: AssemblyFileVersion("2.2.0.0")>
+<Assembly: AssemblyVersion("2.3.0.0")>
+<Assembly: AssemblyFileVersion("2.3.0.0")>
