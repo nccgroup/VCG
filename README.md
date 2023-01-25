@@ -8,18 +8,18 @@
 
 # Contents
 
-1. [[#Overview]]
-2. [[#Usage]]
-	2. [[#Windows Application]]
-	3. [[#Console (CLI) Usage]]
-4. [[#Version History]]
-	1. [[#V2.3.0]]
-		1. [[#CLI Changes]]
-		2. [[#Windows Application Changes]]
-		3. [[#Developer-relevant changes]]
-		4. [[#Other project changes]]
-		5. [[#Known issues]]
-	3. [[#V2.2.0]]
+1. [Overview](#overview)
+1. [Usage](#usage)
+   * [Windows Application](#windows-application)
+   * [Console (CLI) Usage](#console-cli-usage)
+1. [Version History](#version-history)
+   * [V2.3.0](#v230)
+      * [CLI Changes](#cli-changes)
+      * [Windows Application Changes](#windows-application-changes)
+      * [Development-relevant changes](#development-relevant-changes)
+      * [Other project changes](#other-project-changes)
+      * [Known issues](#known-issues)
+   * [V2.2.0](#v220)
 
 ---
 
@@ -37,7 +37,7 @@ I’ve tried to produce something which doesn’t return the large number of fal
 
 # Usage
 
-VCG works in both [[#Console (CLI)]] and [[#Windows Application]] modes. 
+VCG works in both [Console (CLI) Usage](#console-cli-usage) and [Windows Application](#windows-application) modes. 
 
 The Windows Application has the benefit of immediate data exploration and analysis, and user interaction. If you want something less interactive, and scriptable from other applications, use the CLI. All data exported from it is importable into the Windows Application.
 
@@ -47,9 +47,9 @@ VCG works in two phases: targetting and scanning. *Targetting* identifies the fi
 
 ### Selecting a Target
 
-Once opened, enter the Target Directory (or click File -> New Target Directory) to search for relevant files. Then choose the Language filter, and press Enter. All matching files will then be listed. After which, its time to initiate [[#Scanning]].
+Once opened, enter the Target Directory (or click File -> New Target Directory) to search for relevant files. Then choose the Language filter, and press Enter. All matching files will then be listed. After which, its time to initiate [Scanning](#scanning).
 
-The languages choices are shown below. If you work with a specific language for a majority, you can set a Startup Language using the [[#Settings -> Options]] dialog:
+The languages choices are shown below. If you work with a specific language for a majority, you can set a Startup Language using the [Settings](#settings) -> Options dialog:
 
 | Language | Filter | Notes |
 |-|-|-|
@@ -65,11 +65,11 @@ The languages choices are shown below. If you work with a specific language for 
 
 ### Scanning
 
-The scan be carried out in three ways:
-1. *Comments Only* -	VCG attempts to identify any comments that indicate broken or unfinished code based on a list of around 16 phrases that typically feature in such comments ('ToDo', 'FixMe', etc.)
-2. *Code Only* - 	VCG scans and reports on potential code security issues and any dangerous functions etc. from the config file that are located in the code.
-3. *Dangerous Functions Only* - VCG scans and reports only on any dangerous functions etc. from the config file that are found in the code.
-4. *Code, Dangerous Functions & Comments* - Also known as a Full Scan in the Scan menu, this is a combined scan of both code and comments covering all of the above.
+The scan be carried out in a number of ways:
+* **Comments Only**: VCG attempts to identify any comments that indicate broken or unfinished code based on a list of around 16 phrases that typically feature in such comments ('ToDo', 'FixMe', etc.)
+* **Code Only**: VCG scans and reports on potential code security issues and any dangerous functions etc. from the config file that are located in the code.
+* **Dangerous Functions Only**: VCG scans and reports only on any dangerous functions etc. from the config file that are found in the code.
+* **Code, Dangerous Functions & Comments**: Also known as a Full Scan in the Scan menu, this is a combined scan of both code and comments covering all of the above.
 
 ------------------------------------------------------------------------------------
 
@@ -77,7 +77,7 @@ The scan be carried out in three ways:
 
 #### Settings -> Options
 
-VCG has preferences to match your workflow and specific assessment. These include
+VCG has preferences to match your workflow and specific assessment. These include:
 
 * **File types**: Use this to alter the types of file that VCG will scan for each code type. To scan all files in a directory add .* to the list or delete all types and submit an empty string.
 
