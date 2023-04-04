@@ -1,0 +1,14 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+*.user
+
+# Setup files
+/VCG-Setup/Debug
+
+# VCG binaries
+[oO]bj
+[bB]in
+/VisualCodeGrepper/VisualCodeGrepper.vbproj.user
