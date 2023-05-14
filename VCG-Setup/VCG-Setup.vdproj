@@ -15,6 +15,12 @@
     {
         "Entry"
         {
+        "MsmKey" = "8:_0D064A8F0A034B7C955A0333EB9149A9"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_2AD58D77303748D68CF4DC3928EC4C76"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -22,12 +28,6 @@
         "Entry"
         {
         "MsmKey" = "8:_5C85DEE12C9F474E992D1FD7F9BD8287"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_8E9B5447C388407899CFCF5B25378A1E"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -64,6 +64,12 @@
         "Entry"
         {
         "MsmKey" = "8:_C60DB7D29C1D471288A5219C1E607AB8"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_D1B0DD7537B048768C937193EF9BA027"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -192,10 +198,10 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5C85DEE12C9F474E992D1FD7F9BD8287"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_0D064A8F0A034B7C955A0333EB9149A9"
             {
-            "SourcePath" = "8:..\\VisualCodeGrepper\\bin\\Release\\badcomments.conf"
-            "TargetName" = "8:badcomments.conf"
+            "SourcePath" = "8:..\\README.txt"
+            "TargetName" = "8:README.txt"
             "Tag" = "8:"
             "Folder" = "8:_EED2A8ED9BB0498FA811345550076A59"
             "Condition" = "8:"
@@ -212,16 +218,16 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_8E9B5447C388407899CFCF5B25378A1E"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5C85DEE12C9F474E992D1FD7F9BD8287"
             {
-            "SourcePath" = "8:..\\README.md"
-            "TargetName" = "8:README.md"
+            "SourcePath" = "8:..\\VisualCodeGrepper\\bin\\Release\\badcomments.conf"
+            "TargetName" = "8:badcomments.conf"
             "Tag" = "8:"
             "Folder" = "8:_EED2A8ED9BB0498FA811345550076A59"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
-            "Vital" = "11:FALSE"
-            "ReadOnly" = "11:TRUE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
             "Hidden" = "11:FALSE"
             "System" = "11:FALSE"
             "Permanent" = "11:FALSE"
@@ -347,6 +353,26 @@
             {
             "SourcePath" = "8:..\\VisualCodeGrepper\\bin\\Release\\phpfunctions.conf"
             "TargetName" = "8:phpfunctions.conf"
+            "Tag" = "8:"
+            "Folder" = "8:_EED2A8ED9BB0498FA811345550076A59"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D1B0DD7537B048768C937193EF9BA027"
+            {
+            "SourcePath" = "8:..\\VisualCodeGrepper\\Config\\rfunctions.conf"
+            "TargetName" = "8:rfunctions.conf"
             "Tag" = "8:"
             "Folder" = "8:_EED2A8ED9BB0498FA811345550076A59"
             "Condition" = "8:"
@@ -491,7 +517,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:VisualCodeGrepper"
         "ProductCode" = "8:{42C297A6-806F-4B7E-B5F6-07C7C61BBE59}"
-        "PackageCode" = "8:{4A745D75-4B7F-4D8C-99B9-3DA2B81E91FD}"
+        "PackageCode" = "8:{3239B028-FB12-4656-B712-24F8ED95BAD0}"
         "UpgradeCode" = "8:{B6741813-9E2F-4E43-9C45-AFD808B26DEB}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
