@@ -47,6 +47,10 @@ Public Class frmOptions
         LaunchNPP(asAppSettings.COBOLConfFile)
     End Sub
 
+    Private Sub btnREdit_Click(sender As Object, e As EventArgs) Handles btnREdit.Click
+        LaunchNPP(asAppSettings.RConfFile)
+    End Sub
+
     Private Sub btnOK_Click(sender As System.Object, e As System.EventArgs) Handles btnOK.Click
         ' Apply all new settings and exit
         '================================
@@ -66,6 +70,7 @@ Public Class frmOptions
         If txtVB.Text.Trim() <> "" Then asAppSettings.VBConfFile = txtVB.Text.Trim()
         If txtPHP.Text.Trim() <> "" Then asAppSettings.PHPConfFile = txtPHP.Text.Trim()
         If txtCobol.Text.Trim() <> "" Then asAppSettings.COBOLConfFile = txtCobol.Text.Trim()
+        If txtR.Text.Trim() <> "" Then asAppSettings.RConfFile = txtR.Text.Trim()
 
         ' Set reporting level - the reverse order in the dropdown list necessitates "7 - selected val"
         asAppSettings.OutputLevel = 7 - cboReporting.SelectedIndex
@@ -97,7 +102,7 @@ Public Class frmOptions
         frmMain.SaveFiltered = rbFiltered.Checked
 
         ' Include any required beta functionality
-        SetBetaDetails(cbSigned.Checked, cbCobol.Checked)
+        SetBetaDetails(cbSigned.Checked, cbCobol.Checked, cbRScript.Checked)
 
         ' Load contents of temporary grep box into bad function array
         If txtTempGrep.Text.Trim = "" Then
@@ -139,6 +144,8 @@ Public Class frmOptions
                 asAppSettings.PHPSuffixes = txtFileTypes.Text
             Case AppSettings.COBOL
                 asAppSettings.COBOLSuffixes = txtFileTypes.Text
+            Case AppSettings.R
+                asAppSettings.RSuffixes = txtFileTypes.Text
         End Select
 
     End Sub
@@ -162,6 +169,7 @@ Public Class frmOptions
         txtVB.Text = asAppSettings.VBConfFile
         txtPHP.Text = asAppSettings.PHPConfFile
         txtCobol.Text = asAppSettings.COBOLConfFile
+        txtR.Text = asAppSettings.RConfFile
 
         ' Output settings
         cboReporting.SelectedIndex = 7 - asAppSettings.OutputLevel
@@ -190,7 +198,8 @@ Public Class frmOptions
         ' Beta functionality
         cbSigned.Checked = asAppSettings.IncludeSigned
         cbCobol.Checked = asAppSettings.IncludeCobol
-        SetBetaDetails(asAppSettings.IncludeSigned, asAppSettings.IncludeCobol)
+        cbRScript.Checked = asAppSettings.IncludeR
+        SetBetaDetails(asAppSettings.IncludeSigned, asAppSettings.IncludeCobol, asAppSettings.IncludeR)
 
         ' Temporary Grep text
         txtTempGrep.Text = asAppSettings.TempGrepText
@@ -216,6 +225,8 @@ Public Class frmOptions
                 txtFileTypes.Text = asAppSettings.PHPSuffixes
             Case AppSettings.COBOL
                 txtFileTypes.Text = asAppSettings.COBOLSuffixes
+            Case AppSettings.R
+                txtFileTypes.Text = asAppSettings.RSuffixes
         End Select
 
     End Sub
@@ -302,6 +313,20 @@ Public Class frmOptions
         If Not Windows.Forms.DialogResult.Cancel And ofdOpenFileDialog.FileName <> "" Then
             txtCobol.Text = ofdOpenFileDialog.FileName
             asAppSettings.COBOLConfFile = ofdOpenFileDialog.FileName
+        End If
+
+    End Sub
+
+    Private Sub btnRBrowse_Click(sender As Object, e As EventArgs) Handles btnRBrowse.Click
+        ' Show dialog box for new R config file
+        '======================================
+
+        ' Get target directory
+        ofdOpenFileDialog.ShowDialog()
+
+        If Not Windows.Forms.DialogResult.Cancel And ofdOpenFileDialog.FileName <> "" Then
+            txtR.Text = ofdOpenFileDialog.FileName
+            asAppSettings.RConfFile = ofdOpenFileDialog.FileName
         End If
 
     End Sub
@@ -413,12 +438,30 @@ Public Class frmOptions
 
     End Sub
 
-    Private Sub SetBetaDetails(IncludeSigned As Boolean, IncludeCobol As Boolean)
+    Private Sub SetBetaDetails(IncludeSigned As Boolean, IncludeCobol As Boolean, IncludeR As Boolean)
         'Implement any beta functionality that the user requires
         '=======================================================
 
         ' C/C++ signed/unsigned comparison
         asAppSettings.IncludeSigned = IncludeSigned
+
+        ' R scanning
+        asAppSettings.IncludeR = IncludeR
+        lblR.Visible = IncludeR
+        txtR.Visible = IncludeR
+        btnRBrowse.Visible = IncludeR
+        btnREdit.Visible = IncludeR
+
+        ' Enable/disable controls on main form
+        frmMain.PopulateLanguageOptions()
+
+        If IncludeR = True Then
+            cboCurrentLanguage.Items.Add("R")
+            cboStartUpLanguage.Items.Add("R")
+        Else
+            cboCurrentLanguage.Items.Remove("R")
+            cboStartUpLanguage.Items.Remove("R")
+        End If
 
         ' COBOL scanning
         'lblCobol.Visible = IncludeCobol
@@ -494,6 +537,10 @@ Public Class frmOptions
             MsgBox(ex.ToString)
         End Try
 
+    End Sub
+
+    Private Sub cbRScript_CheckedChanged(sender As Object, e As EventArgs) Handles cbRScript.CheckedChanged
+        SetBetaDetails(cbSigned.Checked, cbCobol.Checked, cbRScript.Checked)
     End Sub
 
 End Class

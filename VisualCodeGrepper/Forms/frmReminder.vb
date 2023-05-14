@@ -25,10 +25,4 @@ Public Class frmReminder
 
     End Sub
 
-    Private Sub lblReminder_Click(sender As System.Object, e As System.EventArgs) Handles lblReminder.Click
-
-    End Sub
-    Private Sub chkNotAgain_CheckedChanged(sender As System.Object, e As System.EventArgs) Handles chkNotAgain.CheckedChanged
-
-    End Sub
 End Class

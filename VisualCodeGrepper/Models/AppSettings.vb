@@ -28,6 +28,7 @@ Public Class AppSettings
     Public Const VB = 4
     Public Const PHP = 5
     Public Const COBOL = 6
+    Public Const R = 7
     '=============================================
 
 
@@ -51,6 +52,7 @@ Public Class AppSettings
     Public VBConfFile As String = "vbfunctions.conf"
     Public PHPConfFile As String = "phpfunctions.conf"
     Public COBOLConfFile As String = "cobolfunctions.conf"
+    Public RConfFile As String = "rfunctions.conf"
     '====================================================================
 
 
@@ -66,6 +68,7 @@ Public Class AppSettings
     Public VBSuffixes As String = ".vb|.asp|.aspx|web.config"
     Public PHPSuffixes As String = ".php|.php3|php.ini"
     Public COBOLSuffixes As String = ".cob|.cbl|.clt|.cl2|.cics"
+    Public RSuffixes As String = ".r"
 
     Public FileSuffixes() As String
     Public NumSuffixes As Integer = 0
@@ -141,6 +144,7 @@ Public Class AppSettings
     Public IncludeBeta As Boolean = False
     Public IncludeSigned As Boolean = False
     Public IncludeCobol As Boolean = True
+    Public IncludeR As Boolean = False
     '=========================================================
 
     ' == Runtime Settings

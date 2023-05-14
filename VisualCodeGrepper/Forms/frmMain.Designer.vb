@@ -22,11 +22,7 @@ Partial Class frmMain
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim FlowLayoutPanel1 As System.Windows.Forms.FlowLayoutPanel
-        Dim lblTarget As System.Windows.Forms.Label
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmMain))
-        Me.cboTargetDir = New System.Windows.Forms.ComboBox()
-        Me.cboLanguage = New System.Windows.Forms.ComboBox()
         Me.mnuMain = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.NewTargetToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -92,6 +88,9 @@ Partial Class frmMain
         Me.ssStatusStrip = New System.Windows.Forms.StatusStrip()
         Me.sslLabel = New System.Windows.Forms.ToolStripStatusLabel()
         Me.spMain = New System.Windows.Forms.SplitContainer()
+        Me.scTarget = New System.Windows.Forms.SplitContainer()
+        Me.cboTargetDir = New System.Windows.Forms.ComboBox()
+        Me.cboLanguage = New System.Windows.Forms.ComboBox()
         Me.tcMain = New System.Windows.Forms.TabControl()
         Me.tabTargetFiles = New System.Windows.Forms.TabPage()
         Me.lbTargets = New System.Windows.Forms.ListBox()
@@ -108,82 +107,28 @@ Partial Class frmMain
         Me.sfdSaveFileDialog = New System.Windows.Forms.SaveFileDialog()
         Me.ofdOpenFileDialog = New System.Windows.Forms.OpenFileDialog()
         Me.cdColorDialog = New System.Windows.Forms.ColorDialog()
-        FlowLayoutPanel1 = New System.Windows.Forms.FlowLayoutPanel()
-        lblTarget = New System.Windows.Forms.Label()
-        FlowLayoutPanel1.SuspendLayout()
         Me.mnuMain.SuspendLayout()
         Me.ssStatusStrip.SuspendLayout()
         CType(Me.spMain, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.spMain.Panel1.SuspendLayout()
         Me.spMain.Panel2.SuspendLayout()
         Me.spMain.SuspendLayout()
+        CType(Me.scTarget, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.scTarget.Panel1.SuspendLayout()
+        Me.scTarget.Panel2.SuspendLayout()
+        Me.scTarget.SuspendLayout()
         Me.tcMain.SuspendLayout()
         Me.tabTargetFiles.SuspendLayout()
         Me.tabResults.SuspendLayout()
         Me.tabResultsTable.SuspendLayout()
         Me.SuspendLayout()
         '
-        'FlowLayoutPanel1
-        '
-        FlowLayoutPanel1.AutoSize = True
-        FlowLayoutPanel1.CausesValidation = False
-        FlowLayoutPanel1.Controls.Add(lblTarget)
-        FlowLayoutPanel1.Controls.Add(Me.cboTargetDir)
-        FlowLayoutPanel1.Controls.Add(Me.cboLanguage)
-        FlowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill
-        FlowLayoutPanel1.Location = New System.Drawing.Point(0, 0)
-        FlowLayoutPanel1.Name = "FlowLayoutPanel1"
-        FlowLayoutPanel1.Size = New System.Drawing.Size(933, 30)
-        FlowLayoutPanel1.TabIndex = 5
-        FlowLayoutPanel1.WrapContents = False
-        '
-        'lblTarget
-        '
-        lblTarget.Anchor = System.Windows.Forms.AnchorStyles.Left
-        lblTarget.BackColor = System.Drawing.Color.Transparent
-        lblTarget.CausesValidation = False
-        lblTarget.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        lblTarget.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
-        lblTarget.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
-        lblTarget.Location = New System.Drawing.Point(10, 7)
-        lblTarget.Margin = New System.Windows.Forms.Padding(10, 0, 0, 0)
-        lblTarget.Name = "lblTarget"
-        lblTarget.Size = New System.Drawing.Size(91, 13)
-        lblTarget.TabIndex = 0
-        lblTarget.Text = "Target Directory:"
-        lblTarget.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        lblTarget.UseMnemonic = False
-        '
-        'cboTargetDir
-        '
-        Me.cboTargetDir.AllowDrop = True
-        Me.cboTargetDir.Anchor = CType((System.Windows.Forms.AnchorStyles.Left Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.cboTargetDir.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
-        Me.cboTargetDir.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem
-        Me.cboTargetDir.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
-        Me.cboTargetDir.IntegralHeight = False
-        Me.cboTargetDir.ItemHeight = 13
-        Me.cboTargetDir.Location = New System.Drawing.Point(104, 3)
-        Me.cboTargetDir.MaxDropDownItems = 1
-        Me.cboTargetDir.Name = "cboTargetDir"
-        Me.cboTargetDir.Size = New System.Drawing.Size(698, 21)
-        Me.cboTargetDir.TabIndex = 2
-        '
-        'cboLanguage
-        '
-        Me.cboLanguage.Anchor = System.Windows.Forms.AnchorStyles.Right
-        Me.cboLanguage.FormattingEnabled = True
-        Me.cboLanguage.Location = New System.Drawing.Point(808, 3)
-        Me.cboLanguage.Name = "cboLanguage"
-        Me.cboLanguage.Size = New System.Drawing.Size(121, 21)
-        Me.cboLanguage.TabIndex = 2
-        '
         'mnuMain
         '
         Me.mnuMain.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.EditToolStripMenuItem, Me.ViewToolStripMenuItem, Me.ScanToolStripMenuItem, Me.SettingsToolStripMenuItem, Me.HelpToolStripMenuItem})
         Me.mnuMain.Location = New System.Drawing.Point(0, 0)
         Me.mnuMain.Name = "mnuMain"
-        Me.mnuMain.Size = New System.Drawing.Size(933, 24)
+        Me.mnuMain.Size = New System.Drawing.Size(978, 24)
         Me.mnuMain.TabIndex = 0
         '
         'FileToolStripMenuItem
@@ -579,9 +524,9 @@ Partial Class frmMain
         'ssStatusStrip
         '
         Me.ssStatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.sslLabel})
-        Me.ssStatusStrip.Location = New System.Drawing.Point(0, 452)
+        Me.ssStatusStrip.Location = New System.Drawing.Point(0, 489)
         Me.ssStatusStrip.Name = "ssStatusStrip"
-        Me.ssStatusStrip.Size = New System.Drawing.Size(933, 22)
+        Me.ssStatusStrip.Size = New System.Drawing.Size(978, 22)
         Me.ssStatusStrip.TabIndex = 1
         '
         'sslLabel
@@ -602,16 +547,58 @@ Partial Class frmMain
         '
         'spMain.Panel1
         '
-        Me.spMain.Panel1.Controls.Add(FlowLayoutPanel1)
+        Me.spMain.Panel1.Controls.Add(Me.scTarget)
         Me.spMain.Panel1MinSize = 0
         '
         'spMain.Panel2
         '
         Me.spMain.Panel2.Controls.Add(Me.tcMain)
         Me.spMain.Panel2MinSize = 0
-        Me.spMain.Size = New System.Drawing.Size(933, 428)
-        Me.spMain.SplitterDistance = 30
+        Me.spMain.Size = New System.Drawing.Size(978, 465)
+        Me.spMain.SplitterDistance = 32
         Me.spMain.TabIndex = 2
+        '
+        'scTarget
+        '
+        Me.scTarget.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.scTarget.Location = New System.Drawing.Point(0, 0)
+        Me.scTarget.Name = "scTarget"
+        '
+        'scTarget.Panel1
+        '
+        Me.scTarget.Panel1.Controls.Add(Me.cboTargetDir)
+        '
+        'scTarget.Panel2
+        '
+        Me.scTarget.Panel2.Controls.Add(Me.cboLanguage)
+        Me.scTarget.Size = New System.Drawing.Size(978, 32)
+        Me.scTarget.SplitterDistance = 793
+        Me.scTarget.TabIndex = 0
+        '
+        'cboTargetDir
+        '
+        Me.cboTargetDir.AllowDrop = True
+        Me.cboTargetDir.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend
+        Me.cboTargetDir.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.FileSystem
+        Me.cboTargetDir.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.cboTargetDir.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!)
+        Me.cboTargetDir.IntegralHeight = False
+        Me.cboTargetDir.ItemHeight = 13
+        Me.cboTargetDir.Location = New System.Drawing.Point(0, 0)
+        Me.cboTargetDir.MaxDropDownItems = 5
+        Me.cboTargetDir.Name = "cboTargetDir"
+        Me.cboTargetDir.Size = New System.Drawing.Size(793, 21)
+        Me.cboTargetDir.TabIndex = 4
+        '
+        'cboLanguage
+        '
+        Me.cboLanguage.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.cboLanguage.DropDownWidth = 155
+        Me.cboLanguage.FormattingEnabled = True
+        Me.cboLanguage.Location = New System.Drawing.Point(0, 0)
+        Me.cboLanguage.Name = "cboLanguage"
+        Me.cboLanguage.Size = New System.Drawing.Size(181, 21)
+        Me.cboLanguage.TabIndex = 6
         '
         'tcMain
         '
@@ -622,7 +609,7 @@ Partial Class frmMain
         Me.tcMain.Location = New System.Drawing.Point(0, 0)
         Me.tcMain.Name = "tcMain"
         Me.tcMain.SelectedIndex = 0
-        Me.tcMain.Size = New System.Drawing.Size(933, 394)
+        Me.tcMain.Size = New System.Drawing.Size(978, 429)
         Me.tcMain.TabIndex = 0
         '
         'tabTargetFiles
@@ -631,7 +618,7 @@ Partial Class frmMain
         Me.tabTargetFiles.Location = New System.Drawing.Point(4, 22)
         Me.tabTargetFiles.Name = "tabTargetFiles"
         Me.tabTargetFiles.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabTargetFiles.Size = New System.Drawing.Size(925, 368)
+        Me.tabTargetFiles.Size = New System.Drawing.Size(970, 403)
         Me.tabTargetFiles.TabIndex = 0
         Me.tabTargetFiles.Text = "Target Files"
         Me.tabTargetFiles.UseVisualStyleBackColor = True
@@ -642,7 +629,7 @@ Partial Class frmMain
         Me.lbTargets.FormattingEnabled = True
         Me.lbTargets.Location = New System.Drawing.Point(3, 3)
         Me.lbTargets.Name = "lbTargets"
-        Me.lbTargets.Size = New System.Drawing.Size(919, 362)
+        Me.lbTargets.Size = New System.Drawing.Size(964, 397)
         Me.lbTargets.TabIndex = 0
         '
         'tabResults
@@ -651,7 +638,7 @@ Partial Class frmMain
         Me.tabResults.Location = New System.Drawing.Point(4, 22)
         Me.tabResults.Name = "tabResults"
         Me.tabResults.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabResults.Size = New System.Drawing.Size(925, 368)
+        Me.tabResults.Size = New System.Drawing.Size(970, 403)
         Me.tabResults.TabIndex = 1
         Me.tabResults.Text = "Results"
         Me.tabResults.UseVisualStyleBackColor = True
@@ -662,7 +649,7 @@ Partial Class frmMain
         Me.rtbResults.Dock = System.Windows.Forms.DockStyle.Fill
         Me.rtbResults.Location = New System.Drawing.Point(3, 3)
         Me.rtbResults.Name = "rtbResults"
-        Me.rtbResults.Size = New System.Drawing.Size(919, 362)
+        Me.rtbResults.Size = New System.Drawing.Size(964, 397)
         Me.rtbResults.TabIndex = 0
         Me.rtbResults.Text = ""
         '
@@ -672,7 +659,7 @@ Partial Class frmMain
         Me.tabResultsTable.Location = New System.Drawing.Point(4, 22)
         Me.tabResultsTable.Name = "tabResultsTable"
         Me.tabResultsTable.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabResultsTable.Size = New System.Drawing.Size(925, 368)
+        Me.tabResultsTable.Size = New System.Drawing.Size(970, 403)
         Me.tabResultsTable.TabIndex = 2
         Me.tabResultsTable.Text = "Summary Table"
         Me.tabResultsTable.UseVisualStyleBackColor = True
@@ -687,7 +674,7 @@ Partial Class frmMain
         Me.lvResults.LabelWrap = False
         Me.lvResults.Location = New System.Drawing.Point(3, 3)
         Me.lvResults.Name = "lvResults"
-        Me.lvResults.Size = New System.Drawing.Size(919, 362)
+        Me.lvResults.Size = New System.Drawing.Size(964, 397)
         Me.lvResults.TabIndex = 0
         Me.lvResults.UseCompatibleStateImageBehavior = False
         Me.lvResults.View = System.Windows.Forms.View.Details
@@ -729,7 +716,7 @@ Partial Class frmMain
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(933, 474)
+        Me.ClientSize = New System.Drawing.Size(978, 511)
         Me.Controls.Add(Me.spMain)
         Me.Controls.Add(Me.ssStatusStrip)
         Me.Controls.Add(Me.mnuMain)
@@ -737,16 +724,18 @@ Partial Class frmMain
         Me.MainMenuStrip = Me.mnuMain
         Me.Name = "frmMain"
         Me.Text = "VCG"
-        FlowLayoutPanel1.ResumeLayout(False)
         Me.mnuMain.ResumeLayout(False)
         Me.mnuMain.PerformLayout()
         Me.ssStatusStrip.ResumeLayout(False)
         Me.ssStatusStrip.PerformLayout()
         Me.spMain.Panel1.ResumeLayout(False)
-        Me.spMain.Panel1.PerformLayout()
         Me.spMain.Panel2.ResumeLayout(False)
         CType(Me.spMain, System.ComponentModel.ISupportInitialize).EndInit()
         Me.spMain.ResumeLayout(False)
+        Me.scTarget.Panel1.ResumeLayout(False)
+        Me.scTarget.Panel2.ResumeLayout(False)
+        CType(Me.scTarget, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.scTarget.ResumeLayout(False)
         Me.tcMain.ResumeLayout(False)
         Me.tabTargetFiles.ResumeLayout(False)
         Me.tabResults.ResumeLayout(False)
@@ -836,6 +825,7 @@ Partial Class frmMain
     Friend WithEvents chDescription As ColumnHeader
     Friend WithEvents chFileName As ColumnHeader
     Friend WithEvents chLine As ColumnHeader
+    Friend WithEvents scTarget As SplitContainer
     Friend WithEvents cboTargetDir As ComboBox
     Friend WithEvents cboLanguage As ComboBox
 End Class

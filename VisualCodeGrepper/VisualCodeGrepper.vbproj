@@ -81,7 +81,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DefineDebug>true</DefineDebug>
     <DefineTrace>true</DefineTrace>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
     <DebugType>full</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -213,6 +213,7 @@
     <Compile Include="Modules\modMain.vb" />
     <Compile Include="Modules\modPHPCheck.vb" />
     <Compile Include="Modules\modPlSqlCheck.vb" />
+    <Compile Include="Modules\modRCheck.vb" />
     <Compile Include="Modules\modVBCheck.vb" />
     <Compile Include="Modules\modNativeMethods.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -290,6 +291,7 @@
     <None Include="Config\javafunctions.conf" />
     <None Include="Config\phpfunctions.conf" />
     <None Include="Config\plsqlfunctions.conf" />
+    <None Include="Config\rfunctions.conf" />
     <None Include="Config\vbfunctions.conf" />
     <None Include="My Project\app.manifest" />
     <None Include="My Project\Application.myapp">
@@ -307,6 +309,11 @@
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
       <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
       <Visible>False</Visible>

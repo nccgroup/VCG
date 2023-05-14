@@ -221,42 +221,40 @@ Public Module modMain
 
         Dim strHelp As String
 
-        strHelp = "
-Visual Code Grepper (VCG) 2.0 (C) Nick Dunn And John Murray, 2012-2014.
-Usage:  VisualCodeGrepper [OPTIONS]       
+        strHelp = "Visual Code Grepper (VCG) 2.0 (C) Nick Dunn And John Murray, 2012-2014.
+            Usage:  VisualCodeGrepper [OPTIONS]       
     
-STARTUP:
-Set desired starting point for GUI. If using console mode these options will set target(s) to be scanned.
+            STARTUP:
+            Set desired starting point for GUI. If using console mode these options will set target(s) to be scanned.
 
- -t, --target <Filename|DirectoryName>:      Set target file or directory. Use this option either to load target 
-                                             immediately into GUI or to provide the target for console mode.
- -l, --language <CPP|PLSQL|JAVA|CS|VB|PHP>   Set target language (Default is C/C++).
- -e, --extensions <ext1|ext2|ext3>           Set file extensions to be analysed (See ReadMe or Options screen for language-specific defaults).
- -i, --import <Filename>                     Import XML/CSV results to GUI.
+             -t, --target <Filename|DirectoryName>:      Set target file or directory. Use this option either to load target 
+                                                         immediately into GUI or to provide the target for console mode.
+             -l, --language <CPP|PLSQL|JAVA|CS|VB|PHP>   Set target language (Default is C/C++).
+             -e, --extensions <ext1|ext2|ext3>           Set file extensions to be analysed (See ReadMe or Options screen for language-specific defaults).
+             -i, --import <Filename>                     Import XML/CSV results to GUI.
 
-OUTPUT:
-Automagically export results to a file in the specified format. Use XML output if you wish to reload results into the GUI later on.
+            OUTPUT:
+            Automagically export results to a file in the specified format. Use XML output if you wish to reload results into the GUI later on.
 
- -x, --export <Filename>                     Automatically export results to XML file.
- -f, --csv-export <Filename>                 Automatically export results to CSV file.
- -r, --results <Filename>                    Automatically export results to flat text file.
+             -x, --export <Filename>                     Automatically export results to XML file.
+             -f, --csv-export <Filename>                 Automatically export results to CSV file.
+             -r, --results <Filename>                    Automatically export results to flat text file.
 
-CONSOLE OPTIONS:
- -c, --console                               Run application in console only (hide GUI).
- -v, --verbose                               Set console output to verbose mode.
- -h, --help                                  Show (this) help.
+            CONSOLE OPTIONS:
+             -c, --console                               Run application in console only (hide GUI).
+             -v, --verbose                               Set console output to verbose mode.
+             -h, --help                                  Show (this) help.
 
-EXAMPLES:
+            EXAMPLES:
 
-> VisualCodeGrepper.exe -t c:\code\mycodebase -lang VB
+            > VisualCodeGrepper.exe -t c:\code\mycodebase -lang VB
     
-    Loads the UI with the Target Directory pre-filled, and language pre-selected
+                Loads the UI with the Target Directory pre-filled, and language pre-selected
 
-> VisualCodeGrepper --console -t c:\code\mycodebase -lang VB -r c:\code\results.txt  
+            > VisualCodeGrepper --console -t c:\code\mycodebase -lang VB -r c:\code\results.txt  
 
-    Supresses the UI, scans Target Directory for VB files, and saves output to a Flat File.
+                Supresses the UI, scans Target Directory for VB files, and saves output to a Flat File."
 
-"
 
         If asAppSettings.IsConsole Then
             LogBlank(strHelp)
@@ -289,6 +287,8 @@ EXAMPLES:
                 asAppSettings.TestType = AppSettings.PHP
             Case "COBOL"
                 asAppSettings.TestType = AppSettings.COBOL
+            Case "R"
+                asAppSettings.TestType = AppSettings.R
             Case Else
                 blnRetVal = False
         End Select
@@ -296,8 +296,6 @@ EXAMPLES:
         Return blnRetVal
 
     End Function
-
-
 
     Public Sub LaunchNPP(FileName As String, Optional LineNumber As Integer = 1)
         ' Launch NPP if available, launch Notepad if not
@@ -370,14 +368,18 @@ EXAMPLES:
                 LoadUnsafeFunctionList(AppSettings.COBOL)
                 asAppSettings.SingleLineComment = "*"
                 asAppSettings.AltSingleLineComment = "\/"   ' This will be used in a regex so it must be escaped
+            Case AppSettings.R
+                asAppSettings.BadFuncFile = asAppSettings.RConfFile
+                LoadUnsafeFunctionList(AppSettings.R)
+                asAppSettings.SingleLineComment = "#"
         End Select
 
         ' Set the GUI to display correct options for the language
         If asAppSettings.IsConsole = True Then Exit Sub
 
-        Select Case Language
-            Case AppSettings.C
-                With frmMain
+        With frmMain
+            Select Case Language
+                Case AppSettings.C
                     .JavaToolStripMenuItem.Checked = False
                     .PLSQLToolStripMenuItem.Checked = False
                     .CSToolStripMenuItem.Checked = False
@@ -385,9 +387,7 @@ EXAMPLES:
                     .PHPToolStripMenuItem.Checked = False
                     .COBOLToolStripMenuItem.Checked = False
                     .sslLabel.Text = "Language: C/C++   File Suffixes: " & asAppSettings.CSuffixes
-                End With
-            Case AppSettings.JAVA
-                With frmMain
+                Case AppSettings.JAVA
                     .CCToolStripMenuItem.Checked = False
                     .PLSQLToolStripMenuItem.Checked = False
                     .CSToolStripMenuItem.Checked = False
@@ -395,10 +395,7 @@ EXAMPLES:
                     .PHPToolStripMenuItem.Checked = False
                     .COBOLToolStripMenuItem.Checked = False
                     .sslLabel.Text = "Language: Java   File Suffixes: " & asAppSettings.JavaSuffixes
-                End With
-
-            Case AppSettings.SQL
-                With frmMain
+                Case AppSettings.SQL
                     .CCToolStripMenuItem.Checked = False
                     .JavaToolStripMenuItem.Checked = False
                     .CSToolStripMenuItem.Checked = False
@@ -407,9 +404,7 @@ EXAMPLES:
                     .COBOLToolStripMenuItem.Checked = False
                     asAppSettings.SingleLineComment = "--"
                     .sslLabel.Text = "Language: PL/SQL   File Suffixes: " & asAppSettings.PLSQLSuffixes
-                End With
-            Case AppSettings.CSHARP
-                With frmMain
+                Case AppSettings.CSHARP
                     .CCToolStripMenuItem.Checked = False
                     .JavaToolStripMenuItem.Checked = False
                     .PLSQLToolStripMenuItem.Checked = False
@@ -417,9 +412,7 @@ EXAMPLES:
                     .PHPToolStripMenuItem.Checked = False
                     .COBOLToolStripMenuItem.Checked = False
                     .sslLabel.Text = "Language: C#   File Suffixes: " & asAppSettings.CSharpSuffixes
-                End With
-            Case AppSettings.VB
-                With frmMain
+                Case AppSettings.VB
                     .CCToolStripMenuItem.Checked = False
                     .JavaToolStripMenuItem.Checked = False
                     .PLSQLToolStripMenuItem.Checked = False
@@ -427,9 +420,7 @@ EXAMPLES:
                     .PHPToolStripMenuItem.Checked = False
                     .COBOLToolStripMenuItem.Checked = False
                     .sslLabel.Text = "Language: VB   File Suffixes: " & asAppSettings.VBSuffixes
-                End With
-            Case AppSettings.PHP
-                With frmMain
+                Case AppSettings.PHP
                     .CCToolStripMenuItem.Checked = False
                     .JavaToolStripMenuItem.Checked = False
                     .PLSQLToolStripMenuItem.Checked = False
@@ -437,17 +428,23 @@ EXAMPLES:
                     .VBToolStripMenuItem.Checked = False
                     .COBOLToolStripMenuItem.Checked = False
                     .sslLabel.Text = "Language: PHP   File Suffixes: " & asAppSettings.PHPSuffixes
-                End With
-            Case AppSettings.COBOL
-                With frmMain
+                Case AppSettings.COBOL
                     .CCToolStripMenuItem.Checked = False
                     .JavaToolStripMenuItem.Checked = False
                     .PLSQLToolStripMenuItem.Checked = False
                     .CSToolStripMenuItem.Checked = False
                     .VBToolStripMenuItem.Checked = False
                     .sslLabel.Text = "Language: COBOL   File Suffixes: " & asAppSettings.COBOLSuffixes
-                End With
-        End Select
+                Case AppSettings.R
+                    .CCToolStripMenuItem.Checked = False
+                    .JavaToolStripMenuItem.Checked = False
+                    .PLSQLToolStripMenuItem.Checked = False
+                    .CSToolStripMenuItem.Checked = False
+                    .VBToolStripMenuItem.Checked = False
+                    .COBOLToolStripMenuItem.Checked = False
+                    .sslLabel.Text = "Language: R   File Suffixes: " & asAppSettings.RSuffixes
+            End Select
+        End With
 
     End Sub
 
@@ -476,6 +473,8 @@ EXAMPLES:
                     asAppSettings.FileSuffixes = asAppSettings.PHPSuffixes.Split("|")
                 Case AppSettings.COBOL
                     asAppSettings.FileSuffixes = asAppSettings.COBOLSuffixes.Split("|")
+                Case AppSettings.R
+                    asAppSettings.FileSuffixes = asAppSettings.RSuffixes.Split("|")
             End Select
 
             asAppSettings.NumSuffixes = asAppSettings.FileSuffixes.Length - 1
@@ -506,17 +505,19 @@ EXAMPLES:
                 Case AppSettings.C
                     asAppSettings.BadFuncFile = Path.Combine(AppSettings.ApplicationDirectory, "cppfunctions.conf")
                 Case AppSettings.JAVA
-                    asAppSettings.BadFuncFile = Path.Combine(Application.StartupPath, "javafunctions.conf")
+                    asAppSettings.BadFuncFile = Path.Combine(AppSettings.ApplicationDirectory, "javafunctions.conf")
                 Case AppSettings.SQL
-                    asAppSettings.BadFuncFile = Path.Combine(Application.StartupPath, "plsqlfunctions.conf")
+                    asAppSettings.BadFuncFile = Path.Combine(AppSettings.ApplicationDirectory, "plsqlfunctions.conf")
                 Case AppSettings.CSHARP
-                    asAppSettings.BadFuncFile = Path.Combine(Application.StartupPath, "csfunctions.conf")
+                    asAppSettings.BadFuncFile = Path.Combine(AppSettings.ApplicationDirectory, "csfunctions.conf")
                 Case AppSettings.VB
-                    asAppSettings.BadFuncFile = Path.Combine(Application.StartupPath, "vbfunctions.conf")
+                    asAppSettings.BadFuncFile = Path.Combine(AppSettings.ApplicationDirectory, "vbfunctions.conf")
                 Case AppSettings.PHP
-                    asAppSettings.BadFuncFile = Path.Combine(Application.StartupPath, "phpfunctions.conf")
+                    asAppSettings.BadFuncFile = Path.Combine(AppSettings.ApplicationDirectory, "phpfunctions.conf")
                 Case AppSettings.COBOL
-                    asAppSettings.BadFuncFile = Path.Combine(Application.StartupPath, "cobolfunctions.conf")
+                    asAppSettings.BadFuncFile = Path.Combine(AppSettings.ApplicationDirectory, "cobolfunctions.conf")
+                Case AppSettings.R
+                    asAppSettings.BadFuncFile = Path.Combine(AppSettings.ApplicationDirectory, "rfunctions.conf")
             End Select
 
             If Not File.Exists(asAppSettings.BadFuncFile) Then MsgBox("No config file found for bad functions.", MsgBoxStyle.Critical, "Error")
@@ -638,6 +639,8 @@ EXAMPLES:
                     CheckPHPCode(CodeLine, FileName)
                 Case AppSettings.COBOL
                     CheckCobolCode(CodeLine, FileName)
+                Case AppSettings.R
+                    CheckRCode(CodeLine, FileName)
             End Select
 
             '== Check for possible hard-coded passwords ==
@@ -647,45 +650,6 @@ EXAMPLES:
         End If
 
     End Sub
-
-    'Public Function GetVcgLanguageOptionFromText(LanguageText As String) As Integer
-    '    '== Get language for results in text form in order to put meaningful comment at start of file ==
-    '    Select Case LanguageText
-    '        Case "C"
-    '            Return AppSettings.C
-    '        Case "Java"
-    '            Return AppSettings.JAVA
-    '        Case "PL/SQL"
-    '            Return AppSettings.SQL
-    '        Case "C#"
-    '            Return AppSettings.CSHARP
-    '        Case "PHP"
-    '            Return AppSettings.PHP
-    '        Case Else
-    '            Throw New ArgumentOutOfRangeException($"Language not catered for: {LanguageText}")
-    '    End Select
-    'End Function
-
-    'Public Function GetTextForVcgLanguageOption(VcgLanguageOption As Integer) As String
-    '    '== Get language for results in text form in order to put meaningful comment at start of file ==
-    '    Select Case VcgLanguageOption
-    '        Case AppSettings.C
-    '            Return "C"
-    '        Case AppSettings.JAVA
-    '            Return "Java"
-    '        Case AppSettings.SQL
-    '            Return "PL/SQL"
-    '        Case AppSettings.CSHARP
-    '            Return "C#"
-    '        Case AppSettings.PHP
-    '            Return "PHP"
-    '        Case Else
-    '            Throw New ArgumentOutOfRangeException($"Language not catered for: {VcgLanguageOption}")
-    '    End Select
-
-
-    'End Function
-
     Public Function GetVarName(CodeLine As String, Optional SplitOnEquals As Boolean = False)
         ' Extract the variable name from a line of code
         '==============================================

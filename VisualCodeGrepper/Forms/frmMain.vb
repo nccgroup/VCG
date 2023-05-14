@@ -20,6 +20,7 @@ Imports System.ComponentModel
 Imports System.IO
 Imports System.Runtime.CompilerServices
 Imports System.Text.RegularExpressions
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement
 Imports System.Xml
 
 Public Class frmMain
@@ -266,6 +267,10 @@ Public Class frmMain
 
                 IncrementLoadingBar(strItem, rtResultsTracker.FileList.Count)
 
+                ' Check that file is valid and exists 
+                ' This covers a potential issue when user selects a previously scanned file from dropdown list that no longer exists
+                If (File.Exists(strItem) <> True) Then Continue For
+
                 arrShortName = strItem.Split("\")
                 modMain.ctCodeTracker.Reset()
 
@@ -323,13 +328,13 @@ Public Class frmMain
                                     rtResultsTracker.CodeCount += 1
                                     CheckCode(strLine, strItem)
                                 ElseIf ((strLine.Contains(asAppSettings.SingleLineComment) And asAppSettings.SingleLineComment = "//" And Not strLine.ToLower.Contains("http:" + asAppSettings.SingleLineComment))) _
-                                                                Or (asAppSettings.TestType = AppSettings.SQL And strLine.Contains(asAppSettings.SingleLineComment)) Or (asAppSettings.TestType = AppSettings.VB And strLine.Contains(asAppSettings.SingleLineComment) And Not (strLine.Contains("""") And (InStr(strLine, """") < InStr(strLine, "'")))) Then
+                                    Or (asAppSettings.TestType = AppSettings.R And strLine.Contains(asAppSettings.SingleLineComment)) _
+                                    Or (asAppSettings.TestType = AppSettings.SQL And strLine.Contains(asAppSettings.SingleLineComment)) Or (asAppSettings.TestType = AppSettings.VB And strLine.Contains(asAppSettings.SingleLineComment) And Not (strLine.Contains("""") And (InStr(strLine, """") < InStr(strLine, "'")))) Then
                                     strScanResult = ScanLine(CommentScan, CodeScan, strLine, strItem, asAppSettings.SingleLineComment, blnIsColoured)
-                                ElseIf (asAppSettings.AltSingleLineComment.Trim() <> "" And Regex.IsMatch(strLine, "\b" & asAppSettings.AltSingleLineComment & "\b")) Then
-                                    strScanResult = ScanLine(CommentScan, CodeScan, strLine, strItem, strTrimmedComment, blnIsColoured)
-                                ElseIf ((Not asAppSettings.TestType = AppSettings.VB And Not asAppSettings.TestType = AppSettings.COBOL) And (strLine.Contains(asAppSettings.BlockStartComment) And strLine.Contains(asAppSettings.BlockEndComment)) And (InStr(strLine, asAppSettings.BlockStartComment) < InStr(strLine, asAppSettings.BlockEndComment)) And Not (strLine.Contains("/*/"))) Then
+
+                                ElseIf ((Not asAppSettings.TestType = AppSettings.VB And Not asAppSettings.TestType = AppSettings.COBOL And Not asAppSettings.TestType = AppSettings.R) And (strLine.Contains(asAppSettings.BlockStartComment) And strLine.Contains(asAppSettings.BlockEndComment)) And (InStr(strLine, asAppSettings.BlockStartComment) < InStr(strLine, asAppSettings.BlockEndComment)) And Not (strLine.Contains("/*/"))) Then
                                     strScanResult = ScanLine(CommentScan, CodeScan, strLine, strItem, "both", blnIsColoured)
-                                ElseIf (Not asAppSettings.TestType = AppSettings.VB And Not asAppSettings.TestType = AppSettings.COBOL) And (strLine.Contains(asAppSettings.BlockStartComment) And Not (strLine.Contains("/*/")) And Not (strLine.Contains("print") And (InStr(strLine, asAppSettings.BlockStartComment) > InStr(strLine, "print")))) Then
+                                ElseIf (Not asAppSettings.TestType = AppSettings.VB And Not asAppSettings.TestType = AppSettings.COBOL And Not asAppSettings.TestType = AppSettings.R) And (strLine.Contains(asAppSettings.BlockStartComment) And Not (strLine.Contains("/*/")) And Not (strLine.Contains("print") And (InStr(strLine, asAppSettings.BlockStartComment) > InStr(strLine, "print")))) Then
                                     blnIsCommented = True
                                     strScanResult = ScanLine(CommentScan, CodeScan, strLine, strItem, asAppSettings.BlockStartComment, blnIsColoured)
                                 Else
@@ -340,7 +345,7 @@ Public Class frmMain
                                     CheckCode(strLine, strItem)
                                 End If
 
-                            ElseIf (Not asAppSettings.TestType = AppSettings.VB And Not asAppSettings.TestType = AppSettings.COBOL) And strLine.Contains(asAppSettings.BlockEndComment) Then    ' End of a comment block
+                            ElseIf (Not asAppSettings.TestType = AppSettings.VB And Not asAppSettings.TestType = AppSettings.COBOL And Not asAppSettings.TestType = AppSettings.R) And strLine.Contains(asAppSettings.BlockEndComment) Then    ' End of a comment block
                                 blnIsCommented = False
                                 strScanResult = ScanLine(CommentScan, CodeScan, strLine, strItem, asAppSettings.BlockEndComment, blnIsColoured)
                             Else
@@ -1035,6 +1040,12 @@ Public Class frmMain
                 LaunchNPP(asAppSettings.CSharpConfFile)
             Case AppSettings.PHP
                 LaunchNPP(asAppSettings.PHPConfFile)
+            Case AppSettings.VB
+                LaunchNPP(asAppSettings.VBConfFile)
+            Case AppSettings.COBOL
+                LaunchNPP(asAppSettings.COBOLConfFile)
+            Case AppSettings.R
+                LaunchNPP(asAppSettings.RConfFile)
         End Select
 
     End Sub
@@ -1323,14 +1334,14 @@ Public Class frmMain
 
         ' Get Language and test settings from registry
         asAppSettings.TestType = GetSetting("VisualCodeGrepper", "Startup", "Language", "0")
-        asAppSettings.CConfFile = GetSetting("VisualCodeGrepper", "Startup", "CConfFile", Application.StartupPath & "\cppfunctions.conf")
-        asAppSettings.JavaConfFile = GetSetting("VisualCodeGrepper", "Startup", "JavaConfFile", Application.StartupPath & "\javafunctions.conf")
-        asAppSettings.PLSQLConfFile = GetSetting("VisualCodeGrepper", "Startup", "PLSQLConfFile", Application.StartupPath & "\plsqlfunctions.conf")
-        asAppSettings.CSharpConfFile = GetSetting("VisualCodeGrepper", "Startup", "CSConfFile", Application.StartupPath & "\csfunctions.conf")
-        asAppSettings.VBConfFile = GetSetting("VisualCodeGrepper", "Startup", "VBConfFile", Application.StartupPath & "\vbfunctions.conf")
-        asAppSettings.PHPConfFile = GetSetting("VisualCodeGrepper", "Startup", "PHPConfFile", Application.StartupPath & "\phpfunctions.conf")
-        asAppSettings.COBOLConfFile = GetSetting("VisualCodeGrepper", "Startup", "COBOLConfFile", Application.StartupPath & "\cobolfunctions.conf")
-
+        asAppSettings.CConfFile = GetSetting("VisualCodeGrepper", "Startup", "CConfFile", Application.StartupPath & "Config\cppfunctions.conf")
+        asAppSettings.JavaConfFile = GetSetting("VisualCodeGrepper", "Startup", "JavaConfFile", Application.StartupPath & "Config\javafunctions.conf")
+        asAppSettings.PLSQLConfFile = GetSetting("VisualCodeGrepper", "Startup", "PLSQLConfFile", Application.StartupPath & "Config\plsqlfunctions.conf")
+        asAppSettings.CSharpConfFile = GetSetting("VisualCodeGrepper", "Startup", "CSConfFile", Application.StartupPath & "Config\csfunctions.conf")
+        asAppSettings.VBConfFile = GetSetting("VisualCodeGrepper", "Startup", "VBConfFile", Application.StartupPath & "Config\vbfunctions.conf")
+        asAppSettings.PHPConfFile = GetSetting("VisualCodeGrepper", "Startup", "PHPConfFile", Application.StartupPath & "Config\phpfunctions.conf")
+        asAppSettings.COBOLConfFile = GetSetting("VisualCodeGrepper", "Startup", "COBOLConfFile", Application.StartupPath & "Config\cobolfunctions.conf")
+        asAppSettings.RConfFile = GetSetting("VisualCodeGrepper", "Startup", "RConfFile", Application.StartupPath & "Config\rfunctions.conf")
 
         ' Parse and process any command line args
         Dim intIndex = ParseArgs()
@@ -1360,6 +1371,7 @@ Public Class frmMain
 
             ' Set current language
             If asAppSettings.TestType = AppSettings.COBOL Then asAppSettings.IncludeCobol = True
+            If asAppSettings.TestType = AppSettings.R Then asAppSettings.IncludeR = True
             SelectLanguage(asAppSettings.TestType)
 
             ' Get previous filenames from registry and load into combo box
@@ -1449,18 +1461,38 @@ Public Class frmMain
 
     End Sub
 
-    Private Sub cboTargetDir_KeyDown(sender As Object, e As System.Windows.Forms.KeyEventArgs) Handles cboTargetDir.KeyDown
+    Private Sub cboTargetDir_KeyDown(sender As Object, e As System.Windows.Forms.KeyEventArgs)
         ' If user presses the 'Enter' key then attemp to scan the directory they've specified
         '====================================================================================
+        'Dim cbThis As ComboBox = CType(sender, ComboBox)
+
 
         If e.KeyCode = Keys.Enter Then
+            Me.SelectNextControl(cboTargetDir, True, True, False, True)
+            e.Handled = True
+            'e.SuppressKeyPress = True - To remove that "beeping" when enter is hit.
+
+            ' Only proceed if the user has entered some text
+            If cboTargetDir.Text.Trim = "" Then Exit Sub
+
+            ' Check we have a valid language selection
             If (cboLanguage.Text = "") Then
                 MessageBox.Show(Me, "Please select a language to scan", "Validation Error", MessageBoxButtons.OK)
                 Return
             Else
                 LoadFiles(cboTargetDir.Text)
             End If
+
         End If
+
+        ' If e.KeyCode = Keys.Enter Then
+        'If (cboLanguage.Text = "") Then
+        'MessageBox.Show(Me, "Please select a language to scan", "Validation Error", MessageBoxButtons.OK)
+        'Return
+        'Else
+        'LoadFiles(cboTargetDir.Text)
+        'End If
+        'End If
     End Sub
 
     Private Sub lbTargets_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles lbTargets.SelectedIndexChanged
@@ -1471,108 +1503,107 @@ Public Class frmMain
         SetDeleteMenu()
     End Sub
 
-    Public Sub LoadFiles(TargetFolder As String, Optional ClearPrevious As Boolean = True)
+    Public Sub LoadFiles(ByVal TargetFolder As String, Optional ByVal ClearPrevious As Boolean = True)
+        'Load files to be scanned
+        '========================
+        Dim objResults As Object
+        Dim intIndex As Integer
+        Dim intFileCount As Integer = 0
+        Dim intPreviousDirCount = 0
+        Dim blnIsPrevious = False
 
         'If TargetFolder.Count = 0 Then Exit Sub
 
         TargetFolder = TargetFolder.Trim
-        'If TargetFolder = "" Or TargetFolder = rtResultsTracker.TargetDirectory Then Exit Sub
+        If TargetFolder = "" Or TargetFolder = rtResultsTracker.TargetDirectory Then Exit Sub
 
-        If asAppSettings.IsConsole = False Then
-            If Directory.Exists(TargetFolder) = False Then
-                MessageBox.Show(Me, "Target directory does not exist.", "Collecting files", MessageBoxButtons.OK)
-                Return
-            End If
-
-            If lbTargets.Items.Count > 0 And asAppSettings.IsAllFileTypes = False Then
-
-                tcMain.SelectTab(0)
-
-                Dim result = MessageBox.Show(Me, "Target files are already filtered. Are you sure you want to rescan?", "Scan Target Folder", MessageBoxButtons.OKCancel)
-                If result <> DialogResult.OK Then
-                    Return
-                Else
-                    ClearPrevious = True
-                End If
-            End If
-
-            If ClearPrevious Then ClearResults()
-
-            ShowLoading("Collecting Files", "Loading files from target directory...", 0)
-        Else
-            LogInfo("Loading files from target directory...")
-        End If
+        If ClearPrevious Then ClearResults()
 
         Try
-            Dim allFiles = Directory.GetFiles(TargetFolder, "*.*", IO.SearchOption.AllDirectories)
-            Dim lstResults = New List(Of String)
+            ' Check whether we have a file or directory
+            If Directory.Exists(TargetFolder) Then
+                ' Iterate through files from target directory and obtain all relevant filenames
+                objResults = Directory.EnumerateFiles(TargetFolder, "*.*", SearchOption.AllDirectories)
 
-            ' Iterate through files from target directory and obtain all relevant filenames
-            If asAppSettings.IsAllFileTypes = False Then
-                Dim count = 0
-                For Each file In allFiles
-
-                    ' If they force an exit from the loading screen, abort the operation.
-                    ' Do this first, as otherwise the normal closure of the window will be marked as an Abort
-                    If asAppSettings.AbortCurrentOperation = True Then
-                        asAppSettings.AbortCurrentOperation = False
-                        MessageBox.Show(Me, "Target scan has been aborted. File list may be incomplete", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                        Return
-                    End If
-
-                    count += 1
-                    If CheckFileType(file) Then
-                        lstResults.Add(file)
-                        LogVerbose("Found file: " & file)
-                    End If
-
-                    If count Mod 1000 = 0 And lstResults.Count > 0 Then
-                        ShowLoading("Collecting Files", $"In Progress: After {count} checks, only {lstResults.Count} match the criteria of {allFiles.Count} files", count, allFiles.Count)
-                    End If
-                Next
+                Dim lstResults As List(Of String) = New List(Of String)(Directory.EnumerateFiles(TargetFolder, "*.*", SearchOption.AllDirectories))
+                If asAppSettings.IsConsole = False Then
+                    ShowLoading("Loading files from target directory...", lstResults.Count)
+                Else
+                    Console.WriteLine("Loading files from target directory...")
+                    Console.WriteLine()
+                End If
+            Else
+                objResults = New Collection
+                objResults.Add(TargetFolder)
             End If
 
-            rtResultsTracker.FileList.AddRange(lstResults)
+            For Each objTargetFile In objResults
+                If asAppSettings.IsAllFileTypes Or CheckFileType(objTargetFile) = True Then
+                    rtResultsTracker.FileList.Add(objTargetFile)
+                    If asAppSettings.IsConsole = False Then
+                        IncrementLoadingBar("Checking files...")
+                    Else
+                        If asAppSettings.IsVerbose = True Then Console.WriteLine("Checking file: " & objTargetFile)
+                    End If
+                End If
+
+                '== Avoid the GUI locking or hanging during processing ==
+                Application.DoEvents()
+            Next
 
             If asAppSettings.IsConsole = False Then
                 frmLoading.Close()
             Else
-                LogBlank()
-                LogInfo("Loaded " & rtResultsTracker.FileList.Count & " files from target directory.")
-                LogBlank()
+                Console.WriteLine()
+                Console.WriteLine("Loaded " & rtResultsTracker.FileList.Count & " files from target directory.")
+                Console.WriteLine()
             End If
+
 
             If rtResultsTracker.FileList.Count = 0 Then
-                DisplayError($"No {cboLanguage.Text} file types could be found within the '{cboTargetDir.Text}' directory", "Collecting files", MsgBoxStyle.Information)
-                Return
-            End If
+                DisplayError("No target files for the selected language could be found in this location", "Error", MsgBoxStyle.Exclamation)
+            Else
 
-            'MsgBox(rtResultsTracker.FileList.Count & " Files loaded", MsgBoxStyle.Information, "Success")
-            If asAppSettings.IsConsole = False Then
-                sslLabel.Text += "   [" & rtResultsTracker.FileList.Count & " Files]"
+                'MsgBox(rtResultsTracker.FileList.Count & " Files loaded", MsgBoxStyle.Information, "Success")
+                If asAppSettings.IsConsole = False Then sslLabel.Text += "   [" & rtResultsTracker.FileList.Count & " Files]"
 
-                ' Enable scan menus
-                SetScanMenus(True)
+                If asAppSettings.IsConsole = False Then
 
-                lbTargets.SuspendLayout()
-                lbTargets.Items.AddRange(rtResultsTracker.FileList.ToArray())
-                lbTargets.ResumeLayout()
+                    ' Enable scan menus
+                    SetScanMenus(True)
 
-                rtResultsTracker.TargetDirectory = TargetFolder
-                cboTargetDir.Text = TargetFolder
+                    For Each item As String In rtResultsTracker.FileList
+                        lbTargets.Items.Add(item)
+                    Next
 
-                ''== Add to list of previous targets ==
-                'If Not cboTargetDir.Items.Contains(cboTargetDir.Text) Then
-                '    ' Move first 4 items along to next space in the list
-                '    For intIndex = 3 To 0 Step -1
-                '        cboTargetDir.Items().Item(intIndex + 1) = cboTargetDir.Items().Item(intIndex)
-                '    Next intIndex
-                '    cboTargetDir.Items().Item(0) = cboTargetDir.Text
-                'End If
+                    rtResultsTracker.TargetDirectory = TargetFolder
+                    cboTargetDir.Text = TargetFolder
+
+                    '== Check if new target is in list of previous targets ==
+                    For Each cboItem As Object In cboTargetDir.Items
+                        If cboItem.ToString().Contains(asAppSettings.TargetDirectory) Then blnIsPrevious = True
+                    Next
+
+                    '== Add to list of previous targets if not already in list ==
+                    If Not blnIsPrevious Then
+
+                        ' Get current population amount of combo box
+                        intPreviousDirCount = cboTargetDir.Items.Count
+
+                        ' Set this to three in order to enforce a max limit of 5
+                        If intPreviousDirCount > 4 Then intPreviousDirCount = 5
+
+                        ' Items moved down the list of previous targets, current target placed at start of list 
+                        For intIndex = intPreviousDirCount To 1 Step -1
+                            cboTargetDir.Items().Item(intIndex + 1) = cboTargetDir.Items().Item(intIndex)
+                        Next intIndex
+                        cboTargetDir.Items().Item(0) = cboTargetDir.Text
+                    End If
+                End If
             End If
 
         Catch exError As Exception
-            DisplayError(exError, "Error", MsgBoxStyle.Critical)
+            DisplayError(exError.Message, "Error", MsgBoxStyle.Critical)
         End Try
 
     End Sub
@@ -2191,6 +2222,10 @@ Public Class frmMain
                 strLanguage = "C#"
             Case AppSettings.PHP
                 strLanguage = "PHP"
+            Case AppSettings.COBOL
+                strLanguage = "COBOL"
+            Case AppSettings.R
+                strLanguage = "R"
         End Select
 
         If ExportFile = "" Then
@@ -2447,6 +2482,8 @@ Public Class frmMain
                 strLanguage = "PHP"
             Case AppSettings.COBOL
                 strLanguage = "COBOL"
+            Case AppSettings.R
+                strLanguage = "R"
         End Select
 
         If ExportFile = "" Then
@@ -3162,27 +3199,22 @@ Public Class frmMain
         ExportMetaDataXML()
     End Sub
 
-    Private Sub ToolsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SettingsToolStripMenuItem.Click
-
-    End Sub
-
-    Private Sub spMain_Panel2_Paint(sender As Object, e As PaintEventArgs) Handles spMain.Panel2.Paint
-
-    End Sub
-
-    Private Sub lvResults_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lvResults.SelectedIndexChanged
-
-    End Sub
-
-    Private Sub cboLanguage_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboLanguage.SelectedIndexChanged
-        ' #### TODO: SET SELECTED LANGUAGE IN TOOLSTRIP BASED ON THEIR SELECTION
+    Private Sub cboLanguage_SelectedIndexChanged(sender As Object, e As EventArgs)
+        ' If language change then update application settings to match
+        '=============================================================
 
         SelectLanguage(cboLanguage.SelectedItem.Value)
 
+        ' TODO: SET SELECTED LANGUAGE IN TOOLSTRIP BASED ON THEIR SELECTION
+
     End Sub
 
-    Private Sub PopulateLanguageOptions()
-        Dim list = New List(Of KeyValuePair(Of String, Integer)) From {
+    Public Sub PopulateLanguageOptions()
+        ' Populate the list with available languages
+        ' (function is public as it needs to be accessed by frmOptions)
+        '==============================================================
+
+        Dim lstLanguagePairs = New List(Of KeyValuePair(Of String, Integer)) From {
             New KeyValuePair(Of String, Integer)("C/C++", AppSettings.C),
             New KeyValuePair(Of String, Integer)("Java", AppSettings.JAVA),
             New KeyValuePair(Of String, Integer)("PL/SQL", AppSettings.SQL),
@@ -3192,7 +3224,18 @@ Public Class frmMain
             New KeyValuePair(Of String, Integer)("COBOL", AppSettings.COBOL)
         }
 
-        cboLanguage.DataSource = list
+        ' Add R to the list if user has selected to include R scanning in beta functionality
+        If (asAppSettings.IncludeR = True Or asAppSettings.StartType = AppSettings.R) Then
+            lstLanguagePairs.Add(New KeyValuePair(Of String, Integer)("R", AppSettings.R))
+        End If
+
+        ' Clear combo box before repopulating it, in case beta languages have been added or removed
+        cboLanguage.DataSource = Nothing
+        cboLanguage.ValueMember = Nothing
+        cboLanguage.DisplayMember = Nothing
+
+        ' Populate combo box with available languages
+        cboLanguage.DataSource = lstLanguagePairs
         cboLanguage.ValueMember = "Value"
         cboLanguage.DisplayMember = "Key"
 
@@ -3200,7 +3243,7 @@ Public Class frmMain
 
     End Sub
 
-    Private Sub cboTargetDir_SelectionChangeCommitted(sender As Object, e As EventArgs) Handles cboTargetDir.SelectionChangeCommitted
+    Private Sub cboTargetDir_SelectionChangeCommitted(sender As Object, e As EventArgs)
 
     End Sub
 
@@ -3208,12 +3251,41 @@ Public Class frmMain
         frmLoading.Close()
     End Sub
 
-    Private Sub cboLanguage_KeyDown(sender As Object, e As KeyEventArgs) Handles cboLanguage.KeyDown
+    Private Sub cboLanguage_KeyDown(sender As Object, e As KeyEventArgs)
+        ' If user presses the 'Enter' key then attemp to scan the directory they've specified
+        '====================================================================================
+
         If e.KeyCode = Keys.Enter Then
-            cboLanguage_SelectedIndexChanged(sender, e)
-            LoadFiles(cboTargetDir.Text, True)
+            LoadFiles(cboTargetDir.Text)
         End If
+
     End Sub
+
+    Private Sub cboLanguage_SelectedIndexChanged_1(sender As Object, e As EventArgs) Handles cboLanguage.SelectedIndexChanged
+        ' Set target language to the selected language
+        '=============================================
+
+        SelectLanguage(cboLanguage.SelectedIndex)
+
+    End Sub
+
+    Private Sub cboTargetDir_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cboTargetDir.SelectedIndexChanged
+        ' If the user selects a previous directory, load content from that directory
+        '===========================================================================
+
+        ' Only proceed if the user has entered some text
+        If cboTargetDir.Text.Trim = "" Then Exit Sub
+
+        ' Check we have a valid language selection
+        If (cboLanguage.Text = "") Then
+            MessageBox.Show(Me, "Please select a language to scan", "Validation Error", MessageBoxButtons.OK)
+            Return
+        Else
+            LoadFiles(cboTargetDir.Text)
+        End If
+
+    End Sub
+
 End Class
 
 
