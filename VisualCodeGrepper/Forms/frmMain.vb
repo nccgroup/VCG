@@ -1461,40 +1461,6 @@ Public Class frmMain
 
     End Sub
 
-    Private Sub cboTargetDir_KeyDown(sender As Object, e As System.Windows.Forms.KeyEventArgs)
-        ' If user presses the 'Enter' key then attemp to scan the directory they've specified
-        '====================================================================================
-        'Dim cbThis As ComboBox = CType(sender, ComboBox)
-
-
-        If e.KeyCode = Keys.Enter Then
-            Me.SelectNextControl(cboTargetDir, True, True, False, True)
-            e.Handled = True
-            'e.SuppressKeyPress = True - To remove that "beeping" when enter is hit.
-
-            ' Only proceed if the user has entered some text
-            If cboTargetDir.Text.Trim = "" Then Exit Sub
-
-            ' Check we have a valid language selection
-            If (cboLanguage.Text = "") Then
-                MessageBox.Show(Me, "Please select a language to scan", "Validation Error", MessageBoxButtons.OK)
-                Return
-            Else
-                LoadFiles(cboTargetDir.Text)
-            End If
-
-        End If
-
-        ' If e.KeyCode = Keys.Enter Then
-        'If (cboLanguage.Text = "") Then
-        'MessageBox.Show(Me, "Please select a language to scan", "Validation Error", MessageBoxButtons.OK)
-        'Return
-        'Else
-        'LoadFiles(cboTargetDir.Text)
-        'End If
-        'End If
-    End Sub
-
     Private Sub lbTargets_SelectedIndexChanged(sender As System.Object, e As System.EventArgs) Handles lbTargets.SelectedIndexChanged
         SetDeleteMenu()
     End Sub
@@ -3281,6 +3247,16 @@ Public Class frmMain
             MessageBox.Show(Me, "Please select a language to scan", "Validation Error", MessageBoxButtons.OK)
             Return
         Else
+            LoadFiles(cboTargetDir.Text)
+        End If
+
+    End Sub
+
+    Private Sub cboTargetDir_KeyDown(sender As Object, e As KeyEventArgs) Handles cboTargetDir.KeyDown
+        ' If user presses the 'Enter' key then attemp to scan the directory they've specified
+        '====================================================================================
+
+        If e.KeyCode = Keys.Enter Then
             LoadFiles(cboTargetDir.Text)
         End If
 
