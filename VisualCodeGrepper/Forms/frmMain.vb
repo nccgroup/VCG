@@ -3262,6 +3262,10 @@ Public Class frmMain
 
     End Sub
 
+    Private Sub lvResults_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lvResults.SelectedIndexChanged
+
+    End Sub
+
 End Class
 
 

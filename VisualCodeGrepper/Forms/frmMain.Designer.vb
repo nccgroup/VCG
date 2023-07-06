@@ -670,6 +670,7 @@ Partial Class frmMain
         Me.lvResults.CheckBoxes = True
         Me.lvResults.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.chSeverityRanking, Me.chSeverity, Me.chTitle, Me.chDescription, Me.chFileName, Me.chLine})
         Me.lvResults.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.lvResults.FullRowSelect = True
         Me.lvResults.HideSelection = False
         Me.lvResults.LabelWrap = False
         Me.lvResults.Location = New System.Drawing.Point(3, 3)
