@@ -1,14 +1,14 @@
 ====================================================================================
 VCG (VisualCodeGrepper)
 
-Current version: 2.3.1
+Current version: 2.3.2
 
 ====================================================================================
 
 Contents:
 
 1. Overview
-2. Latest additions to VCG V2.3.1
+2. Latest additions to VCG V2.3.2
 3. Using VCG
 	Input files/codebase
 	Options & settings
@@ -30,13 +30,13 @@ I’ve tried to produce something which doesn’t return the large number of false p
 
 
 ====================================================================================
-Latest additions to VCG V2.3.1
+Latest additions to VCG V2.3.2
 ------------------------------------------------------------------------------------
 
 New features:
-	1)	GUI change means that target language selection is via a dropdown list instead of menu.
-	2)	Beta functionality now includes the scanning of R Script.
-	3)	Progress bars are now more informative on file counts.
+	1)	GUI change means that target language selection is via a dropdown list instead of menu (as in V2.3.1).
+	2)	Beta functionality now includes the scanning of R Script (as in V2.3.1).
+	3)	Minor bug fixes to deal with various issues and restore the allowing of multiple application instances.
 
 
 ====================================================================================
